@@ -2,10 +2,10 @@
 import { ChangeEvent } from "react";
 
 export type MentorFormData = {
+  fullName: string;
   company: string;
   position: string;
   expertiseAreas: string[];
-  experience: string;
   bio: string;
   hourlyRate: string;
   availability?: string[];
