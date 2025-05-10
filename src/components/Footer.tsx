@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center mb-4">
-              <span className="font-bold text-xl text-brand-primary">PeerCoach</span>
+              <span className="font-bold text-xl text-brand-primary">Intearn</span>
             </Link>
             <p className="text-sm text-gray-600 mb-4">
               Connecting students with recent graduates for internship coaching and mentorship.
@@ -100,7 +100,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} PeerCoach. All rights reserved.
+            &copy; {new Date().getFullYear()} Intearn. All rights reserved.
           </p>
         </div>
       </div>
