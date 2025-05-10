@@ -1,10 +1,31 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "@/components/ui/use-toast";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged out successfully",
+        description: "You have been logged out of your account.",
+      });
+      navigate("/");
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Logout failed",
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    }
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
@@ -28,12 +49,25 @@ const Navbar = () => {
               About Us
             </Link>
             <div className="ml-4 flex items-center space-x-3">
-              <Button variant="outline" asChild>
-                <Link to="/login">Log In</Link>
-              </Button>
-              <Button asChild>
-                <Link to="/signup">Sign Up</Link>
-              </Button>
+              {user ? (
+                <>
+                  <span className="text-gray-600 px-3 py-2 rounded-md text-sm font-medium">
+                    Welcome, {user.user_metadata.full_name || user.email}
+                  </span>
+                  <Button variant="outline" onClick={handleSignOut}>
+                    Log Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" asChild>
+                    <Link to="/login">Log In</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link to="/signup">Sign Up</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
@@ -85,18 +119,32 @@ const Navbar = () => {
               About Us
             </Link>
             <div className="pt-4 pb-3 border-t border-gray-200">
-              <div className="flex items-center px-3 space-x-3">
-                <Button variant="outline" className="w-full" asChild>
-                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                    Log In
-                  </Link>
-                </Button>
-                <Button className="w-full" asChild>
-                  <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
-                    Sign Up
-                  </Link>
-                </Button>
-              </div>
+              {user ? (
+                <div className="flex flex-col px-3 space-y-3">
+                  <span className="text-gray-600 block px-3 py-2 rounded-md text-base font-medium">
+                    Welcome, {user.user_metadata.full_name || user.email}
+                  </span>
+                  <Button onClick={() => {
+                    handleSignOut();
+                    setIsMenuOpen(false);
+                  }}>
+                    Log Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center px-3 space-x-3">
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                      Log In
+                    </Link>
+                  </Button>
+                  <Button className="w-full" asChild>
+                    <Link to="/signup" onClick={() => setIsMenuOpen(false)}>
+                      Sign Up
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
