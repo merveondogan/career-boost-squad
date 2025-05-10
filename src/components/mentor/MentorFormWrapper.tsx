@@ -11,13 +11,13 @@ interface MentorFormWrapperProps {
   handleInternshipChange: (internships: Internship[]) => void;
 }
 
-const MentorFormWrapper: React.FC<MentorFormWrapperProps> = ({
+const MentorFormWrapper = ({
   formData,
   handleInputChange,
   handleSelectChange,
   handleEducationChange,
   handleInternshipChange
-}) => {
+}: MentorFormWrapperProps) => {
   return (
     <MentorForm
       formData={formData}
