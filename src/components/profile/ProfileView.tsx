@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -17,6 +16,7 @@ interface ProfileData {
   bio?: string;
   title?: string;
   location?: string;
+  avatar_url?: string;
 }
 
 export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
