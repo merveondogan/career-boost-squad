@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { toast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { Checkbox } from "@/components/ui/checkbox";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -20,11 +21,23 @@ const BecomeMentor = () => {
   const [formData, setFormData] = useState({
     company: "",
     position: "",
-    expertiseAreas: "",
+    expertiseAreas: [] as string[],
     experience: "",
     bio: "",
     hourlyRate: "",
   });
+  
+  // Available expertise areas
+  const expertiseOptions = [
+    { id: "resume-review", label: "Resume Review" },
+    { id: "interview-prep", label: "Interview Preparation" },
+    { id: "career-advice", label: "Career Advice" },
+    { id: "technical-skills", label: "Technical Skills" },
+    { id: "application-strategy", label: "Application Strategy" },
+    { id: "portfolio-review", label: "Portfolio Review" },
+    { id: "networking", label: "Networking" },
+    { id: "salary-negotiation", label: "Salary Negotiation" },
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -33,6 +46,16 @@ const BecomeMentor = () => {
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  
+  const handleExpertiseChange = (id: string, checked: boolean) => {
+    setFormData((prev) => {
+      if (checked) {
+        return { ...prev, expertiseAreas: [...prev.expertiseAreas, id] };
+      } else {
+        return { ...prev, expertiseAreas: prev.expertiseAreas.filter(area => area !== id) };
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,6 +68,15 @@ const BecomeMentor = () => {
         description: "You need to be logged in to become a mentor.",
       });
       navigate("/login");
+      return;
+    }
+    
+    if (formData.expertiseAreas.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "Areas of expertise required",
+        description: "Please select at least one area of expertise.",
+      });
       return;
     }
     
@@ -142,14 +174,26 @@ const BecomeMentor = () => {
                 
                 <div className="space-y-2">
                   <Label htmlFor="expertiseAreas">Areas of Expertise</Label>
-                  <Input
-                    id="expertiseAreas"
-                    name="expertiseAreas"
-                    placeholder="Resume review, interview prep, application strategy, etc."
-                    value={formData.expertiseAreas}
-                    onChange={handleInputChange}
-                    required
-                  />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                    {expertiseOptions.map((option) => (
+                      <div key={option.id} className="flex items-center space-x-2">
+                        <Checkbox 
+                          id={option.id} 
+                          checked={formData.expertiseAreas.includes(option.id)}
+                          onCheckedChange={(checked) => 
+                            handleExpertiseChange(option.id, checked as boolean)
+                          }
+                        />
+                        <Label 
+                          htmlFor={option.id} 
+                          className="cursor-pointer text-base font-normal"
+                        >
+                          {option.label}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-500">Select all areas where you can provide mentorship</p>
                 </div>
                 
                 <div className="space-y-2">
