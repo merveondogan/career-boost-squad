@@ -7,7 +7,7 @@ import { MentorFormProps } from "./types";
 export const PersonalInfoFields = ({ 
   formData, 
   handleInputChange 
-}: MentorFormProps) => {
+}: Pick<MentorFormProps, 'formData' | 'handleInputChange'>) => {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

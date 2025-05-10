@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/use-toast";
-import { MentorFormData } from "./types";
+import { MentorFormData, Education, Internship } from "./types";
 
 export function useMentorForm() {
   const { user } = useAuth();
@@ -17,6 +17,12 @@ export function useMentorForm() {
     experience: "",
     bio: "",
     hourlyRate: "",
+    internships: [],
+    education: {
+      school: "",
+      major: "",
+      graduationYear: ""
+    }
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -30,6 +36,14 @@ export function useMentorForm() {
   
   const handleExpertiseChange = (expertiseAreas: string[]) => {
     setFormData((prev) => ({ ...prev, expertiseAreas }));
+  };
+  
+  const handleEducationChange = (education: Education) => {
+    setFormData((prev) => ({ ...prev, education }));
+  };
+  
+  const handleInternshipChange = (internships: Internship[]) => {
+    setFormData((prev) => ({ ...prev, internships }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -73,7 +87,20 @@ export function useMentorForm() {
         position: formData.position,
         expertise_areas: formData.expertiseAreas,
         experience: formData.experience,
-        hourly_rate: formData.hourlyRate
+        hourly_rate: formData.hourlyRate,
+        education: {
+          school: formData.education.school,
+          major: formData.education.major,
+          graduation_year: formData.education.graduationYear
+        },
+        internships: formData.internships.map(internship => ({
+          id: internship.id,
+          company: internship.company,
+          role: internship.role,
+          start_date: internship.startDate,
+          end_date: internship.endDate,
+          description: internship.description
+        }))
       };
       
       // Create or update mentor profile in database
@@ -113,6 +140,8 @@ export function useMentorForm() {
     handleInputChange,
     handleSelectChange,
     handleExpertiseChange,
+    handleEducationChange,
+    handleInternshipChange,
     handleSubmit,
   };
 }

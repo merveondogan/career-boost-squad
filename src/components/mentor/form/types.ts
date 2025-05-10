@@ -9,12 +9,31 @@ export type MentorFormData = {
   bio: string;
   hourlyRate: string;
   availability?: string[];
+  internships: Internship[];
+  education: Education;
 };
+
+export interface Internship {
+  id: string;
+  company: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+export interface Education {
+  school: string;
+  major: string;
+  graduationYear: string;
+}
 
 export interface MentorFormProps {
   formData: MentorFormData;
   handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSelectChange: (name: string, value: string) => void;
+  handleEducationChange: (education: Education) => void;
+  handleInternshipChange: (internships: Internship[]) => void;
 }
 
 export interface MentoringSession {

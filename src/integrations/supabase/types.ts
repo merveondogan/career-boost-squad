@@ -86,7 +86,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      merge_json: {
+        Args: { a: Json; b: Json }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
