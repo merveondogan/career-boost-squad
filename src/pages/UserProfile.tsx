@@ -36,6 +36,7 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 const UserProfile = () => {
   const { user, isLoading } = useAuth();
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(true); // Start in edit mode for now
   const navigate = useNavigate();
 
   const form = useForm<ProfileFormValues>({
@@ -111,7 +112,7 @@ const UserProfile = () => {
           bio: data.bio,
           title: data.title,
           location: data.location,
-          updated_at: new Date()
+          updated_at: new Date().toISOString() // Fix: Convert Date to ISO string
         });
 
       if (upsertError) throw upsertError;
@@ -120,6 +121,10 @@ const UserProfile = () => {
         title: "Profile updated",
         description: "Your profile has been successfully updated."
       });
+      
+      // Toggle back to view mode after successful update
+      setIsEditMode(false);
+      navigate("/profile"); // This will refresh the page, showing the updated profile
     } catch (error: any) {
       toast({
         variant: "destructive",
