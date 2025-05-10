@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,6 +7,52 @@ import { useToast } from "@/components/ui/use-toast";
 import MentorHero from "@/components/mentor/MentorHero";
 import MentorFilters from "@/components/mentor/MentorFilters";
 import MentorList from "@/components/mentor/MentorList";
+import { Json } from "@/integrations/supabase/types";
+
+// Type guard to check if value is a JSON object
+const isJsonObject = (value: Json | null): value is { [key: string]: Json } => {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+};
+
+// Helper function to safely extract string values from JSON
+const getJsonString = (obj: Json | null, key: string, defaultValue: string = ""): string => {
+  if (!isJsonObject(obj)) return defaultValue;
+  const value = obj[key];
+  return typeof value === 'string' ? value : defaultValue;
+};
+
+// Helper function to safely extract number values from JSON
+const getJsonNumber = (obj: Json | null, key: string, defaultValue: number = 0): number => {
+  if (!isJsonObject(obj)) return defaultValue;
+  const value = obj[key];
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') return parseInt(value, 10) || defaultValue;
+  return defaultValue;
+};
+
+// Helper function to safely extract string array values from JSON
+const getJsonStringArray = (obj: Json | null, key: string, defaultValue: string[] = []): string[] => {
+  if (!isJsonObject(obj)) return defaultValue;
+  const value = obj[key];
+  if (Array.isArray(value)) {
+    return value.map(item => typeof item === 'string' ? item : String(item));
+  }
+  return defaultValue;
+};
+
+// Helper function to safely extract education field from JSON
+const getEducation = (obj: Json | null): { school: string } => {
+  if (!isJsonObject(obj)) return { school: "" };
+  const education = obj.education;
+  
+  if (isJsonObject(education)) {
+    return { 
+      school: getJsonString(education, 'school', "")
+    };
+  }
+  
+  return { school: "" };
+};
 
 // Sample mentor data for fallback
 const sampleMentors: MentorProps[] = [
@@ -112,6 +157,10 @@ const MentorListing = () => {
         setIsLoading(true);
         console.log("Fetching mentor profiles...");
         
+        // Log the current user to help with debugging
+        const { data: { user } } = await supabase.auth.getUser();
+        console.log("Current user:", user?.id, user?.email, user?.user_metadata);
+        
         // First, fetch all profiles to check if any mentors exist
         const { data: allProfiles, error: profileError } = await supabase
           .from('profiles')
@@ -137,24 +186,30 @@ const MentorListing = () => {
         console.log("Mentor profiles count:", data?.length || 0);
         
         // Check profiles with mentor_info that might be empty objects
-        const profilesWithMentorInfo = allProfiles?.filter(p => p.mentor_info !== null && typeof p.mentor_info === 'object');
+        const profilesWithMentorInfo = allProfiles?.filter(p => {
+          const hasInfo = p.mentor_info !== null && typeof p.mentor_info === 'object';
+          console.log(`Profile ${p.id} has mentor info: ${hasInfo}`);
+          if (hasInfo) {
+            console.log(`Mentor info for ${p.id}:`, p.mentor_info);
+          }
+          return hasInfo;
+        });
         console.log("Profiles with any mentor_info:", profilesWithMentorInfo);
         
         if (data && data.length > 0) {
           // Transform Supabase profile data to MentorProps format with improved handling
           const mentorsData = data.map(profile => {
-            const mentorInfo = profile.mentor_info || {};
-            console.log(`Processing mentor ${profile.id}:`, mentorInfo);
+            console.log(`Processing mentor ${profile.id}:`, profile.mentor_info);
             
             return {
               id: profile.id,
-              name: mentorInfo?.full_name || profile?.title || "Unnamed Mentor",
+              name: getJsonString(profile.mentor_info, 'full_name', profile?.title || "Unnamed Mentor"),
               avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
-              role: mentorInfo?.position || profile.title || "Mentor",
-              company: mentorInfo?.company || "Unknown",
-              school: mentorInfo?.education?.school || "Unknown",
-              rate: parseInt(mentorInfo?.hourly_rate || "50", 10),
-              specialties: mentorInfo?.expertise_areas || ["General Mentoring"],
+              role: getJsonString(profile.mentor_info, 'position', profile.title || "Mentor"),
+              company: getJsonString(profile.mentor_info, 'company', "Unknown"),
+              school: getEducation(profile.mentor_info).school || "Unknown",
+              rate: getJsonNumber(profile.mentor_info, 'hourly_rate', 50),
+              specialties: getJsonStringArray(profile.mentor_info, 'expertise_areas', ["General Mentoring"]),
               rating: 5.0, // Default rating for now
               reviewCount: 0  // Default review count for now
             };
@@ -164,26 +219,31 @@ const MentorListing = () => {
           setMentors(mentorsData);
         } else {
           // Enhanced fallback logic - try to extract any profile with some mentor_info
-          const anyMentorProfiles = allProfiles?.filter(p => 
-            p.mentor_info !== null && 
-            typeof p.mentor_info === 'object' && 
-            Object.keys(p.mentor_info).length > 0
-          );
+          const anyMentorProfiles = allProfiles?.filter(p => {
+            const hasNonEmptyInfo = p.mentor_info !== null && 
+              typeof p.mentor_info === 'object' && 
+              Object.keys(p.mentor_info).length > 0;
+            
+            if (hasNonEmptyInfo) {
+              console.log(`Found potential mentor in profile ${p.id}:`, p.mentor_info);
+            }
+            
+            return hasNonEmptyInfo;
+          });
           
           console.log("Found any mentor profiles:", anyMentorProfiles);
           
           if (anyMentorProfiles && anyMentorProfiles.length > 0) {
             const backupMentorsData = anyMentorProfiles.map(profile => {
-              const mentorInfo = profile.mentor_info || {};
               return {
                 id: profile.id,
-                name: mentorInfo?.full_name || profile?.title || "Unnamed Mentor",
+                name: getJsonString(profile.mentor_info, 'full_name', profile?.title || "Unnamed Mentor"),
                 avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
-                role: mentorInfo?.position || profile.title || "Mentor", 
-                company: mentorInfo?.company || "Unknown",
-                school: mentorInfo?.education?.school || "Unknown",
-                rate: parseInt(mentorInfo?.hourly_rate || "50", 10),
-                specialties: mentorInfo?.expertise_areas || ["General Mentoring"],
+                role: getJsonString(profile.mentor_info, 'position', profile.title || "Mentor"),
+                company: getJsonString(profile.mentor_info, 'company', "Unknown"),
+                school: getEducation(profile.mentor_info).school || "Unknown",
+                rate: getJsonNumber(profile.mentor_info, 'hourly_rate', 50),
+                specialties: getJsonStringArray(profile.mentor_info, 'expertise_areas', ["General Mentoring"]),
                 rating: 5.0,
                 reviewCount: 0
               };

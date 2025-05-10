@@ -1,6 +1,6 @@
 
 import { useState, ChangeEvent } from "react";
-import { MentorForm } from "./MentorForm";
+import MentorForm from "./MentorForm";
 import { Education, Internship, MentorFormData } from "./form/types";
 
 export const MentorFormWrapper = () => {
