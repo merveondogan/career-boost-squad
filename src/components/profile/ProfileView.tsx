@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Pen } from "lucide-react";
 import ProfileHeader from "./ProfileHeader";
 import { User } from "@supabase/supabase-js";
+import MentorInfoSection from "./MentorInfoSection";
 
 interface ProfileViewProps {
   user: User;
@@ -17,6 +18,13 @@ interface ProfileData {
   title?: string;
   location?: string;
   avatar_url?: string;
+  mentor_info?: {
+    company?: string;
+    position?: string;
+    expertise_areas?: string[];
+    experience?: string;
+    hourly_rate?: string;
+  };
 }
 
 export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
@@ -53,6 +61,8 @@ export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
     return <div className="text-center py-4">Loading profile...</div>;
   }
 
+  const isMentor = !!profileData?.mentor_info;
+
   return (
     <Card className="p-6">
       <div className="flex justify-between items-center mb-4">
@@ -74,6 +84,10 @@ export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
           )}
         </div>
       </div>
+
+      {isMentor && profileData?.mentor_info && (
+        <MentorInfoSection mentorInfo={profileData.mentor_info} />
+      )}
     </Card>
   );
 };
