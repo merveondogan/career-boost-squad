@@ -9,6 +9,7 @@ interface ProfileHeaderProps {
     title?: string;
     location?: string;
     avatar_url?: string;
+    bio?: string;
   };
 }
 

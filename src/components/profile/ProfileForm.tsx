@@ -137,11 +137,11 @@ export const ProfileForm = ({ user, onSuccess }: ProfileFormProps) => {
     setIsUpdating(true);
     
     try {
-      let avatarUrl = null;
+      let newAvatarUrl = null;
       
       // Upload avatar if provided
       if (data.avatar && data.avatar.length > 0) {
-        avatarUrl = await uploadAvatar(data.avatar[0]);
+        newAvatarUrl = await uploadAvatar(data.avatar[0]);
       }
 
       // Update auth metadata (built-in user fields)
@@ -161,7 +161,7 @@ export const ProfileForm = ({ user, onSuccess }: ProfileFormProps) => {
           bio: data.bio,
           title: data.title,
           location: data.location,
-          avatar_url: avatarUrl || undefined,
+          avatar_url: newAvatarUrl || avatarUrl, // Use new URL or keep existing one
           updated_at: new Date().toISOString()
         });
 
