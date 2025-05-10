@@ -7,6 +7,7 @@ import { Pen } from "lucide-react";
 import ProfileHeader from "./ProfileHeader";
 import { User } from "@supabase/supabase-js";
 import MentorInfoSection from "./MentorInfoSection";
+import { Json } from "@/integrations/supabase/types";
 
 interface ProfileViewProps {
   user: User;
@@ -45,7 +46,13 @@ export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
         if (error) {
           console.error("Error fetching profile:", error);
         } else {
-          setProfileData(data);
+          // Convert the JSON data to our expected format
+          const profileWithTypedMentorInfo: ProfileData = {
+            ...data,
+            mentor_info: data.mentor_info as ProfileData['mentor_info']
+          };
+          
+          setProfileData(profileWithTypedMentorInfo);
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
