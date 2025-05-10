@@ -83,6 +83,18 @@ const allMentors: MentorProps[] = [
     specialties: ["Technical Questions", "Resume Review", "Interview Prep"],
     rating: 4.8,
     reviewCount: 14
+  },
+  {
+    id: "7",
+    name: "Taylor Swift",
+    avatar: "https://randomuser.me/api/portraits/women/33.jpg",
+    role: "Music Production Intern",
+    company: "Republic Records",
+    school: "Berklee College of Music",
+    rate: 90,
+    specialties: ["Music Business", "Songwriting", "Artist Development"],
+    rating: 5.0,
+    reviewCount: 89
   }
 ];
 
@@ -96,14 +108,20 @@ const MentorListing = () => {
   const companies = Array.from(new Set(allMentors.map(mentor => mentor.company)));
   const specialties = Array.from(new Set(allMentors.flatMap(mentor => mentor.specialties)));
   
-  // Filter mentors based on search and filters
+  // Improved search function that searches more thoroughly
   const filteredMentors = allMentors.filter(mentor => {
+    // More comprehensive search that checks all relevant fields
+    const searchFields = [
+      mentor.name.toLowerCase(),
+      mentor.company.toLowerCase(),
+      mentor.role.toLowerCase(),
+      mentor.school.toLowerCase(),
+      ...mentor.specialties.map(s => s.toLowerCase())
+    ];
+    
     const matchesSearch = 
       searchTerm === "" || 
-      mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      mentor.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      mentor.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      mentor.school.toLowerCase().includes(searchTerm.toLowerCase());
+      searchFields.some(field => field.includes(searchTerm.toLowerCase()));
       
     const matchesPrice = 
       mentor.rate >= priceRange[0] && mentor.rate <= priceRange[1];
