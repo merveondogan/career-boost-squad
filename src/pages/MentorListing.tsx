@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import MentorCard, { MentorProps } from "@/components/MentorCard";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Search } from "lucide-react";
+import { MentorProps } from "@/components/MentorCard";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import MentorHero from "@/components/mentor/MentorHero";
+import MentorFilters from "@/components/mentor/MentorFilters";
+import MentorList from "@/components/mentor/MentorList";
 
-// Sample mentor data - expanded
+// Sample mentor data for fallback
 const sampleMentors: MentorProps[] = [
   {
     id: "1",
@@ -167,6 +164,23 @@ const MentorListing = () => {
   const companies = Array.from(new Set(mentors.map(mentor => mentor.company)));
   const specialties = Array.from(new Set(mentors.flatMap(mentor => mentor.specialties)));
   
+  // Toggle filter functions
+  const toggleCompany = (company: string) => {
+    setSelectedCompanies(prev => 
+      prev.includes(company) 
+        ? prev.filter(c => c !== company)
+        : [...prev, company]
+    );
+  };
+
+  const toggleSpecialty = (specialty: string) => {
+    setSelectedSpecialties(prev => 
+      prev.includes(specialty) 
+        ? prev.filter(s => s !== specialty)
+        : [...prev, specialty]
+    );
+  };
+
   // Improved search function that searches more thoroughly
   const filteredMentors = mentors.filter(mentor => {
     // More comprehensive search that checks all relevant fields
@@ -196,154 +210,33 @@ const MentorListing = () => {
     return matchesSearch && matchesPrice && matchesCompany && matchesSpecialty;
   });
 
-  const toggleCompany = (company: string) => {
-    setSelectedCompanies(prev => 
-      prev.includes(company) 
-        ? prev.filter(c => c !== company)
-        : [...prev, company]
-    );
-  };
-
-  const toggleSpecialty = (specialty: string) => {
-    setSelectedSpecialties(prev => 
-      prev.includes(specialty) 
-        ? prev.filter(s => s !== specialty)
-        : [...prev, specialty]
-    );
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="pt-16 flex-grow"> {/* Add padding to account for fixed navbar */}
-        {/* Hero section */}
-        <div className="bg-brand-light py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-3xl font-extrabold text-gray-900">Find Your Perfect Mentor</h1>
-              <p className="mt-4 text-xl text-gray-600">
-                Connect with recent graduates who've landed internships at top companies
-              </p>
-              
-              {/* Search bar */}
-              <div className="mt-8 max-w-xl mx-auto">
-                <div className="flex w-full items-center space-x-2">
-                  <div className="relative flex-grow">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-                    <Input
-                      type="text"
-                      placeholder="Search by name, company, role..."
-                      className="pl-10"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </div>
-                  <Button type="submit">Search</Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="pt-16 flex-grow">
+        {/* Hero section with search */}
+        <MentorHero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         
         {/* Main content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filters sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                <h2 className="font-bold text-lg mb-4">Filters</h2>
-                
-                {/* Price Range filter */}
-                <div className="mb-6">
-                  <h3 className="font-semibold mb-2">Price Range</h3>
-                  <div className="space-y-4">
-                    <Slider
-                      value={priceRange}
-                      min={0}
-                      max={100}
-                      step={5}
-                      onValueChange={setPriceRange}
-                    />
-                    <div className="flex justify-between text-sm text-gray-600">
-                      <span>${priceRange[0]}/hr</span>
-                      <span>${priceRange[1]}/hr</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Company filter */}
-                <div className="mb-6">
-                  <h3 className="font-semibold mb-2">Companies</h3>
-                  <div className="space-y-2">
-                    {companies.map(company => (
-                      <div key={company} className="flex items-center">
-                        <Checkbox
-                          id={`company-${company}`}
-                          checked={selectedCompanies.includes(company)}
-                          onCheckedChange={() => toggleCompany(company)}
-                        />
-                        <Label
-                          htmlFor={`company-${company}`}
-                          className="ml-2 text-sm cursor-pointer"
-                        >
-                          {company}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Specialty filter */}
-                <div>
-                  <h3 className="font-semibold mb-2">Specialties</h3>
-                  <div className="space-y-2">
-                    {specialties.map(specialty => (
-                      <div key={specialty} className="flex items-center">
-                        <Checkbox
-                          id={`specialty-${specialty}`}
-                          checked={selectedSpecialties.includes(specialty)}
-                          onCheckedChange={() => toggleSpecialty(specialty)}
-                        />
-                        <Label
-                          htmlFor={`specialty-${specialty}`}
-                          className="ml-2 text-sm cursor-pointer"
-                        >
-                          {specialty}
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <MentorFilters 
+                priceRange={priceRange}
+                setPriceRange={setPriceRange}
+                companies={companies}
+                selectedCompanies={selectedCompanies}
+                toggleCompany={toggleCompany}
+                specialties={specialties}
+                selectedSpecialties={selectedSpecialties}
+                toggleSpecialty={toggleSpecialty}
+              />
             </div>
             
             {/* Mentor cards */}
             <div className="lg:col-span-3">
-              <div className="mb-6 flex justify-between items-center">
-                <div>
-                  <h2 className="font-bold text-xl">Available Mentors</h2>
-                  <p className="text-sm text-gray-600">{filteredMentors.length} mentors found</p>
-                </div>
-                {/* Optional: Add sorting controls here */}
-              </div>
-              
-              {isLoading ? (
-                <div className="py-12 text-center text-gray-500">
-                  <p>Loading mentors...</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {filteredMentors.length > 0 ? (
-                    filteredMentors.map(mentor => (
-                      <MentorCard key={mentor.id} mentor={mentor} />
-                    ))
-                  ) : (
-                    <div className="col-span-2 py-12 text-center text-gray-500">
-                      <p>No mentors match your current filters. Try adjusting your search criteria.</p>
-                    </div>
-                  )}
-                </div>
-              )}
+              <MentorList mentors={filteredMentors} isLoading={isLoading} />
             </div>
           </div>
         </div>
