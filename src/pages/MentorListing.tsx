@@ -111,7 +111,7 @@ const MentorListing = () => {
       try {
         setIsLoading(true);
         
-        // Fetch all profiles that have mentor_info (indicating they're mentors)
+        // Improved query to fetch all mentor profiles with better error handling
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
@@ -121,13 +121,15 @@ const MentorListing = () => {
           throw error;
         }
         
-        if (data) {
-          // Transform Supabase profile data to MentorProps format
+        console.log("Fetched mentor profiles:", data); // Logging for debugging
+        
+        if (data && data.length > 0) {
+          // Transform Supabase profile data to MentorProps format with improved handling
           const mentorsData = data.map(profile => {
-            const mentorInfo = profile.mentor_info as any;
+            const mentorInfo = profile.mentor_info as any || {};
             return {
               id: profile.id,
-              name: mentorInfo?.full_name || "Unnamed Mentor",
+              name: mentorInfo?.full_name || profile?.title || "Unnamed Mentor",
               avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
               role: mentorInfo?.position || profile.title || "Mentor",
               company: mentorInfo?.company || "Unknown",
@@ -139,9 +141,11 @@ const MentorListing = () => {
             };
           });
           
-          setMentors(mentorsData.length > 0 ? mentorsData : sampleMentors);
+          console.log("Transformed mentor data:", mentorsData); // Logging for debugging
+          setMentors(mentorsData);
         } else {
           // Fallback to sample data if no mentors found
+          console.log("No mentors found, using sample data");
           setMentors(sampleMentors);
         }
       } catch (error: any) {

@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { MentorForm } from "./MentorForm";
+import MentorForm from "./MentorForm";
 
 export function MentorFormPage() {
   return (
