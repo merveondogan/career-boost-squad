@@ -17,6 +17,7 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [userType, setUserType] = useState("student");
   const [isLoading, setIsLoading] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
   const navigate = useNavigate();
   
   const handleSignup = async (e: React.FormEvent) => {
@@ -24,7 +25,7 @@ const Signup = () => {
     setIsLoading(true);
     
     try {
-      // Sign up with Supabase auth
+      // Sign up with Supabase auth with email verification
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -32,19 +33,19 @@ const Signup = () => {
           data: {
             full_name: name,
             user_type: userType
-          }
+          },
+          emailRedirectTo: `${window.location.origin}/login` // Redirect to login after verification
         }
       });
       
       if (error) throw error;
       
+      setVerificationSent(true);
+      
       toast({
-        title: "Account created",
+        title: "Verification email sent",
         description: "Please check your email to verify your account.",
       });
-      
-      // Redirect to home page or onboarding
-      navigate("/");
       
     } catch (error: any) {
       toast({
@@ -62,97 +63,128 @@ const Signup = () => {
       <Navbar />
       <div className="flex-grow flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-md">
-          <Card>
-            <CardHeader className="space-y-1 text-center">
-              <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-              <CardDescription>
-                Enter your details to create a new account
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6">
-                <form onSubmit={handleSignup}>
-                  <div className="grid gap-4">
-                    <div className="grid gap-2">
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        placeholder="John Doe"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                      />
+          {verificationSent ? (
+            <Card>
+              <CardHeader className="space-y-1 text-center">
+                <CardTitle className="text-2xl font-bold">Check your email</CardTitle>
+                <CardDescription>
+                  We've sent you a verification link to {email}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 text-center">
+                <p>Please check your inbox and click the verification link to complete your signup.</p>
+                <p className="text-sm text-muted-foreground">
+                  Didn't receive the email? Check your spam folder or{" "}
+                  <button 
+                    onClick={() => setVerificationSent(false)}
+                    className="text-brand-primary hover:underline"
+                  >
+                    try again
+                  </button>
+                </p>
+              </CardContent>
+              <CardFooter className="flex justify-center">
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate("/login")}
+                >
+                  Back to Login
+                </Button>
+              </CardFooter>
+            </Card>
+          ) : (
+            <Card>
+              <CardHeader className="space-y-1 text-center">
+                <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+                <CardDescription>
+                  Enter your details to create a new account
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6">
+                  <form onSubmit={handleSignup}>
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="name">Full Name</Label>
+                        <Input
+                          id="name"
+                          type="text"
+                          placeholder="John Doe"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          placeholder="m@example.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                          id="password"
+                          type="password"
+                          placeholder="********"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="grid gap-2">
+                        <Label>I am signing up as a:</Label>
+                        <RadioGroup defaultValue="student" value={userType} onValueChange={setUserType}>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="student" id="student" />
+                            <Label htmlFor="student" className="cursor-pointer">Student looking for mentorship</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="mentor" id="mentor" />
+                            <Label htmlFor="mentor" className="cursor-pointer">Mentor offering guidance</Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                      <Button type="submit" className="w-full" disabled={isLoading}>
+                        {isLoading ? "Creating account..." : "Create account"}
+                      </Button>
                     </div>
-                    <div className="grid gap-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
+                  </form>
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
                     </div>
-                    <div className="grid gap-2">
-                      <Label htmlFor="password">Password</Label>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="********"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Or continue with
+                      </span>
                     </div>
-                    <div className="grid gap-2">
-                      <Label>I am signing up as a:</Label>
-                      <RadioGroup defaultValue="student" value={userType} onValueChange={setUserType}>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="student" id="student" />
-                          <Label htmlFor="student" className="cursor-pointer">Student looking for mentorship</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="mentor" id="mentor" />
-                          <Label htmlFor="mentor" className="cursor-pointer">Mentor offering guidance</Label>
-                        </div>
-                      </RadioGroup>
-                    </div>
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                      {isLoading ? "Creating account..." : "Create account"}
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Button variant="outline" type="button">
+                      Google
+                    </Button>
+                    <Button variant="outline" type="button">
+                      LinkedIn
                     </Button>
                   </div>
-                </form>
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      Or continue with
-                    </span>
-                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" type="button">
-                    Google
-                  </Button>
-                  <Button variant="outline" type="button">
-                    LinkedIn
-                  </Button>
+              </CardContent>
+              <CardFooter className="flex flex-wrap items-center justify-center gap-2">
+                <div className="text-sm text-muted-foreground">
+                  Already have an account?{" "}
+                  <Link to="/login" className="text-brand-primary hover:underline">
+                    Log in
+                  </Link>
                 </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-wrap items-center justify-center gap-2">
-              <div className="text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link to="/login" className="text-brand-primary hover:underline">
-                  Log in
-                </Link>
-              </div>
-            </CardFooter>
-          </Card>
+              </CardFooter>
+            </Card>
+          )}
         </div>
       </div>
       <Footer />
