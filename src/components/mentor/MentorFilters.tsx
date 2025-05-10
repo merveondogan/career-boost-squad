@@ -1,4 +1,5 @@
 
+import { memo } from "react";
 import FilterGroup from "./FilterGroup";
 import PriceRangeFilter from "./PriceRangeFilter";
 
@@ -13,7 +14,7 @@ interface MentorFiltersProps {
   toggleSpecialty: (specialty: string) => void;
 }
 
-const MentorFilters = ({
+const MentorFilters = memo(({
   priceRange,
   setPriceRange,
   companies,
@@ -47,6 +48,8 @@ const MentorFilters = ({
       />
     </div>
   );
-};
+});
+
+MentorFilters.displayName = "MentorFilters";
 
 export default MentorFilters;

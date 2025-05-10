@@ -1,7 +1,7 @@
 
-import React, { ChangeEvent } from 'react';
-import MentorForm from './MentorForm';
-import { Education, Internship, MentorFormData } from './form/types';
+import React, { ChangeEvent } from "react";
+import MentorForm from "./MentorForm";
+import { Education, Internship, MentorFormData } from "./form/types";
 
 interface MentorFormWrapperProps {
   formData: MentorFormData;
@@ -16,14 +16,12 @@ const MentorFormWrapper: React.FC<MentorFormWrapperProps> = ({
   handleInputChange,
   handleSelectChange,
   handleEducationChange,
-  handleInternshipChange,
+  handleInternshipChange
 }) => {
   return (
     <MentorForm
       formData={formData}
       handleInputChange={handleInputChange}
-      // These props are needed by MentorForm but not defined in its props interface
-      // We're passing them anyway since the component needs them
       handleSelectChange={handleSelectChange}
       handleEducationChange={handleEducationChange}
       handleInternshipChange={handleInternshipChange}

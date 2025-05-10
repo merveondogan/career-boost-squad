@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MentorProps } from "@/components/MentorCard";
@@ -164,22 +165,30 @@ const MentorListing = () => {
   const companies = Array.from(new Set(mentors.map(mentor => mentor.company)));
   const specialties = Array.from(new Set(mentors.flatMap(mentor => mentor.specialties)));
   
-  // Toggle filter functions
-  const toggleCompany = (company: string) => {
+  // Use useCallback for handler functions to prevent unnecessary re-renders
+  const setSearchTermCallback = useCallback((value: string) => {
+    setSearchTerm(value);
+  }, []);
+
+  const setPriceRangeCallback = useCallback((value: number[]) => {
+    setPriceRange(value);
+  }, []);
+
+  const toggleCompany = useCallback((company: string) => {
     setSelectedCompanies(prev => 
       prev.includes(company) 
         ? prev.filter(c => c !== company)
         : [...prev, company]
     );
-  };
+  }, []);
 
-  const toggleSpecialty = (specialty: string) => {
+  const toggleSpecialty = useCallback((specialty: string) => {
     setSelectedSpecialties(prev => 
       prev.includes(specialty) 
         ? prev.filter(s => s !== specialty)
         : [...prev, specialty]
     );
-  };
+  }, []);
 
   // Improved search function that searches more thoroughly
   const filteredMentors = mentors.filter(mentor => {
@@ -215,7 +224,7 @@ const MentorListing = () => {
       <Navbar />
       <div className="pt-16 flex-grow">
         {/* Hero section with search */}
-        <MentorHero searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <MentorHero searchTerm={searchTerm} setSearchTerm={setSearchTermCallback} />
         
         {/* Main content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -224,7 +233,7 @@ const MentorListing = () => {
             <div className="lg:col-span-1">
               <MentorFilters 
                 priceRange={priceRange}
-                setPriceRange={setPriceRange}
+                setPriceRange={setPriceRangeCallback}
                 companies={companies}
                 selectedCompanies={selectedCompanies}
                 toggleCompany={toggleCompany}

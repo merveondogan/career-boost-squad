@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { memo } from "react";
 import { Slider } from "@/components/ui/slider";
 
 interface PriceRangeFilterProps {
@@ -7,7 +7,7 @@ interface PriceRangeFilterProps {
   onChange: (value: number[]) => void;
 }
 
-const PriceRangeFilter = ({ priceRange, onChange }: PriceRangeFilterProps) => {
+const PriceRangeFilter = memo(({ priceRange, onChange }: PriceRangeFilterProps) => {
   return (
     <div className="mb-6">
       <h3 className="font-semibold mb-2">Price Range</h3>
@@ -26,6 +26,8 @@ const PriceRangeFilter = ({ priceRange, onChange }: PriceRangeFilterProps) => {
       </div>
     </div>
   );
-};
+});
+
+PriceRangeFilter.displayName = "PriceRangeFilter";
 
 export default PriceRangeFilter;

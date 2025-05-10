@@ -1,9 +1,11 @@
 
+import { memo } from "react";
+
 interface MentorListHeaderProps {
   count: number;
 }
 
-const MentorListHeader = ({ count }: MentorListHeaderProps) => {
+const MentorListHeader = memo(({ count }: MentorListHeaderProps) => {
   return (
     <div className="mb-6 flex justify-between items-center">
       <div>
@@ -13,6 +15,8 @@ const MentorListHeader = ({ count }: MentorListHeaderProps) => {
       {/* Optional: Add sorting controls here */}
     </div>
   );
-};
+});
+
+MentorListHeader.displayName = "MentorListHeader";
 
 export default MentorListHeader;

@@ -1,4 +1,5 @@
 
+import { memo } from "react";
 import MentorSearchBar from "./MentorSearchBar";
 
 interface MentorHeroProps {
@@ -6,7 +7,7 @@ interface MentorHeroProps {
   setSearchTerm: (value: string) => void;
 }
 
-const MentorHero = ({ searchTerm, setSearchTerm }: MentorHeroProps) => {
+const MentorHero = memo(({ searchTerm, setSearchTerm }: MentorHeroProps) => {
   return (
     <div className="bg-brand-light py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,6 +23,8 @@ const MentorHero = ({ searchTerm, setSearchTerm }: MentorHeroProps) => {
       </div>
     </div>
   );
-};
+});
+
+MentorHero.displayName = "MentorHero";
 
 export default MentorHero;

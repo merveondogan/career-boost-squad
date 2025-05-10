@@ -1,4 +1,5 @@
 
+import { memo } from "react";
 import { MentorProps } from "../MentorCard";
 import MentorCard from "../MentorCard";
 import MentorListHeader from "./MentorListHeader";
@@ -8,7 +9,7 @@ interface MentorListProps {
   isLoading: boolean;
 }
 
-const MentorList = ({ mentors, isLoading }: MentorListProps) => {
+const MentorList = memo(({ mentors, isLoading }: MentorListProps) => {
   if (isLoading) {
     return (
       <div className="py-12 text-center text-gray-500">
@@ -33,6 +34,8 @@ const MentorList = ({ mentors, isLoading }: MentorListProps) => {
       </div>
     </>
   );
-};
+});
+
+MentorList.displayName = "MentorList";
 
 export default MentorList;

@@ -1,4 +1,5 @@
 
+import { memo } from "react";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -9,7 +10,7 @@ interface FilterGroupProps {
   onToggleItem: (item: string) => void;
 }
 
-const FilterGroup = ({ title, items, selectedItems, onToggleItem }: FilterGroupProps) => {
+const FilterGroup = memo(({ title, items, selectedItems, onToggleItem }: FilterGroupProps) => {
   return (
     <div className="mb-6">
       <h3 className="font-semibold mb-2">{title}</h3>
@@ -32,6 +33,8 @@ const FilterGroup = ({ title, items, selectedItems, onToggleItem }: FilterGroupP
       </div>
     </div>
   );
-};
+});
+
+FilterGroup.displayName = "FilterGroup";
 
 export default FilterGroup;
