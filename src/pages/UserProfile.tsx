@@ -6,10 +6,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProfileForm from "@/components/profile/ProfileForm";
 import ProfileView from "@/components/profile/ProfileView";
+import SessionsTab from "@/components/profile/SessionsTab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const UserProfile = () => {
   const { user, isLoading } = useAuth();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [activeTab, setActiveTab] = useState("profile");
   const navigate = useNavigate();
 
   // Redirect if not logged in
@@ -53,16 +56,29 @@ const UserProfile = () => {
             </div>
           </div>
           
-          <div className="bg-white shadow rounded-lg">
-            {isEditMode ? (
-              <div className="p-6">
-                <h2 className="text-xl font-semibold mb-6">Edit Profile</h2>
-                {user && <ProfileForm user={user} onSuccess={handleEditSuccess} />}
-              </div>
-            ) : (
-              user && <ProfileView user={user} onEdit={() => setIsEditMode(true)} />
-            )}
-          </div>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="mb-8">
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="sessions">
+                {isMentor ? "Mentoring Sessions" : "My Bookings"}
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="profile" className="bg-white shadow rounded-lg">
+              {isEditMode ? (
+                <div className="p-6">
+                  <h2 className="text-xl font-semibold mb-6">Edit Profile</h2>
+                  {user && <ProfileForm user={user} onSuccess={handleEditSuccess} />}
+                </div>
+              ) : (
+                user && <ProfileView user={user} onEdit={() => setIsEditMode(true)} />
+              )}
+            </TabsContent>
+            
+            <TabsContent value="sessions" className="bg-white shadow rounded-lg p-6">
+              <SessionsTab />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
       <Footer />
