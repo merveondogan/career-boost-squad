@@ -12,6 +12,8 @@ import MentorListing from "./pages/MentorListing";
 import NotFound from "./pages/NotFound";
 import ResetPassword from "./pages/ResetPassword";
 import UserProfile from "./pages/UserProfile";
+import HowItWorksPage from "./pages/HowItWorks";
+import AboutUs from "./pages/AboutUs";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
             <Route path="/mentors" element={<MentorListing />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
