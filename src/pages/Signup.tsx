@@ -1,13 +1,15 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -15,16 +17,44 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [userType, setUserType] = useState("student");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Mock signup functionality
-    setTimeout(() => {
+    
+    try {
+      // Sign up with Supabase auth
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+            user_type: userType
+          }
+        }
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Account created",
+        description: "Please check your email to verify your account.",
+      });
+      
+      // Redirect to home page or onboarding
+      navigate("/");
+      
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Signup failed",
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    } finally {
       setIsLoading(false);
-      alert(`Signup attempt with ${email} as ${userType}`);
-      // Here you would typically register with a backend
-    }, 1000);
+    }
   };
   
   return (
