@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import MentorListing from "./pages/MentorListing";
 import NotFound from "./pages/NotFound";
 import ResetPassword from "./pages/ResetPassword";
+import UserProfile from "./pages/UserProfile";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/mentors" element={<MentorListing />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

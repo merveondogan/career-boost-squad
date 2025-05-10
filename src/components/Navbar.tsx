@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/use-toast";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, UserRound } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -74,6 +74,12 @@ const Navbar = () => {
                       </span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="cursor-pointer flex items-center gap-2">
+                        <UserRound size={16} />
+                        <span>My Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleSignOut} className="text-red-500 cursor-pointer flex items-center gap-2">
                       <LogOut size={16} />
                       <span>Log out</span>
@@ -151,6 +157,14 @@ const Navbar = () => {
                       <div className="text-base font-medium">{user.user_metadata.full_name || user.email}</div>
                     </div>
                   </div>
+                  <Link
+                    to="/profile"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-brand-primary flex items-center"
+                  >
+                    <UserRound size={16} className="mr-2" />
+                    My Profile
+                  </Link>
                   <Button 
                     onClick={() => {
                       handleSignOut();
