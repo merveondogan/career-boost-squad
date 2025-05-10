@@ -4,6 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/components/ui/use-toast";
+import { User, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,14 +58,28 @@ const Navbar = () => {
             </Link>
             <div className="ml-4 flex items-center space-x-3">
               {user ? (
-                <>
-                  <span className="text-gray-600 px-3 py-2 rounded-md text-sm font-medium">
-                    Welcome, {user.user_metadata.full_name || user.email}
-                  </span>
-                  <Button variant="outline" onClick={handleSignOut}>
-                    Log Out
-                  </Button>
-                </>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center gap-2">
+                      <User size={16} />
+                      <span className="hidden md:inline-block">
+                        {user.user_metadata.full_name || user.email?.split('@')[0]}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem className="text-sm">
+                      <span className="font-medium">
+                        {user.user_metadata.full_name || user.email}
+                      </span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-500 cursor-pointer flex items-center gap-2">
+                      <LogOut size={16} />
+                      <span>Log out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <>
                   <Button variant="outline" asChild>
@@ -121,14 +143,24 @@ const Navbar = () => {
             <div className="pt-4 pb-3 border-t border-gray-200">
               {user ? (
                 <div className="flex flex-col px-3 space-y-3">
-                  <span className="text-gray-600 block px-3 py-2 rounded-md text-base font-medium">
-                    Welcome, {user.user_metadata.full_name || user.email}
-                  </span>
-                  <Button onClick={() => {
-                    handleSignOut();
-                    setIsMenuOpen(false);
-                  }}>
-                    Log Out
+                  <div className="flex items-center px-3 py-2">
+                    <div className="flex-shrink-0">
+                      <User className="h-8 w-8 rounded-full bg-gray-100 p-1" />
+                    </div>
+                    <div className="ml-3">
+                      <div className="text-base font-medium">{user.user_metadata.full_name || user.email}</div>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }}
+                    variant="outline"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <LogOut size={16} />
+                    <span>Log Out</span>
                   </Button>
                 </div>
               ) : (
