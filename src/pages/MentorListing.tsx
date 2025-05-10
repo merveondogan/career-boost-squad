@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MentorCard, { MentorProps } from "@/components/MentorCard";
@@ -9,9 +8,11 @@ import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Search } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 // Sample mentor data - expanded
-const allMentors: MentorProps[] = [
+const sampleMentors: MentorProps[] = [
   {
     id: "1",
     name: "Alex Johnson",
@@ -99,17 +100,75 @@ const allMentors: MentorProps[] = [
 ];
 
 const MentorListing = () => {
+  const [mentors, setMentors] = useState<MentorProps[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+  
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        setIsLoading(true);
+        
+        // Fetch all profiles that have mentor_info (indicating they're mentors)
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .not('mentor_info', 'is', null);
+          
+        if (error) {
+          throw error;
+        }
+        
+        if (data) {
+          // Transform Supabase profile data to MentorProps format
+          const mentorsData = data.map(profile => {
+            const mentorInfo = profile.mentor_info as any;
+            return {
+              id: profile.id,
+              name: mentorInfo?.full_name || "Unnamed Mentor",
+              avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
+              role: mentorInfo?.position || profile.title || "Mentor",
+              company: mentorInfo?.company || "Unknown",
+              school: mentorInfo?.education?.school || "Unknown",
+              rate: parseInt(mentorInfo?.hourly_rate || "50", 10),
+              specialties: mentorInfo?.expertise_areas || ["General Mentoring"],
+              rating: 5.0, // Default rating for now
+              reviewCount: 0  // Default review count for now
+            };
+          });
+          
+          setMentors(mentorsData.length > 0 ? mentorsData : sampleMentors);
+        } else {
+          // Fallback to sample data if no mentors found
+          setMentors(sampleMentors);
+        }
+      } catch (error: any) {
+        console.error("Error fetching mentors:", error.message);
+        toast({
+          variant: "destructive",
+          title: "Failed to load mentors",
+          description: "Please try again later."
+        });
+        // Use sample data as fallback
+        setMentors(sampleMentors);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchMentors();
+  }, [toast]);
   
   // Extract unique companies and specialties for filters
-  const companies = Array.from(new Set(allMentors.map(mentor => mentor.company)));
-  const specialties = Array.from(new Set(allMentors.flatMap(mentor => mentor.specialties)));
+  const companies = Array.from(new Set(mentors.map(mentor => mentor.company)));
+  const specialties = Array.from(new Set(mentors.flatMap(mentor => mentor.specialties)));
   
   // Improved search function that searches more thoroughly
-  const filteredMentors = allMentors.filter(mentor => {
+  const filteredMentors = mentors.filter(mentor => {
     // More comprehensive search that checks all relevant fields
     const searchFields = [
       mentor.name.toLowerCase(),
@@ -268,17 +327,23 @@ const MentorListing = () => {
                 {/* Optional: Add sorting controls here */}
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredMentors.length > 0 ? (
-                  filteredMentors.map(mentor => (
-                    <MentorCard key={mentor.id} mentor={mentor} />
-                  ))
-                ) : (
-                  <div className="col-span-2 py-12 text-center text-gray-500">
-                    <p>No mentors match your current filters. Try adjusting your search criteria.</p>
-                  </div>
-                )}
-              </div>
+              {isLoading ? (
+                <div className="py-12 text-center text-gray-500">
+                  <p>Loading mentors...</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredMentors.length > 0 ? (
+                    filteredMentors.map(mentor => (
+                      <MentorCard key={mentor.id} mentor={mentor} />
+                    ))
+                  ) : (
+                    <div className="col-span-2 py-12 text-center text-gray-500">
+                      <p>No mentors match your current filters. Try adjusting your search criteria.</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
