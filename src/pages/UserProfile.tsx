@@ -64,9 +64,9 @@ const UserProfile = () => {
       const fetchUserProfile = async () => {
         try {
           const { data, error } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
             .single();
 
           if (error) {
@@ -105,7 +105,7 @@ const UserProfile = () => {
 
       // Update extended profile in custom table (if it exists)
       const { error: upsertError } = await supabase
-        .from("profiles")
+        .from('profiles')
         .upsert({ 
           id: user.id,
           bio: data.bio,
