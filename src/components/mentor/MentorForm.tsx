@@ -81,6 +81,15 @@ export function MentorForm() {
 
       if (userUpdateError) throw userUpdateError;
       
+      // Prepare mentor_info object
+      const mentorInfo = {
+        company: formData.company,
+        position: formData.position,
+        expertise_areas: formData.expertiseAreas,
+        experience: formData.experience,
+        hourly_rate: formData.hourlyRate
+      };
+      
       // Create or update mentor profile in database
       const { error: profileError } = await supabase
         .from('profiles')
@@ -88,13 +97,7 @@ export function MentorForm() {
           id: user.id,
           title: formData.position,
           bio: formData.bio,
-          mentor_info: {
-            company: formData.company,
-            position: formData.position,
-            expertise_areas: formData.expertiseAreas,
-            experience: formData.experience,
-            hourly_rate: formData.hourlyRate
-          }
+          mentor_info: mentorInfo
         });
 
       if (profileError) throw profileError;

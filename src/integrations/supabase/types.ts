@@ -16,6 +16,7 @@ export type Database = {
           created_at: string | null
           id: string
           location: string | null
+          mentor_info: Json | null
           title: string | null
           updated_at: string | null
         }
@@ -25,6 +26,7 @@ export type Database = {
           created_at?: string | null
           id: string
           location?: string | null
+          mentor_info?: Json | null
           title?: string | null
           updated_at?: string | null
         }
@@ -34,6 +36,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           location?: string | null
+          mentor_info?: Json | null
           title?: string | null
           updated_at?: string | null
         }
