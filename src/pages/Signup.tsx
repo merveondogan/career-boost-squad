@@ -25,6 +25,9 @@ const Signup = () => {
     setIsLoading(true);
     
     try {
+      // Get the current origin for proper redirect URLs
+      const origin = window.location.origin;
+      
       // Sign up with Supabase auth with email verification
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -34,7 +37,7 @@ const Signup = () => {
             full_name: name,
             user_type: userType
           },
-          emailRedirectTo: `${window.location.origin}/login` // Redirect to login after verification
+          emailRedirectTo: `${origin}/login` // Redirect to login after verification
         }
       });
       

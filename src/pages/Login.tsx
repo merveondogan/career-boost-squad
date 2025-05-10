@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,34 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Check if user was redirected from email verification
+  useEffect(() => {
+    const handleEmailConfirmation = async () => {
+      // Check for hash parameters indicating auth action
+      if (location.hash) {
+        setIsLoading(true);
+        try {
+          const { data, error } = await supabase.auth.getSession();
+          
+          if (!error && data.session) {
+            toast({
+              title: "Email verified successfully",
+              description: "Your email has been verified. You can now log in.",
+              variant: "default",
+            });
+          }
+        } catch (error) {
+          console.error("Error checking auth session:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    
+    handleEmailConfirmation();
+  }, [location]);
   
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
