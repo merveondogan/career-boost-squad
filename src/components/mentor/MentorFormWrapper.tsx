@@ -1,32 +1,48 @@
 
-import React, { ChangeEvent } from "react";
-import MentorForm from "./MentorForm";
+import { useState, ChangeEvent } from "react";
+import { MentorForm } from "./MentorForm";
 import { Education, Internship, MentorFormData } from "./form/types";
 
-interface MentorFormWrapperProps {
-  formData: MentorFormData;
-  handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleSelectChange: (name: string, value: string) => void;
-  handleEducationChange: (education: Education) => void;
-  handleInternshipChange: (internships: Internship[]) => void;
-}
+export const MentorFormWrapper = () => {
+  const [formData, setFormData] = useState<MentorFormData>({
+    fullName: "",
+    position: "",
+    company: "",
+    bio: "",
+    hourlyRate: "",
+    education: {
+      school: "",
+      degree: "",
+      fieldOfStudy: "",
+      startYear: "",
+      endYear: "",
+    },
+    internships: [],
+    expertiseAreas: [],
+  });
 
-const MentorFormWrapper = ({
-  formData,
-  handleInputChange,
-  handleSelectChange,
-  handleEducationChange,
-  handleInternshipChange
-}: MentorFormWrapperProps) => {
-  return (
-    <MentorForm
-      formData={formData}
-      handleInputChange={handleInputChange}
-      handleSelectChange={handleSelectChange}
-      handleEducationChange={handleEducationChange}
-      handleInternshipChange={handleInternshipChange}
-    />
-  );
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEducationChange = (education: Education) => {
+    setFormData((prev) => ({ ...prev, education }));
+  };
+
+  const handleInternshipChange = (internships: Internship[]) => {
+    setFormData((prev) => ({ ...prev, internships }));
+  };
+
+  return <MentorForm 
+    formData={formData}
+    handleInputChange={handleInputChange}
+    handleSelectChange={handleSelectChange}
+    handleEducationChange={handleEducationChange}
+    handleInternshipChange={handleInternshipChange}
+  />;
 };
-
-export default MentorFormWrapper;

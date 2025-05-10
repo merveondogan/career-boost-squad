@@ -110,8 +110,20 @@ const MentorListing = () => {
     const fetchMentors = async () => {
       try {
         setIsLoading(true);
+        console.log("Fetching mentor profiles...");
         
-        // Improved query to fetch all mentor profiles with better error handling
+        // First, fetch all profiles to check if any mentors exist
+        const { data: allProfiles, error: profileError } = await supabase
+          .from('profiles')
+          .select('*');
+          
+        if (profileError) {
+          throw profileError;
+        }
+        
+        console.log("All profiles:", allProfiles); // Debug all profiles
+        
+        // Specifically fetch profiles with mentor_info that is not null
         const { data, error } = await supabase
           .from('profiles')
           .select('*')
@@ -121,12 +133,19 @@ const MentorListing = () => {
           throw error;
         }
         
-        console.log("Fetched mentor profiles:", data); // Logging for debugging
+        console.log("Fetched mentor profiles:", data);
+        console.log("Mentor profiles count:", data?.length || 0);
+        
+        // Check profiles with mentor_info that might be empty objects
+        const profilesWithMentorInfo = allProfiles?.filter(p => p.mentor_info !== null && typeof p.mentor_info === 'object');
+        console.log("Profiles with any mentor_info:", profilesWithMentorInfo);
         
         if (data && data.length > 0) {
           // Transform Supabase profile data to MentorProps format with improved handling
           const mentorsData = data.map(profile => {
-            const mentorInfo = profile.mentor_info as any || {};
+            const mentorInfo = profile.mentor_info || {};
+            console.log(`Processing mentor ${profile.id}:`, mentorInfo);
+            
             return {
               id: profile.id,
               name: mentorInfo?.full_name || profile?.title || "Unnamed Mentor",
@@ -141,12 +160,41 @@ const MentorListing = () => {
             };
           });
           
-          console.log("Transformed mentor data:", mentorsData); // Logging for debugging
+          console.log("Transformed mentor data:", mentorsData);
           setMentors(mentorsData);
         } else {
-          // Fallback to sample data if no mentors found
-          console.log("No mentors found, using sample data");
-          setMentors(sampleMentors);
+          // Enhanced fallback logic - try to extract any profile with some mentor_info
+          const anyMentorProfiles = allProfiles?.filter(p => 
+            p.mentor_info !== null && 
+            typeof p.mentor_info === 'object' && 
+            Object.keys(p.mentor_info).length > 0
+          );
+          
+          console.log("Found any mentor profiles:", anyMentorProfiles);
+          
+          if (anyMentorProfiles && anyMentorProfiles.length > 0) {
+            const backupMentorsData = anyMentorProfiles.map(profile => {
+              const mentorInfo = profile.mentor_info || {};
+              return {
+                id: profile.id,
+                name: mentorInfo?.full_name || profile?.title || "Unnamed Mentor",
+                avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
+                role: mentorInfo?.position || profile.title || "Mentor", 
+                company: mentorInfo?.company || "Unknown",
+                school: mentorInfo?.education?.school || "Unknown",
+                rate: parseInt(mentorInfo?.hourly_rate || "50", 10),
+                specialties: mentorInfo?.expertise_areas || ["General Mentoring"],
+                rating: 5.0,
+                reviewCount: 0
+              };
+            });
+            
+            console.log("Backup mentor data:", backupMentorsData);
+            setMentors(backupMentorsData);
+          } else {
+            console.log("No mentors found in any format, using sample data");
+            setMentors(sampleMentors);
+          }
         }
       } catch (error: any) {
         console.error("Error fetching mentors:", error.message);
