@@ -12,7 +12,6 @@ export const MentorFormWrapper = () => {
     hourlyRate: "",
     education: {
       school: "",
-      degree: "",
       fieldOfStudy: "",
       startYear: "",
       endYear: "",
@@ -38,11 +37,16 @@ export const MentorFormWrapper = () => {
     setFormData((prev) => ({ ...prev, internships }));
   };
 
-  return <MentorForm 
-    formData={formData}
-    handleInputChange={handleInputChange}
-    handleSelectChange={handleSelectChange}
-    handleEducationChange={handleEducationChange}
-    handleInternshipChange={handleInternshipChange}
-  />;
+  // Pass down all required props to MentorForm
+  const formProps = {
+    formData,
+    handleInputChange,
+    handleSelectChange,
+    handleEducationChange,
+    handleInternshipChange
+  };
+
+  return <MentorForm {...formProps} />;
 };
+
+export default MentorFormWrapper;

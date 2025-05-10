@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import MentorForm from "./MentorForm";
+import MentorFormWrapper from "./MentorFormWrapper";
 
 export function MentorFormPage() {
   return (
@@ -13,7 +13,7 @@ export function MentorFormPage() {
       </CardHeader>
       
       <CardContent>
-        <MentorForm />
+        <MentorFormWrapper />
       </CardContent>
       
       <CardFooter className="flex flex-col items-center justify-center text-center">
@@ -27,3 +27,5 @@ export function MentorFormPage() {
     </Card>
   );
 }
+
+export default MentorFormPage;
