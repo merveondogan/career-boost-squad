@@ -50,7 +50,7 @@ export const fetchMentors = async () => {
     });
     
     // Get user metadata for all profiles to supplement our mentor check
-    const { data: usersData, error: authError } = await supabase.auth.admin.listUsers();
+    const { data: authUsersData, error: authError } = await supabase.auth.getUser();
     
     if (authError) {
       console.error("Error fetching user metadata:", authError);
@@ -60,10 +60,8 @@ export const fetchMentors = async () => {
     // Create a map of user ids to their metadata for quick lookup
     const userMetadataMap = new Map();
     
-    if (usersData?.users) {
-      usersData.users.forEach(user => {
-        userMetadataMap.set(user.id, user.user_metadata);
-      });
+    if (authUsersData?.user) {
+      userMetadataMap.set(authUsersData.user.id, authUsersData.user.user_metadata);
     }
     
     // IMPORTANT: A profile is considered a mentor if:
