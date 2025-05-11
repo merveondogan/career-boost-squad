@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +10,7 @@ export function useMentorForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<MentorFormData>({
+    fullName: "",  // Added missing fullName property
     company: "",
     position: "",
     expertiseAreas: [],
