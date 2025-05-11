@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -110,7 +111,8 @@ export function useMentorForm() {
           id: user.id,
           title: formData.position,
           bio: formData.bio,
-          mentor_info: mentorInfo
+          mentor_info: mentorInfo,
+          is_mentor: true  // Add this field to the profiles table as well
         });
 
       if (profileError) throw profileError;
@@ -119,6 +121,11 @@ export function useMentorForm() {
         title: "Application submitted successfully",
         description: "Your mentor profile has been created. You can now start accepting mentees.",
       });
+      
+      // Refresh the page to update the UI with the new mentor status
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       
       // Redirect to profile page
       navigate("/profile");

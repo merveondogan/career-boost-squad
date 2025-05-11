@@ -31,7 +31,7 @@ export const fetchMentors = async () => {
   try {
     console.log("Fetching mentor profiles...");
     
-    // Fetch profiles that have mentor_info
+    // Fetch profiles from Supabase
     const { data: profiles, error } = await supabase
       .from('profiles')
       .select('*');
@@ -42,20 +42,35 @@ export const fetchMentors = async () => {
 
     console.log("All profiles:", profiles);
     
-    // Filter to only include profiles that have mentor_info
+    // Get user metadata from auth to check for mentor status
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    // Filter profiles - include a profile as mentor if:
+    // 1. It has mentor_info that is not null and has properties, OR
+    // 2. The user metadata indicates they are a mentor (is_mentor: true)
     const mentorProfiles = profiles?.filter(profile => {
-      const hasMentorInfo = profile.mentor_info !== null && 
+      // Check mentor_info
+      const hasMentorInfoObject = profile.mentor_info !== null && 
         typeof profile.mentor_info === 'object' &&
         Object.keys(profile.mentor_info).length > 0;
       
-      console.log(`Profile ${profile.id} has mentor info: ${hasMentorInfo}`);
-      return hasMentorInfo;
+      // If viewing own profile and user is logged in and is the current profile
+      const isOwnProfile = user && user.id === profile.id;
+      
+      // Check user metadata for mentor status (if it's the current user)
+      const hasMetadataAsMentor = isOwnProfile && 
+        user?.user_metadata && 
+        user.user_metadata.is_mentor === true;
+      
+      const isMentor = hasMentorInfoObject || hasMetadataAsMentor;
+      console.log(`Profile ${profile.id} is a mentor: ${isMentor} (info: ${hasMentorInfoObject}, metadata: ${hasMetadataAsMentor})`);
+      return isMentor;
     });
     
     // Convert filtered profiles to mentor format
     const mentorsData = mentorProfiles?.map(convertProfileToMentor) || [];
     
-    console.log(`Found ${mentorsData.length} real mentors out of ${profiles?.length || 0} total profiles`);
+    console.log(`Found ${mentorsData.length} mentors out of ${profiles?.length || 0} total profiles`);
     
     return mentorsData;
   } catch (error: any) {
