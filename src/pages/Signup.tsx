@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,16 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Check if the URL contains a type parameter
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const typeParam = params.get('type');
+    if (typeParam === 'mentor') {
+      setUserType('mentor');
+    }
+  }, [location]);
   
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +45,8 @@ const Signup = () => {
         options: {
           data: {
             full_name: name,
-            user_type: userType
+            user_type: userType,
+            is_mentor: userType === 'mentor'
           },
           emailRedirectTo: `${origin}/login` // Redirect to login after verification
         }
@@ -152,6 +163,12 @@ const Signup = () => {
                             <Label htmlFor="mentor" className="cursor-pointer">Mentor offering guidance</Label>
                           </div>
                         </RadioGroup>
+                        
+                        {userType === 'mentor' && (
+                          <div className="mt-2 text-sm text-muted-foreground rounded-md border p-3 bg-muted/50">
+                            <p>As a mentor, you'll need to complete your profile with your experience and expertise after signing up.</p>
+                          </div>
+                        )}
                       </div>
                       <Button type="submit" className="w-full" disabled={isLoading}>
                         {isLoading ? "Creating account..." : "Create account"}

@@ -8,6 +8,7 @@ export type MentorFormData = {
   expertiseAreas: string[];
   bio: string;
   hourlyRate: string;
+  experience: string; // Added experience field
   availability?: string[];
   internships: Internship[];
   education: Education;
