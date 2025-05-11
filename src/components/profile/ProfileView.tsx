@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Pen } from "lucide-react";
+import { Briefcase, Pen } from "lucide-react";
 import ProfileHeader from "./ProfileHeader";
 import { User } from "@supabase/supabase-js";
 import MentorInfoSection from "./MentorInfoSection";
@@ -25,6 +25,19 @@ interface ProfileData {
     expertise_areas?: string[];
     experience?: string;
     hourly_rate?: string;
+    education?: {
+      school?: string;
+      major?: string;
+      graduation_year?: string;
+    };
+    internships?: Array<{
+      id: string;
+      company: string;
+      role: string;
+      start_date: string;
+      end_date: string;
+      description?: string;
+    }>;
   };
 }
 
@@ -69,6 +82,7 @@ export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
   }
 
   const isMentor = !!profileData?.mentor_info;
+  const hasInternships = profileData?.mentor_info?.internships && profileData.mentor_info.internships.length > 0;
 
   return (
     <Card className="p-6">
@@ -93,7 +107,23 @@ export const ProfileView = ({ user, onEdit }: ProfileViewProps) => {
       </div>
 
       {isMentor && profileData?.mentor_info && (
-        <MentorInfoSection mentorInfo={profileData.mentor_info} />
+        <>
+          <MentorInfoSection mentorInfo={profileData.mentor_info} />
+          
+          {/* Highlight internship experience if present */}
+          {hasInternships && (
+            <div className="mt-4 pt-2 border-t border-gray-100">
+              <div className="flex items-center gap-2 mb-2">
+                <Briefcase className="h-5 w-5 text-blue-600" />
+                <h3 className="text-lg font-medium text-blue-600">Your Internship Experience</h3>
+              </div>
+              <p className="text-sm text-gray-600 mb-3">
+                You've added {profileData.mentor_info.internships.length} internship{profileData.mentor_info.internships.length > 1 ? 's' : ''} to your profile.
+                These experiences are visible to potential mentees.
+              </p>
+            </div>
+          )}
+        </>
       )}
     </Card>
   );
