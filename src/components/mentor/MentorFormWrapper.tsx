@@ -96,6 +96,7 @@ export const MentorFormWrapper = () => {
         .from('profiles')
         .update({
           mentor_info: mentorInfo,
+          is_mentor: true // Explicitly set is_mentor flag in the profiles table
         })
         .eq('id', user.id);
         
@@ -113,14 +114,14 @@ export const MentorFormWrapper = () => {
       
       toast({
         title: "Success!",
-        description: "Your mentor profile has been created.",
+        description: "Your mentor profile has been created. You are now visible in the mentors list.",
       });
       
       // Redirect to profile page
       navigate('/profile');
       
     } catch (error: any) {
-      console.error("Error submitting mentor form:", error);
+      console.error("Error submitting mentor form:", error.message);
       toast({
         variant: "destructive",
         title: "Error submitting form",

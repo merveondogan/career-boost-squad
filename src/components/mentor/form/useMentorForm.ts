@@ -11,7 +11,7 @@ export function useMentorForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<MentorFormData>({
-    fullName: "",  // Added missing fullName property
+    fullName: "",
     company: "",
     position: "",
     expertiseAreas: [],
@@ -108,19 +108,20 @@ export function useMentorForm() {
       // CRITICAL: Make sure to set is_mentor: true in the profiles table
       const { error: profileError } = await supabase
         .from('profiles')
-        .upsert({
+        .update({
           id: user.id,
           title: formData.position,
           bio: formData.bio,
           mentor_info: mentorInfo,
-          is_mentor: true  // This ensures the profile is flagged as a mentor
-        });
+          is_mentor: true  // This ensures the profile is flagged as a mentor in the profiles table
+        })
+        .eq('id', user.id);
 
       if (profileError) throw profileError;
       
       toast({
         title: "Application submitted successfully",
-        description: "Your mentor profile has been created. You can now start accepting mentees.",
+        description: "Your mentor profile has been created. You are now visible in the mentors list.",
       });
       
       // Refresh the page to update the UI with the new mentor status

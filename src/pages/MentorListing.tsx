@@ -72,7 +72,7 @@ const MentorListing = () => {
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-600 mb-2">Want to become a mentor?</p>
                   <Button variant="link" className="p-0" asChild>
-                    <Link to="/become-mentor">Apply Now</Link>
+                    <Link to="/profile">Enable in your profile</Link>
                   </Button>
                 </div>
               </div>
@@ -83,7 +83,7 @@ const MentorListing = () => {
               <MentorList 
                 mentors={filteredMentors} 
                 isLoading={isLoading}
-                emptyStateMessage="No mentors found. Our mentors are available after completing their applications!" 
+                emptyStateMessage="No mentors found. Users need to enable the mentor feature in their profile to appear in this list." 
               />
             </div>
           </div>

@@ -47,7 +47,9 @@ export const fetchMentors = async () => {
       console.log(`Examining profile ${profile.id}:`);
       console.log(`- Title: ${profile.title}`);
       console.log(`- mentor_info:`, profile.mentor_info);
-      console.log(`- is_mentor flag: ${profile.is_mentor}`);
+      // Use safe check for is_mentor property
+      const isMentorFlag = typeof profile === 'object' && 'is_mentor' in profile ? profile.is_mentor : false;
+      console.log(`- is_mentor flag: ${isMentorFlag}`);
     });
     
     // IMPORTANT: Filter profiles to only include users who have mentor_info OR
@@ -59,7 +61,11 @@ export const fetchMentors = async () => {
         Object.keys(profile.mentor_info).length > 0;
       
       // Check if profile has is_mentor flag set to true
-      const isFlaggedAsMentor = profile.is_mentor === true;
+      // Use safe check for is_mentor property
+      const isFlaggedAsMentor = typeof profile === 'object' && 
+        'is_mentor' in profile ? 
+        profile.is_mentor === true : 
+        false;
       
       // A profile is a mentor if it has mentor info OR is flagged as a mentor
       const isMentor = hasMentorInfoObject || isFlaggedAsMentor;
