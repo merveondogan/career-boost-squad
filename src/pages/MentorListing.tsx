@@ -7,9 +7,13 @@ import MentorFilters from "@/components/mentor/MentorFilters";
 import MentorList from "@/components/mentor/MentorList";
 import { useMentorFetching } from "@/hooks/useMentorFetching";
 import { useMentorFiltering } from "@/hooks/useMentorFiltering";
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const MentorListing = () => {
-  const { mentors, isLoading } = useMentorFetching();
+  const { mentors, isLoading, refetch } = useMentorFetching();
+  const { toast } = useToast();
   const {
     searchTerm,
     priceRange, 
@@ -23,6 +27,14 @@ const MentorListing = () => {
     toggleCompany,
     toggleSpecialty
   } = useMentorFiltering(mentors);
+
+  const handleRefresh = () => {
+    refetch();
+    toast({
+      title: "Refreshing mentor list",
+      description: "Looking for the latest available mentors."
+    });
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -46,11 +58,33 @@ const MentorListing = () => {
                 selectedSpecialties={selectedSpecialties}
                 toggleSpecialty={toggleSpecialty}
               />
+              
+              <div className="mt-6">
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleRefresh}
+                  disabled={isLoading}
+                >
+                  Refresh Mentors
+                </Button>
+                
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-gray-600 mb-2">Want to become a mentor?</p>
+                  <Button variant="link" className="p-0" asChild>
+                    <Link to="/become-mentor">Apply Now</Link>
+                  </Button>
+                </div>
+              </div>
             </div>
             
             {/* Mentor cards */}
             <div className="lg:col-span-3">
-              <MentorList mentors={filteredMentors} isLoading={isLoading} />
+              <MentorList 
+                mentors={filteredMentors} 
+                isLoading={isLoading}
+                emptyStateMessage="No mentors found. Be the first mentor on our platform!" 
+              />
             </div>
           </div>
         </div>
