@@ -20,7 +20,7 @@ const MentorGrid = memo(({
   mentors,
   isLoading = false,
   columns = 2,
-  emptyStateMessage,
+  emptyStateMessage = "No mentors found. Check back soon!",
   loadingCount = 4
 }: MentorGridProps) => {
   // Render loading skeletons
@@ -42,7 +42,9 @@ const MentorGrid = memo(({
           <MentorCardWrapper key={mentor.id} mentor={mentor} />
         ))
       ) : (
-        <MentorEmptyState message={emptyStateMessage} />
+        <div className="col-span-full">
+          <MentorEmptyState message={emptyStateMessage} />
+        </div>
       )}
     </div>
   );

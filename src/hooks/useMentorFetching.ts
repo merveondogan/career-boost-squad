@@ -13,6 +13,7 @@ export const useMentorFetching = () => {
     try {
       setIsLoading(true);
       const mentorsData = await fetchMentors();
+      console.log("Fetched mentor profiles:", mentorsData);
       setMentors(mentorsData);
     } catch (error: any) {
       console.error("Error fetching mentors:", error.message);
@@ -33,8 +34,12 @@ export const useMentorFetching = () => {
 
   // Expose refetch function for manual refreshes
   const refetch = useCallback(() => {
+    toast({
+      title: "Refreshing mentors",
+      description: "Looking for the latest mentors."
+    });
     return fetchMentorData();
-  }, [fetchMentorData]);
+  }, [fetchMentorData, toast]);
 
   return { mentors, isLoading, refetch };
 };

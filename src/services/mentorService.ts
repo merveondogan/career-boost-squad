@@ -10,13 +10,23 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
   
   return {
     id: profile.id,
-    name: getJsonString(mentor_info, 'full_name', profile?.title || "Unnamed Mentor"),
+    name: typeof mentor_info === 'object' ? 
+      getJsonString(mentor_info, 'full_name', profile?.title || "Unnamed Mentor") : 
+      profile?.title || "Unnamed Mentor",
     avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
-    role: getJsonString(mentor_info, 'position', profile.title || "Mentor"),
-    company: getJsonString(mentor_info, 'company', "Unknown"),
+    role: typeof mentor_info === 'object' ? 
+      getJsonString(mentor_info, 'position', profile.title || "Mentor") : 
+      profile.title || "Mentor",
+    company: typeof mentor_info === 'object' ? 
+      getJsonString(mentor_info, 'company', "Unknown") : 
+      "Unknown",
     school: education.school || "Unknown",
-    rate: getJsonNumber(mentor_info, 'hourly_rate', 50),
-    specialties: getJsonStringArray(mentor_info, 'expertise_areas', ["General Mentoring"]),
+    rate: typeof mentor_info === 'object' ? 
+      getJsonNumber(mentor_info, 'hourly_rate', 50) : 
+      50,
+    specialties: typeof mentor_info === 'object' ? 
+      getJsonStringArray(mentor_info, 'expertise_areas', ["General Mentoring"]) : 
+      ["General Mentoring"],
     rating: 5.0, // Default rating for now
     reviewCount: 0  // Default review count for now
   };
@@ -34,17 +44,18 @@ export const fetchMentors = async () => {
     if (error) {
       throw error;
     }
+
+    console.log("All profiles:", profiles);
     
     // Filter profiles that have mentor_info and convert to mentor format
     const mentorsData = profiles
       ?.filter(profile => {
+        // Check if mentor_info exists and is not null
         const hasMentorInfo = profile.mentor_info !== null && 
           typeof profile.mentor_info === 'object' && 
           Object.keys(profile.mentor_info).length > 0;
         
-        if (hasMentorInfo) {
-          console.log(`Found mentor: ${profile.id} - ${profile.mentor_info?.full_name || profile.title}`);
-        }
+        console.log(`Profile ${profile.id} has mentor info: ${hasMentorInfo}`);
         
         return hasMentorInfo;
       })
