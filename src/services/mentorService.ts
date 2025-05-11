@@ -10,17 +10,11 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
   
   return {
     id: profile.id,
-    name: typeof mentor_info === 'object' ? 
-      getJsonString(mentor_info, 'full_name', profile?.title || "Unnamed Mentor") : 
-      profile?.title || "Unnamed Mentor",
+    name: profile.title || "Unnamed Mentor",
     avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
-    role: typeof mentor_info === 'object' ? 
-      getJsonString(mentor_info, 'position', profile.title || "Mentor") : 
-      profile.title || "Mentor",
-    company: typeof mentor_info === 'object' ? 
-      getJsonString(mentor_info, 'company', "Unknown") : 
-      "Unknown",
-    school: education.school || "Unknown",
+    role: profile.title || "Mentor",
+    company: "Mentor Connect",
+    school: education.school || "Not specified",
     rate: typeof mentor_info === 'object' ? 
       getJsonNumber(mentor_info, 'hourly_rate', 50) : 
       50,
@@ -36,7 +30,7 @@ export const fetchMentors = async () => {
   try {
     console.log("Fetching mentor profiles...");
     
-    // First fetch profiles with any mentor_info
+    // First fetch all profiles
     const { data: profiles, error } = await supabase
       .from('profiles')
       .select('*');
@@ -47,28 +41,13 @@ export const fetchMentors = async () => {
 
     console.log("All profiles:", profiles);
     
-    // Filter profiles that have mentor_info and convert to mentor format
-    const mentorsData = profiles
-      ?.filter(profile => {
-        // Check if mentor_info exists and is not null
-        const hasMentorInfo = profile.mentor_info !== null && 
-          typeof profile.mentor_info === 'object' && 
-          Object.keys(profile.mentor_info).length > 0;
-        
-        console.log(`Profile ${profile.id} has mentor info: ${hasMentorInfo}`);
-        
-        return hasMentorInfo;
-      })
-      .map(convertProfileToMentor);
+    // TEMPORARY: Show all profiles as mentors for testing
+    // Later we can add filtering based on mentor_info
+    const mentorsData = profiles?.map(convertProfileToMentor) || [];
     
-    console.log(`Found ${mentorsData?.length || 0} real mentors`);
+    console.log(`Found ${mentorsData?.length || 0} mentor profiles`);
     
-    if (mentorsData && mentorsData.length > 0) {
-      return mentorsData;
-    } else {
-      console.log("No real mentors found, returning empty array");
-      return [];
-    }
+    return mentorsData;
   } catch (error: any) {
     console.error("Error fetching mentors:", error.message);
     return [];
