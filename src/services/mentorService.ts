@@ -47,33 +47,46 @@ export const fetchMentors = async () => {
       console.log(`Examining profile ${profile.id}:`);
       console.log(`- Title: ${profile.title}`);
       console.log(`- mentor_info:`, profile.mentor_info);
-      // Use safe check for is_mentor property
-      const isMentorFlag = typeof profile === 'object' && 'is_mentor' in profile ? profile.is_mentor : false;
-      console.log(`- is_mentor flag: ${isMentorFlag}`);
     });
     
-    // IMPORTANT: Filter profiles to only include users who have mentor_info OR
-    // have been flagged as mentors in the profile with the is_mentor field
+    // Get user metadata for all profiles to supplement our mentor check
+    const { data: usersData, error: authError } = await supabase.auth.admin.listUsers();
+    
+    if (authError) {
+      console.error("Error fetching user metadata:", authError);
+      // Continue with what we have from profiles
+    }
+    
+    // Create a map of user ids to their metadata for quick lookup
+    const userMetadataMap = new Map();
+    
+    if (usersData?.users) {
+      usersData.users.forEach(user => {
+        userMetadataMap.set(user.id, user.user_metadata);
+      });
+    }
+    
+    // IMPORTANT: A profile is considered a mentor if:
+    // 1. It has non-empty mentor_info data OR
+    // 2. The corresponding user's metadata has is_mentor=true or user_type=mentor
     const mentorProfiles = profiles?.filter(profile => {
       // Check if profile has mentor_info data
       const hasMentorInfoObject = profile.mentor_info !== null && 
         typeof profile.mentor_info === 'object' &&
         Object.keys(profile.mentor_info).length > 0;
       
-      // Check if profile has is_mentor flag set to true
-      // Use safe check for is_mentor property
-      const isFlaggedAsMentor = typeof profile === 'object' && 
-        'is_mentor' in profile ? 
-        profile.is_mentor === true : 
-        false;
+      // Check user metadata for mentor status
+      const userMetadata = userMetadataMap.get(profile.id);
+      const metadataIndicatesMentor = userMetadata && 
+        (userMetadata.is_mentor === true || userMetadata.user_type === "mentor");
       
-      // A profile is a mentor if it has mentor info OR is flagged as a mentor
-      const isMentor = hasMentorInfoObject || isFlaggedAsMentor;
+      // A profile is a mentor if it has mentor info OR metadata indicates they're a mentor
+      const isMentor = hasMentorInfoObject || metadataIndicatesMentor;
       
       // Log detailed info about this profile's mentor status
       console.log(`Profile ${profile.id} (${profile.title}) mentor status:`);
       console.log(`- Has mentor_info object: ${hasMentorInfoObject}`);
-      console.log(`- Is flagged as mentor: ${isFlaggedAsMentor}`);
+      console.log(`- Metadata indicates mentor: ${metadataIndicatesMentor}`);
       console.log(`- Final mentor status: ${isMentor}`);
       
       return isMentor;

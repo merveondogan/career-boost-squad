@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -43,12 +42,15 @@ const UserProfile = () => {
             return;
           }
           
-          // Check if user is a mentor based on is_mentor flag or user metadata
-          const profileIsMentor = data?.is_mentor === true || 
-                                 user?.user_metadata?.is_mentor === true ||
-                                 user?.user_metadata?.user_type === "mentor";
+          // Check if user is a mentor based on mentor_info or user metadata
+          const hasMentorInfo = data?.mentor_info && 
+                               Object.keys(data?.mentor_info || {}).length > 0;
           
-          setIsMentor(profileIsMentor);
+          const userMetadataIsMentor = user?.user_metadata?.is_mentor === true ||
+                                     user?.user_metadata?.user_type === "mentor";
+          
+          // User is a mentor if they have mentor info OR their metadata indicates they are a mentor
+          setIsMentor(hasMentorInfo || userMetadataIsMentor);
         } catch (error) {
           console.error("Error fetching profile:", error);
         }
@@ -71,10 +73,12 @@ const UserProfile = () => {
     
     try {
       if (isMentor) {
-        // Remove mentor status
+        // Remove mentor status - update the profile instead of setting is_mentor flag
         const { error } = await supabase
           .from('profiles')
-          .update({ is_mentor: false })
+          .update({ 
+            mentor_info: null  // Clear mentor info which is how we now determine mentor status
+          })
           .eq('id', user.id);
           
         if (error) throw error;
@@ -94,7 +98,7 @@ const UserProfile = () => {
         
         setIsMentor(false);
       } else {
-        // If user has mentor_info, simply update the status
+        // Check if user has mentor_info
         const { data, error } = await supabase
           .from('profiles')
           .select('mentor_info')
@@ -104,21 +108,15 @@ const UserProfile = () => {
         if (error) throw error;
         
         if (data.mentor_info && Object.keys(data.mentor_info).length > 0) {
-          // User already has mentor info, just update status
-          const { error: updateError } = await supabase
-            .from('profiles')
-            .update({ is_mentor: true })
-            .eq('id', user.id);
-            
-          if (updateError) throw updateError;
-          
-          // Update user metadata
-          await supabase.auth.updateUser({
+          // User already has mentor info, just update metadata
+          const { error: updateError } = await supabase.auth.updateUser({
             data: {
               is_mentor: true,
               user_type: 'mentor'
             }
           });
+            
+          if (updateError) throw updateError;
           
           toast({
             title: "Mentor status enabled",

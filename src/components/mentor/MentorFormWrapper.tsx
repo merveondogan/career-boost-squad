@@ -91,12 +91,11 @@ export const MentorFormWrapper = () => {
         }))
       };
       
-      // Update the user's profile with mentor information
+      // Update the user's profile with mentor information - don't use is_mentor field
       const { error } = await supabase
         .from('profiles')
         .update({
-          mentor_info: mentorInfo,
-          is_mentor: true // Explicitly set is_mentor flag in the profiles table
+          mentor_info: mentorInfo
         })
         .eq('id', user.id);
         

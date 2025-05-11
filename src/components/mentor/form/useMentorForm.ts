@@ -105,15 +105,14 @@ export function useMentorForm() {
       };
       
       // Create or update mentor profile in database
-      // CRITICAL: Make sure to set is_mentor: true in the profiles table
+      // Don't set is_mentor field in profiles table as it doesn't exist
       const { error: profileError } = await supabase
         .from('profiles')
         .update({
           id: user.id,
           title: formData.position,
           bio: formData.bio,
-          mentor_info: mentorInfo,
-          is_mentor: true  // This ensures the profile is flagged as a mentor in the profiles table
+          mentor_info: mentorInfo
         })
         .eq('id', user.id);
 
