@@ -19,7 +19,7 @@ const HeroSection = () => {
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-4">
                 <Button size="lg" asChild>
-                  <Link to="/signup">Find Your Mentor</Link>
+                  <Link to="/mentors">Find Your Mentor</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
                   <Link to="/become-mentor">Become a Mentor</Link>
