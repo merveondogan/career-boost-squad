@@ -13,7 +13,8 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
     name: profile.title || "Unnamed Mentor",
     avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
     role: profile.title || "Mentor",
-    company: "Mentor Connect",
+    company: typeof mentor_info === 'object' && mentor_info.company ? 
+      mentor_info.company : "Mentor Connect",
     school: education.school || "Not specified",
     rate: typeof mentor_info === 'object' ? 
       getJsonNumber(mentor_info, 'hourly_rate', 50) : 
@@ -30,7 +31,7 @@ export const fetchMentors = async () => {
   try {
     console.log("Fetching mentor profiles...");
     
-    // First fetch all profiles
+    // Fetch profiles that have mentor_info
     const { data: profiles, error } = await supabase
       .from('profiles')
       .select('*');
@@ -41,11 +42,20 @@ export const fetchMentors = async () => {
 
     console.log("All profiles:", profiles);
     
-    // TEMPORARY: Show all profiles as mentors for testing
-    // Later we can add filtering based on mentor_info
-    const mentorsData = profiles?.map(convertProfileToMentor) || [];
+    // Filter to only include profiles that have mentor_info
+    const mentorProfiles = profiles?.filter(profile => {
+      const hasMentorInfo = profile.mentor_info !== null && 
+        typeof profile.mentor_info === 'object' &&
+        Object.keys(profile.mentor_info).length > 0;
+      
+      console.log(`Profile ${profile.id} has mentor info: ${hasMentorInfo}`);
+      return hasMentorInfo;
+    });
     
-    console.log(`Found ${mentorsData?.length || 0} mentor profiles`);
+    // Convert filtered profiles to mentor format
+    const mentorsData = mentorProfiles?.map(convertProfileToMentor) || [];
+    
+    console.log(`Found ${mentorsData.length} real mentors out of ${profiles?.length || 0} total profiles`);
     
     return mentorsData;
   } catch (error: any) {

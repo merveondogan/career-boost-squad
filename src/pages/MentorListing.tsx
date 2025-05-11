@@ -83,7 +83,7 @@ const MentorListing = () => {
               <MentorList 
                 mentors={filteredMentors} 
                 isLoading={isLoading}
-                emptyStateMessage="No mentors found. Be the first mentor on our platform!" 
+                emptyStateMessage="No mentors found. Our mentors are available after completing their applications!" 
               />
             </div>
           </div>
