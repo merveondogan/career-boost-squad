@@ -1,56 +1,72 @@
+import { useState, useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Check, X } from "lucide-react";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+export interface ExpertiseSelectorProps {
+  selected: string[];
+  onChange: (value: string[]) => void;
+}
 
-// Available expertise areas
-const expertiseOptions = [
-  { id: "resume-review", label: "Resume Review" },
-  { id: "interview-prep", label: "Interview Preparation" },
-  { id: "career-advice", label: "Career Advice" },
-  { id: "technical-skills", label: "Technical Skills" },
-  { id: "application-strategy", label: "Application Strategy" },
-  { id: "portfolio-review", label: "Portfolio Review" },
-  { id: "networking", label: "Networking" },
-  { id: "salary-negotiation", label: "Salary Negotiation" },
-];
+export const ExpertiseSelector = ({ selected, onChange }: ExpertiseSelectorProps) => {
+  const [availableAreas, setAvailableAreas] = useState([
+    "Frontend Development",
+    "Backend Development",
+    "Fullstack Development",
+    "Mobile App Development (iOS)",
+    "Mobile App Development (Android)",
+    "Data Science",
+    "Machine Learning",
+    "Artificial Intelligence",
+    "UI/UX Design",
+    "Product Management",
+    "Project Management",
+    "Cybersecurity",
+    "Cloud Computing",
+    "DevOps",
+    "Database Administration",
+    "Network Engineering",
+    "Sales",
+    "Marketing",
+    "Finance",
+    "Human Resources",
+  ]);
+  const [selectedAreas, setSelectedAreas] = useState<string[]>(selected || []);
 
-type ExpertiseSelectorProps = {
-  selectedAreas: string[];
-  onChange: (selectedAreas: string[]) => void;
-};
+  useEffect(() => {
+    setSelectedAreas(selected || []);
+  }, [selected]);
 
-export function ExpertiseSelector({ selectedAreas, onChange }: ExpertiseSelectorProps) {
-  const handleExpertiseChange = (id: string, checked: boolean) => {
-    if (checked) {
-      onChange([...selectedAreas, id]);
+  const handleSelect = (area: string) => {
+    if (selectedAreas.includes(area)) {
+      setSelectedAreas(selectedAreas.filter((a) => a !== area));
     } else {
-      onChange(selectedAreas.filter(area => area !== id));
+      setSelectedAreas([...selectedAreas, area]);
     }
   };
-  
+
+  useEffect(() => {
+    onChange(selectedAreas);
+  }, [selectedAreas, onChange]);
+
   return (
-    <div className="space-y-2">
-      <Label htmlFor="expertiseAreas">Areas of Expertise</Label>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-        {expertiseOptions.map((option) => (
-          <div key={option.id} className="flex items-center space-x-2">
-            <Checkbox 
-              id={option.id} 
-              checked={selectedAreas.includes(option.id)}
-              onCheckedChange={(checked) => 
-                handleExpertiseChange(option.id, checked as boolean)
-              }
-            />
-            <Label 
-              htmlFor={option.id} 
-              className="cursor-pointer text-base font-normal"
-            >
-              {option.label}
-            </Label>
-          </div>
+    <div className="space-y-4">
+      <h3 className="text-lg font-medium">Areas of Expertise</h3>
+      <div className="flex flex-wrap gap-2">
+        {availableAreas.map((area) => (
+          <Badge
+            key={area}
+            variant={selectedAreas.includes(area) ? "secondary" : "outline"}
+            onClick={() => handleSelect(area)}
+            className="cursor-pointer"
+          >
+            {area}
+            {selectedAreas.includes(area) && <Check className="ml-1 h-4 w-4" />}
+          </Badge>
         ))}
       </div>
-      <p className="text-sm text-gray-500">Select all areas where you can provide mentorship</p>
     </div>
   );
-}
+};
+
+export default ExpertiseSelector;

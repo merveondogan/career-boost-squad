@@ -4,7 +4,7 @@ import { ExperienceField } from "./form/ExperienceField";
 import { InternshipsField } from "./form/InternshipsField";
 import { EducationField } from "./form/EducationField";
 import { RateField } from "./form/RateField";
-import { ExpertiseSelector } from "./ExpertiseSelector";
+import ExpertiseSelector from "./ExpertiseSelector";
 import { MentorFormProps } from "./form/types";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -71,7 +71,7 @@ const MentorForm = ({
         
         <ExpertiseSelector
           selected={formData.expertiseAreas}
-          onChange={(areas) => handleSelectChange("expertiseAreas", areas)}
+          onChange={(areas) => handleSelectChange("expertiseAreas", areas.join(","))}
         />
       </div>
       

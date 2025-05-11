@@ -6,6 +6,7 @@ import MentorForm from "./MentorForm";
 import { Education, Internship, MentorFormData } from "./form/types";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { Json } from "@/integrations/supabase/types";
 
 export const MentorFormWrapper = () => {
   const [formData, setFormData] = useState<MentorFormData>({
@@ -14,7 +15,7 @@ export const MentorFormWrapper = () => {
     company: "",
     bio: "",
     hourlyRate: "",
-    experience: "", // Initialize experience field
+    experience: "",
     education: {
       school: "",
       major: "",
@@ -35,7 +36,12 @@ export const MentorFormWrapper = () => {
   };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "expertiseAreas") {
+      // Handle comma-separated string for expertise areas
+      setFormData((prev) => ({ ...prev, [name]: value.split(",").filter(Boolean) }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleEducationChange = (education: Education) => {
@@ -61,8 +67,8 @@ export const MentorFormWrapper = () => {
     setIsSubmitting(true);
     
     try {
-      // Convert form data to mentor_info structure
-      const mentorInfo = {
+      // Convert form data to mentor_info structure that's compatible with Json type
+      const mentorInfo: Json = {
         full_name: formData.fullName,
         company: formData.company,
         position: formData.position,
@@ -70,8 +76,19 @@ export const MentorFormWrapper = () => {
         bio: formData.bio,
         hourly_rate: formData.hourlyRate,
         experience: formData.experience,
-        education: formData.education,
-        internships: formData.internships
+        education: {
+          school: formData.education.school,
+          major: formData.education.major,
+          graduation_year: formData.education.graduationYear
+        },
+        internships: formData.internships.map(i => ({
+          id: i.id,
+          company: i.company,
+          role: i.role,
+          start_date: i.startDate,
+          end_date: i.endDate,
+          description: i.description
+        }))
       };
       
       // Update the user's profile with mentor information
