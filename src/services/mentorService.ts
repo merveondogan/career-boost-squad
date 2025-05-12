@@ -29,34 +29,28 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
 
 export const fetchMentors = async () => {
   try {
-    console.log("Fetching mentor profiles...");
+    console.log("Fetching ALL mentor profiles...");
     
-    // Fetch ALL profiles from Supabase - without any user-specific filters
+    // Fetch ALL profiles from Supabase that have mentor_info
     const { data: profiles, error } = await supabase
       .from('profiles')
-      .select('*');
+      .select('*')
+      .not('mentor_info', 'is', null);
       
     if (error) {
       throw error;
     }
 
-    console.log("All profiles:", profiles);
+    console.log(`Found ${profiles?.length || 0} mentor profiles`);
     
-    // Filter profiles to identify mentors based on mentor_info
-    const mentorProfiles = profiles?.filter(profile => {
-      // Check if profile has mentor_info data
-      const hasMentorInfoObject = profile.mentor_info !== null && 
-        typeof profile.mentor_info === 'object' &&
-        Object.keys(profile.mentor_info).length > 0;
-      
-      // A profile is considered a mentor if it has mentor info
-      return hasMentorInfoObject;
-    });
+    if (!profiles || profiles.length === 0) {
+      console.log("No mentor profiles found");
+      return [];
+    }
     
-    // Convert filtered profiles to mentor format
-    const mentorsData = mentorProfiles?.map(convertProfileToMentor) || [];
+    // Convert all mentor profiles to our format
+    const mentorsData = profiles.map(convertProfileToMentor);
     
-    console.log(`Found ${mentorsData.length} mentors out of ${profiles?.length || 0} total profiles`);
     console.log("Mentor profiles to display:", mentorsData);
     
     return mentorsData;

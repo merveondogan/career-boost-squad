@@ -21,7 +21,7 @@ const MentorList = memo(({
   mentors, 
   isLoading, 
   title = "Available Mentors",
-  emptyStateMessage = "No mentors found yet. Users can enable the mentor feature in their profile to appear in this list.",
+  emptyStateMessage = "No mentors found. Check back soon!",
   gridColumns = 2,
   onSort
 }: MentorListProps) => {

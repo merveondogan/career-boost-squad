@@ -14,6 +14,8 @@ export const useMentorFetching = () => {
       setIsLoading(true);
       const mentorsData = await fetchMentors();
       console.log("Fetched mentor profiles:", mentorsData);
+      
+      // Don't filter the mentors - show all of them
       setMentors(mentorsData);
     } catch (error: any) {
       console.error("Error fetching mentors:", error.message);

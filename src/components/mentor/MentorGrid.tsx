@@ -23,10 +23,13 @@ const MentorGrid = memo(({
   emptyStateMessage = "No mentors found. Check back soon!",
   loadingCount = 4
 }: MentorGridProps) => {
+  // Create the grid columns style
+  const gridColsClass = `grid-cols-1 md:grid-cols-${columns}`;
+
   // Render loading skeletons
   if (isLoading) {
     return (
-      <div className={`grid grid-cols-1 md:grid-cols-${columns} gap-6`}>
+      <div className={`grid ${gridColsClass} gap-6`}>
         {[...Array(loadingCount)].map((_, index) => (
           <MentorCardSkeleton key={`skeleton-${index}`} />
         ))}
@@ -36,7 +39,7 @@ const MentorGrid = memo(({
 
   // Render mentors or empty state
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-${columns} gap-6`}>
+    <div className={`grid ${gridColsClass} gap-6`}>
       {mentors.length > 0 ? (
         mentors.map((mentor) => (
           <MentorCardWrapper key={mentor.id} mentor={mentor} />
