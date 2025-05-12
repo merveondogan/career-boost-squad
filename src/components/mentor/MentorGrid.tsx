@@ -23,9 +23,10 @@ const MentorGrid = memo(({
   emptyStateMessage = "No mentors found. Check back soon!",
   loadingCount = 4
 }: MentorGridProps) => {
-  // Add debug logging
-  console.log("DEBUGGING MentorGrid: Rendering with", mentors.length, "mentors");
-  console.log("DEBUGGING MentorGrid: Mentor names:", mentors.map(m => m.name));
+  // Add critical debug logging
+  console.log("CRITICAL DEBUG MentorGrid: Rendering with", mentors.length, "mentors");
+  console.log("CRITICAL DEBUG MentorGrid: Mentor IDs:", mentors.map(m => m.id));
+  console.log("CRITICAL DEBUG MentorGrid: Full mentor data:", JSON.stringify(mentors));
   
   // Create the grid columns style
   const gridColsClass = `grid-cols-1 md:grid-cols-${columns}`;

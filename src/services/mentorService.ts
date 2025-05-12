@@ -29,30 +29,38 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
 
 export const fetchMentors = async () => {
   try {
-    console.log("DEBUGGING: Fetching ALL mentor profiles...");
+    console.log("CRITICAL DEBUG: Starting to fetch ALL mentor profiles without restrictions");
     
-    // Fetch ALL profiles from Supabase that have mentor_info without any filtering
+    // Fetch ALL profiles from Supabase that have mentor_info
+    // IMPORTANT - NOT filtering by current user ID to see all mentors
     const { data: profiles, error } = await supabase
       .from('profiles')
-      .select('*')
-      .not('mentor_info', 'is', null);
-      
+      .select('*');
+    
     if (error) {
+      console.error("CRITICAL ERROR in fetching mentors:", error.message);
       throw error;
     }
 
-    console.log("DEBUGGING: Raw profiles from database:", profiles);
+    console.log("CRITICAL DEBUG: Raw profiles from database (all):", profiles);
     
-    if (!profiles || profiles.length === 0) {
-      console.log("DEBUGGING: No mentor profiles found in database");
+    // Filter profiles with mentor_info after fetching all profiles
+    const mentorProfiles = profiles?.filter(profile => 
+      profile.mentor_info && Object.keys(profile.mentor_info).length > 0
+    ) || [];
+    
+    console.log(`CRITICAL DEBUG: Filtered ${mentorProfiles.length} profiles with mentor_info`);
+    
+    if (mentorProfiles.length === 0) {
+      console.log("CRITICAL DEBUG: No mentor profiles found after filtering");
       return [];
     }
     
-    // Convert all mentor profiles to our format
-    const mentorsData = profiles.map(convertProfileToMentor);
+    // Convert mentor profiles to our format
+    const mentorsData = mentorProfiles.map(convertProfileToMentor);
     
-    console.log(`DEBUGGING: Successfully converted ${mentorsData.length} mentor profiles`);
-    console.log("DEBUGGING: Mentor profiles to display:", mentorsData);
+    console.log(`CRITICAL DEBUG: Successfully converted ${mentorsData.length} mentor profiles`);
+    console.log("CRITICAL DEBUG: Mentor IDs to display:", mentorsData.map(m => m.id));
     
     return mentorsData;
   } catch (error: any) {

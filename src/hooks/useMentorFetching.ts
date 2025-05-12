@@ -13,8 +13,8 @@ export const useMentorFetching = () => {
     try {
       setIsLoading(true);
       const mentorsData = await fetchMentors();
-      console.log("DEBUGGING: Fetched mentor profiles in hook:", mentorsData.length);
-      console.log("DEBUGGING: Mentor IDs:", mentorsData.map(m => m.id));
+      console.log("CRITICAL DEBUG - Hook received mentor profiles:", mentorsData.length);
+      console.log("CRITICAL DEBUG - Hook received mentor IDs:", mentorsData.map(m => m.id));
       
       // Set all mentors directly without any filtering
       setMentors(mentorsData);
@@ -32,11 +32,13 @@ export const useMentorFetching = () => {
 
   // Initial fetch
   useEffect(() => {
+    console.log("CRITICAL DEBUG - Initiating mentor fetch");
     fetchMentorData();
   }, [fetchMentorData]);
 
   // Expose refetch function for manual refreshes
   const refetch = useCallback(() => {
+    console.log("CRITICAL DEBUG - Manually refreshing mentors");
     toast({
       title: "Refreshing mentors",
       description: "Looking for the latest mentors."
