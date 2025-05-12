@@ -25,6 +25,9 @@ const MentorList = memo(({
   gridColumns = 2,
   onSort
 }: MentorListProps) => {
+  console.log("DEBUGGING MentorList: Rendering with", mentors.length, "mentors");
+  console.log("DEBUGGING MentorList: Mentor IDs:", mentors.map(m => m.id));
+  
   return (
     <div className="space-y-6">
       <MentorListHeader 

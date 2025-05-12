@@ -29,9 +29,9 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
 
 export const fetchMentors = async () => {
   try {
-    console.log("Fetching ALL mentor profiles...");
+    console.log("DEBUGGING: Fetching ALL mentor profiles...");
     
-    // Fetch ALL profiles from Supabase that have mentor_info
+    // Fetch ALL profiles from Supabase that have mentor_info without any filtering
     const { data: profiles, error } = await supabase
       .from('profiles')
       .select('*')
@@ -41,17 +41,18 @@ export const fetchMentors = async () => {
       throw error;
     }
 
-    console.log(`Found ${profiles?.length || 0} mentor profiles`);
+    console.log("DEBUGGING: Raw profiles from database:", profiles);
     
     if (!profiles || profiles.length === 0) {
-      console.log("No mentor profiles found");
+      console.log("DEBUGGING: No mentor profiles found in database");
       return [];
     }
     
     // Convert all mentor profiles to our format
     const mentorsData = profiles.map(convertProfileToMentor);
     
-    console.log("Mentor profiles to display:", mentorsData);
+    console.log(`DEBUGGING: Successfully converted ${mentorsData.length} mentor profiles`);
+    console.log("DEBUGGING: Mentor profiles to display:", mentorsData);
     
     return mentorsData;
   } catch (error: any) {

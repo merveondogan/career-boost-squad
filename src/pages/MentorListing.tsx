@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
 const MentorListing = () => {
   const { mentors, isLoading, refetch } = useMentorFetching();
   const { toast } = useToast();
+  
+  // Add debug logging
+  console.log("DEBUGGING MentorListing: Got", mentors.length, "mentors from hook");
+  
   const {
     searchTerm,
     priceRange, 
@@ -27,6 +31,9 @@ const MentorListing = () => {
     toggleCompany,
     toggleSpecialty
   } = useMentorFiltering(mentors);
+  
+  // Add more debug logging
+  console.log("DEBUGGING MentorListing: After filtering, have", filteredMentors.length, "mentors");
 
   const handleRefresh = () => {
     refetch();
