@@ -83,7 +83,7 @@ const MentorListing = () => {
               <MentorList 
                 mentors={filteredMentors} 
                 isLoading={isLoading}
-                emptyStateMessage="No mentors found. Users need to enable the mentor feature in their profile to appear in this list." 
+                onSort={(sortOption) => console.log("Sort by:", sortOption)}
               />
             </div>
           </div>

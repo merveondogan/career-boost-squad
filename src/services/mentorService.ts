@@ -31,7 +31,7 @@ export const fetchMentors = async () => {
   try {
     console.log("Fetching mentor profiles...");
     
-    // Fetch profiles from Supabase - get ALL profiles
+    // Fetch ALL profiles from Supabase - without any user-specific filters
     const { data: profiles, error } = await supabase
       .from('profiles')
       .select('*');
@@ -42,52 +42,15 @@ export const fetchMentors = async () => {
 
     console.log("All profiles:", profiles);
     
-    // More aggressive debugging of profile data to see what's happening
-    profiles?.forEach(profile => {
-      console.log(`Examining profile ${profile.id}:`);
-      console.log(`- Title: ${profile.title}`);
-      console.log(`- mentor_info:`, profile.mentor_info);
-    });
-    
-    // Get user metadata for all profiles to supplement our mentor check
-    const { data: authUsersData, error: authError } = await supabase.auth.getUser();
-    
-    if (authError) {
-      console.error("Error fetching user metadata:", authError);
-      // Continue with what we have from profiles
-    }
-    
-    // Create a map of user ids to their metadata for quick lookup
-    const userMetadataMap = new Map();
-    
-    if (authUsersData?.user) {
-      userMetadataMap.set(authUsersData.user.id, authUsersData.user.user_metadata);
-    }
-    
-    // IMPORTANT: A profile is considered a mentor if:
-    // 1. It has non-empty mentor_info data OR
-    // 2. The corresponding user's metadata has is_mentor=true or user_type=mentor
+    // Filter profiles to identify mentors based on mentor_info
     const mentorProfiles = profiles?.filter(profile => {
       // Check if profile has mentor_info data
       const hasMentorInfoObject = profile.mentor_info !== null && 
         typeof profile.mentor_info === 'object' &&
         Object.keys(profile.mentor_info).length > 0;
       
-      // Check user metadata for mentor status
-      const userMetadata = userMetadataMap.get(profile.id);
-      const metadataIndicatesMentor = userMetadata && 
-        (userMetadata.is_mentor === true || userMetadata.user_type === "mentor");
-      
-      // A profile is a mentor if it has mentor info OR metadata indicates they're a mentor
-      const isMentor = hasMentorInfoObject || metadataIndicatesMentor;
-      
-      // Log detailed info about this profile's mentor status
-      console.log(`Profile ${profile.id} (${profile.title}) mentor status:`);
-      console.log(`- Has mentor_info object: ${hasMentorInfoObject}`);
-      console.log(`- Metadata indicates mentor: ${metadataIndicatesMentor}`);
-      console.log(`- Final mentor status: ${isMentor}`);
-      
-      return isMentor;
+      // A profile is considered a mentor if it has mentor info
+      return hasMentorInfoObject;
     });
     
     // Convert filtered profiles to mentor format

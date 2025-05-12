@@ -26,7 +26,7 @@ const MentorGrid = memo(({
   // Render loading skeletons
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-${columns} gap-6`}>
         {[...Array(loadingCount)].map((_, index) => (
           <MentorCardSkeleton key={`skeleton-${index}`} />
         ))}
