@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -114,8 +113,8 @@ const AvailabilityTab = () => {
     const slot: AvailabilitySlot = {
       mentor_id: user.id,
       day_of_week: Number(newSlot.day_of_week),
-      start_time: `${start}:00`,
-      end_time: `${end}:00`
+      start_time: start,
+      end_time: end
     };
     
     addSlotMutation.mutate(slot);
@@ -195,7 +194,7 @@ const AvailabilityTab = () => {
               <div key={slot.id} className="flex items-center justify-between p-3 border rounded-md">
                 <div>
                   <span className="font-medium">{dayOptions.find(day => day.value === slot.day_of_week.toString())?.label}: </span>
-                  <span>{slot.start_time.substring(0, 5)} - {slot.end_time.substring(0, 5)}</span>
+                  <span>{slot.start_time} - {slot.end_time}</span>
                 </div>
                 <Button 
                   variant="outline" 

@@ -39,9 +39,17 @@ export const fetchMentorAvailability = async (mentorId: string) => {
 // Add a new availability slot
 export const addAvailabilitySlot = async (slot: AvailabilitySlot) => {
   try {
+    // Create a properly formatted object for insertion
+    const availabilityData = {
+      mentor_id: slot.mentor_id,
+      day_of_week: slot.day_of_week,
+      start_time: slot.start_time,
+      end_time: slot.end_time
+    };
+    
     const { data, error } = await supabase
       .from("mentor_availability")
-      .insert([slot])
+      .insert([availabilityData])
       .select();
 
     if (error) throw error;
