@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, Trash2 } from "lucide-react";
 import { fetchMentorAvailability, addAvailabilitySlot, deleteAvailabilitySlot, AvailabilitySlot } from "@/services/bookingService";
 import { toast } from "@/components/ui/use-toast";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const dayOptions = [
   { value: "0", label: "Sunday" },
@@ -22,116 +23,109 @@ const dayOptions = [
 
 const AvailabilityTab = () => {
   const { user } = useAuth();
-  const [availabilitySlots, setAvailabilitySlots] = useState<AvailabilitySlot[]>([]);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [newSlot, setNewSlot] = useState<Partial<AvailabilitySlot>>({
     day_of_week: 1, // Monday by default
     start_time: "09:00",
     end_time: "17:00"
   });
-  const [isAdding, setIsAdding] = useState(false);
   
-  useEffect(() => {
-    if (user) {
-      loadAvailability();
-    }
-  }, [user]);
+  // Use react-query for better data fetching and caching
+  const { data: availabilitySlots = [], isLoading } = useQuery({
+    queryKey: ['mentorAvailability', user?.id],
+    queryFn: () => user ? fetchMentorAvailability(user.id) : Promise.resolve([]),
+    enabled: !!user,
+  });
   
-  const loadAvailability = async () => {
-    try {
-      setLoading(true);
-      if (user) {
-        const slots = await fetchMentorAvailability(user.id);
-        setAvailabilitySlots(slots);
-      }
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Error loading availability",
-        description: error.message
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  const handleAddSlot = async () => {
-    try {
-      if (!user) return;
-      
-      setIsAdding(true);
-      
-      // Validate times
-      const start = newSlot.start_time;
-      const end = newSlot.end_time;
-      
-      if (!start || !end) {
-        toast({
-          variant: "destructive",
-          title: "Missing information",
-          description: "Please select both start and end times."
-        });
-        return;
-      }
-      
-      if (start >= end) {
-        toast({
-          variant: "destructive",
-          title: "Invalid time range",
-          description: "End time must be after start time."
-        });
-        return;
-      }
-      
-      const slot: AvailabilitySlot = {
-        mentor_id: user.id,
-        day_of_week: Number(newSlot.day_of_week),
-        start_time: `${start}:00`,
-        end_time: `${end}:00`
-      };
-      
-      await addAvailabilitySlot(slot);
+  // Mutation for adding slots
+  const addSlotMutation = useMutation({
+    mutationFn: addAvailabilitySlot,
+    onSuccess: () => {
       toast({
         title: "Availability added",
         description: "Your new availability slot has been added."
       });
       
-      // Reset form and refresh list
+      // Reset form
       setNewSlot({
         day_of_week: 1,
         start_time: "09:00",
         end_time: "17:00"
       });
-      loadAvailability();
-    } catch (error: any) {
+      
+      // Refresh the availability data
+      queryClient.invalidateQueries({ queryKey: ['mentorAvailability', user?.id] });
+    },
+    onError: (error: any) => {
       toast({
         variant: "destructive",
         title: "Error adding availability",
         description: error.message
       });
-    } finally {
-      setIsAdding(false);
     }
-  };
+  });
   
-  const handleDeleteSlot = async (id: string) => {
-    try {
-      await deleteAvailabilitySlot(id);
+  // Mutation for deleting slots
+  const deleteSlotMutation = useMutation({
+    mutationFn: deleteAvailabilitySlot,
+    onSuccess: () => {
       toast({
         title: "Availability deleted",
         description: "The availability slot has been removed."
       });
-      loadAvailability();
-    } catch (error: any) {
+      
+      // Refresh the availability data
+      queryClient.invalidateQueries({ queryKey: ['mentorAvailability', user?.id] });
+    },
+    onError: (error: any) => {
       toast({
         variant: "destructive",
         title: "Error deleting availability",
         description: error.message
       });
     }
+  });
+  
+  const handleAddSlot = async () => {
+    if (!user) return;
+    
+    // Validate times
+    const start = newSlot.start_time;
+    const end = newSlot.end_time;
+    
+    if (!start || !end) {
+      toast({
+        variant: "destructive",
+        title: "Missing information",
+        description: "Please select both start and end times."
+      });
+      return;
+    }
+    
+    if (start >= end) {
+      toast({
+        variant: "destructive",
+        title: "Invalid time range",
+        description: "End time must be after start time."
+      });
+      return;
+    }
+    
+    const slot: AvailabilitySlot = {
+      mentor_id: user.id,
+      day_of_week: Number(newSlot.day_of_week),
+      start_time: `${start}:00`,
+      end_time: `${end}:00`
+    };
+    
+    addSlotMutation.mutate(slot);
   };
   
-  if (loading) {
+  const handleDeleteSlot = async (id: string) => {
+    deleteSlotMutation.mutate(id);
+  };
+  
+  if (isLoading) {
     return <div className="text-center py-6">Loading your availability...</div>;
   }
   
@@ -184,7 +178,7 @@ const AvailabilityTab = () => {
         </div>
         
         <div className="mt-4">
-          <Button onClick={handleAddSlot} disabled={isAdding}>
+          <Button onClick={handleAddSlot} disabled={addSlotMutation.isPending}>
             <Plus className="h-4 w-4 mr-2" />
             Add Availability
           </Button>
@@ -203,7 +197,12 @@ const AvailabilityTab = () => {
                   <span className="font-medium">{dayOptions.find(day => day.value === slot.day_of_week.toString())?.label}: </span>
                   <span>{slot.start_time.substring(0, 5)} - {slot.end_time.substring(0, 5)}</span>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => slot.id && handleDeleteSlot(slot.id)}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => slot.id && handleDeleteSlot(slot.id)}
+                  disabled={deleteSlotMutation.isPending}
+                >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>

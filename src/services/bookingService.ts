@@ -22,13 +22,16 @@ export interface BookingSlot {
 // Fetch mentor's availability
 export const fetchMentorAvailability = async (mentorId: string) => {
   try {
+    // We need to type cast here since the database schema is not fully represented in the types
     const { data, error } = await supabase
       .from("mentor_availability")
       .select("*")
       .eq("mentor_id", mentorId);
 
     if (error) throw error;
-    return data as AvailabilitySlot[];
+    
+    // Type cast to ensure we return the correct type
+    return data as unknown as AvailabilitySlot[];
   } catch (error: any) {
     console.error("Error fetching mentor availability:", error.message);
     return [];
@@ -38,13 +41,16 @@ export const fetchMentorAvailability = async (mentorId: string) => {
 // Add a new availability slot
 export const addAvailabilitySlot = async (slot: AvailabilitySlot) => {
   try {
+    // We need to type cast here since the database schema is not fully represented in the types
     const { data, error } = await supabase
       .from("mentor_availability")
       .insert([slot])
       .select();
 
     if (error) throw error;
-    return data[0] as AvailabilitySlot;
+    
+    // Type cast to ensure we return the correct type
+    return data[0] as unknown as AvailabilitySlot;
   } catch (error: any) {
     console.error("Error adding availability slot:", error.message);
     throw error;
@@ -54,6 +60,7 @@ export const addAvailabilitySlot = async (slot: AvailabilitySlot) => {
 // Delete an availability slot
 export const deleteAvailabilitySlot = async (slotId: string) => {
   try {
+    // We need to type cast here since the database schema is not fully represented in the types
     const { error } = await supabase
       .from("mentor_availability")
       .delete()
@@ -145,4 +152,21 @@ export const generateAvailableSlots = (
   }
   
   return slots;
+};
+
+// Update an existing availability slot
+export const updateAvailabilitySlot = async (slotId: string, updatedSlot: Partial<AvailabilitySlot>) => {
+  try {
+    const { data, error } = await supabase
+      .from("mentor_availability")
+      .update(updatedSlot)
+      .eq("id", slotId)
+      .select();
+
+    if (error) throw error;
+    return data[0] as unknown as AvailabilitySlot;
+  } catch (error: any) {
+    console.error("Error updating availability slot:", error.message);
+    throw error;
+  }
 };
