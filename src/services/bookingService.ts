@@ -22,7 +22,6 @@ export interface BookingSlot {
 // Fetch mentor's availability
 export const fetchMentorAvailability = async (mentorId: string) => {
   try {
-    // We need to type cast here since the database schema is not fully represented in the types
     const { data, error } = await supabase
       .from("mentor_availability")
       .select("*")
@@ -30,7 +29,6 @@ export const fetchMentorAvailability = async (mentorId: string) => {
 
     if (error) throw error;
     
-    // Type cast to ensure we return the correct type
     return data as unknown as AvailabilitySlot[];
   } catch (error: any) {
     console.error("Error fetching mentor availability:", error.message);
@@ -41,7 +39,6 @@ export const fetchMentorAvailability = async (mentorId: string) => {
 // Add a new availability slot
 export const addAvailabilitySlot = async (slot: AvailabilitySlot) => {
   try {
-    // We need to type cast here since the database schema is not fully represented in the types
     const { data, error } = await supabase
       .from("mentor_availability")
       .insert([slot])
@@ -49,7 +46,6 @@ export const addAvailabilitySlot = async (slot: AvailabilitySlot) => {
 
     if (error) throw error;
     
-    // Type cast to ensure we return the correct type
     return data[0] as unknown as AvailabilitySlot;
   } catch (error: any) {
     console.error("Error adding availability slot:", error.message);
@@ -60,7 +56,6 @@ export const addAvailabilitySlot = async (slot: AvailabilitySlot) => {
 // Delete an availability slot
 export const deleteAvailabilitySlot = async (slotId: string) => {
   try {
-    // We need to type cast here since the database schema is not fully represented in the types
     const { error } = await supabase
       .from("mentor_availability")
       .delete()
@@ -129,8 +124,8 @@ export const generateAvailableSlots = (
     
     // For each availability period, create slots of sessionDuration length
     dayAvailability.forEach(avail => {
-      const startTimeObj = parse(avail.start_time, "HH:mm:ss", new Date());
-      const endTimeObj = parse(avail.end_time, "HH:mm:ss", new Date());
+      const startTimeObj = parse(avail.start_time, "HH:mm", new Date());
+      const endTimeObj = parse(avail.end_time, "HH:mm", new Date());
       
       let currentSlotStart = new Date(startTimeObj);
       
