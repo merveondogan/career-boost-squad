@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileView from "@/components/profile/ProfileView";
 import ProfileForm from "@/components/profile/ProfileForm";
 import SessionsTab from "@/components/profile/SessionsTab";
+import AvailabilityTab from "@/components/profile/AvailabilityTab";
 import { User } from "@supabase/supabase-js";
 
 interface ProfileTabsProps {
@@ -33,6 +34,9 @@ export const ProfileTabs = ({
         <TabsTrigger value="sessions">
           {isMentor ? "Mentoring Sessions" : "My Bookings"}
         </TabsTrigger>
+        {isMentor && (
+          <TabsTrigger value="availability">Availability</TabsTrigger>
+        )}
       </TabsList>
       
       <TabsContent value="profile" className="bg-white shadow rounded-lg">
@@ -49,6 +53,12 @@ export const ProfileTabs = ({
       <TabsContent value="sessions" className="bg-white shadow rounded-lg p-6">
         <SessionsTab />
       </TabsContent>
+      
+      {isMentor && (
+        <TabsContent value="availability" className="bg-white shadow rounded-lg">
+          <AvailabilityTab />
+        </TabsContent>
+      )}
     </Tabs>
   );
 };

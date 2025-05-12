@@ -15,6 +15,7 @@ import UserProfile from "./pages/UserProfile";
 import HowItWorksPage from "./pages/HowItWorks";
 import AboutUs from "./pages/AboutUs";
 import BecomeMentor from "./pages/BecomeMentor";
+import BookSession from "./pages/BookSession";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/become-mentor" element={<BecomeMentor />} />
+            <Route path="/book/:mentorId" element={<BookSession />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
