@@ -17,6 +17,7 @@ const MentorListing = () => {
   
   // Add debug logging
   console.log("DEBUGGING MentorListing: Got", mentors.length, "mentors from hook");
+  console.log("DEBUGGING MentorListing: Raw mentor data:", mentors);
   
   const {
     searchTerm,
@@ -34,6 +35,7 @@ const MentorListing = () => {
   
   // Add more debug logging
   console.log("DEBUGGING MentorListing: After filtering, have", filteredMentors.length, "mentors");
+  console.log("DEBUGGING MentorListing: Filtered mentor IDs:", filteredMentors.map(m => m.id));
 
   const handleRefresh = () => {
     refetch();

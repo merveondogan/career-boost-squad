@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { MentorProps } from "@/components/MentorCard";
 import { getJsonString, getJsonNumber, getJsonStringArray, getEducation } from "@/utils/jsonHelpers";
@@ -45,11 +44,15 @@ export const fetchMentors = async () => {
     console.log("CRITICAL DEBUG: Raw profiles from database (all):", profiles);
     
     // Filter profiles with mentor_info after fetching all profiles
+    // IMPORTANT - Only keeping profiles that have mentor_info JSON with at least one key
     const mentorProfiles = profiles?.filter(profile => 
-      profile.mentor_info && Object.keys(profile.mentor_info).length > 0
+      profile.mentor_info && 
+      typeof profile.mentor_info === 'object' && 
+      Object.keys(profile.mentor_info).length > 0
     ) || [];
     
     console.log(`CRITICAL DEBUG: Filtered ${mentorProfiles.length} profiles with mentor_info`);
+    console.log("CRITICAL DEBUG: Mentor profiles after filtering:", mentorProfiles);
     
     if (mentorProfiles.length === 0) {
       console.log("CRITICAL DEBUG: No mentor profiles found after filtering");
@@ -61,6 +64,7 @@ export const fetchMentors = async () => {
     
     console.log(`CRITICAL DEBUG: Successfully converted ${mentorsData.length} mentor profiles`);
     console.log("CRITICAL DEBUG: Mentor IDs to display:", mentorsData.map(m => m.id));
+    console.log("CRITICAL DEBUG: Full mentor data to return:", mentorsData);
     
     return mentorsData;
   } catch (error: any) {

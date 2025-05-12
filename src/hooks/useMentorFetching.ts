@@ -16,8 +16,12 @@ export const useMentorFetching = () => {
       console.log("CRITICAL DEBUG - Hook received mentor profiles:", mentorsData.length);
       console.log("CRITICAL DEBUG - Hook received mentor IDs:", mentorsData.map(m => m.id));
       
-      // Set all mentors directly without any filtering
+      // IMPORTANT: Setting ALL mentors without any filtering
+      // This ensures we show everyone's profile, not just our own
       setMentors(mentorsData);
+      
+      // Double check we haven't lost any mentors
+      console.log("CRITICAL DEBUG - After state update, mentors length:", mentorsData.length);
     } catch (error: any) {
       console.error("Error fetching mentors:", error.message);
       toast({
