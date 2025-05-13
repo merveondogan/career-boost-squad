@@ -189,13 +189,12 @@ export const deleteSession = async (sessionId: string) => {
   }
 };
 
-// Fixed function to delete the problematic May 19 sessions
+// Silent cleanup for problematic May 19 sessions - no notifications or return value
 export const deleteMay19Sessions = async () => {
   try {
     const targetDate = new Date('2025-05-19T00:00:00Z');
     const nextDay = new Date('2025-05-20T00:00:00Z');
     
-    // Use direct date comparison instead of pattern matching
     const { data: sessionsToDelete, error: fetchError } = await supabase
       .from("mentoring_sessions")
       .select("*")
@@ -204,13 +203,11 @@ export const deleteMay19Sessions = async () => {
 
     if (fetchError) {
       console.error("Error fetching sessions:", fetchError);
-      throw fetchError;
+      return;
     }
     
-    console.log("Found sessions to delete:", sessionsToDelete);
-    
     if (sessionsToDelete && sessionsToDelete.length > 0) {
-      // Delete each session individually to ensure they're all removed
+      // Delete each session individually without notifications
       for (const session of sessionsToDelete) {
         const { error } = await supabase
           .from("mentoring_sessions")
@@ -221,12 +218,8 @@ export const deleteMay19Sessions = async () => {
           console.error(`Error deleting session ${session.id}:`, error);
         }
       }
-      
-      return sessionsToDelete.length;
     }
-    return 0;
   } catch (error: any) {
-    console.error("Error deleting May 19 sessions:", error);
-    throw error;
+    console.error("Error during May 19 sessions cleanup:", error);
   }
 };

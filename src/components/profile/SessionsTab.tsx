@@ -63,22 +63,18 @@ export const SessionsTab = () => {
     fetchSessions();
   }, [user, isMentor]);
 
-  // Attempt to delete the problematic May 19 sessions when component mounts
+  // Silently run cleanup for May 19 sessions when component mounts - no notifications
   useEffect(() => {
     const cleanupMay19Sessions = async () => {
       if (!user) return;
       
       try {
-        // Force delete all May 19 sessions - but don't show toast
-        const deletedCount = await deleteMay19Sessions();
-        
-        if (deletedCount > 0) {
-          console.log(`Successfully deleted ${deletedCount} sessions`);
-          // Refresh sessions list after deletion
-          fetchSessions();
-        }
+        // Silently delete May 19 sessions with no toast notifications
+        await deleteMay19Sessions();
+        // Refresh sessions list after potential deletion
+        fetchSessions();
       } catch (error: any) {
-        console.error("Failed to delete May 19 sessions:", error);
+        console.error("Failed to clean up May 19 sessions:", error);
       }
     };
     
