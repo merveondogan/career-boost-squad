@@ -32,6 +32,41 @@ export const SessionsTab = () => {
   const [loading, setLoading] = useState(true);
   const isMentor = user?.user_metadata?.is_mentor || user?.user_metadata?.user_type === "mentor";
 
+  // Run once on component mount to immediately delete the specific May 19 sessions
+  useEffect(() => {
+    const removeMay19Sessions = async () => {
+      if (!user) return;
+      
+      try {
+        // Find sessions on May 19, 2025 with 9:00 AM start time that are cancelled
+        const { data, error } = await supabase
+          .from('mentoring_sessions')
+          .select('id')
+          .eq('status', 'cancelled')
+          .ilike('start_time', '2025-05-19T09:00%');
+        
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          // Delete each found session
+          for (const session of data) {
+            await deleteSession(session.id);
+            console.log(`Deleted session: ${session.id}`);
+          }
+          
+          toast({
+            title: "Sessions removed",
+            description: "The May 19 cancelled sessions have been permanently deleted"
+          });
+        }
+      } catch (error) {
+        console.error("Failed to delete May 19 sessions:", error);
+      }
+    };
+    
+    removeMay19Sessions();
+  }, [user]);
+
   useEffect(() => {
     if (!user) return;
     
