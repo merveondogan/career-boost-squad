@@ -31,14 +31,16 @@ const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
     <Card className="overflow-hidden card-hover">
       <CardContent className="p-6">
         <div className="flex items-start justify-between">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-start space-x-4">
             <Avatar className="h-12 w-12">
               <AvatarImage src={avatar} alt={name} />
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="font-bold text-lg">{name}</h3>
-              <p className="text-sm text-gray-500 mt-1">{role} at {company}</p>
+              {/* Name is now the primary heading element with large bold text */}
+              <h2 className="text-xl font-bold">{name}</h2>
+              {/* Role, company and school as secondary information below */}
+              <p className="text-sm text-gray-500">{role} at {company} at {company}</p>
               <p className="text-sm text-gray-500">{school}</p>
             </div>
           </div>
