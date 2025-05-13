@@ -2,27 +2,28 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// Updated testimonials with new people and stories
 const testimonials = [
   {
     id: 1,
-    content: "My mentor helped me completely revamp my resume and prepare for behavioral interviews. I landed an internship at Amazon that I never thought was possible!",
-    author: "Jamie Lee",
-    role: "Computer Science Student",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    content: "The technical mock interviews were incredibly helpful. My mentor provided detailed feedback that helped me improve my algorithm problem-solving skills. I ended up receiving an offer from my dream tech company!",
+    author: "Marcus Johnson",
+    role: "Computer Engineering Student",
+    avatar: "https://randomuser.me/api/portraits/men/75.jpg",
   },
   {
     id: 2,
-    content: "The mock interview practice made all the difference. My mentor had gone through the exact same process at Google just months before and gave me invaluable tips.",
-    author: "Devon Smith",
-    role: "Engineering Student",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    content: "Having a mentor who had recently interned at the same company was invaluable. They guided me through the entire application process and helped me prepare for all the interview rounds. I couldn't have done it without them!",
+    author: "Leila Patel",
+    role: "Information Systems Student",
+    avatar: "https://randomuser.me/api/portraits/women/63.jpg",
   },
   {
     id: 3,
-    content: "Having someone who recently went through the consulting interview process at McKinsey was game-changing. The case practice and feedback was better than any prep resource I found.",
-    author: "Priya Sharma",
-    role: "Economics Student",
-    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    content: "My mentor helped me completely transform my resume and portfolio. Their insights into what recruiters look for in the design industry made all the difference. I secured three internship offers in one week!",
+    author: "Tyler Washington",
+    role: "UI/UX Design Student",
+    avatar: "https://randomuser.me/api/portraits/men/36.jpg",
   },
 ];
 

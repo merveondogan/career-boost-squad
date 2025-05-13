@@ -4,43 +4,43 @@ import MentorCard, { MentorProps } from "./MentorCard";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 
-// Sample mentor data
+// Updated mentor data with new people
 const sampleMentors: MentorProps[] = [
   {
     id: "1",
-    name: "Alex Johnson",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    role: "Software Engineer Intern",
-    company: "Google",
-    school: "Stanford University",
-    rate: 60,
-    specialties: ["Resume Review", "Mock Interview", "Technical Prep"],
-    rating: 4.9,
-    reviewCount: 27
+    name: "Emily Rodriguez",
+    avatar: "https://randomuser.me/api/portraits/women/52.jpg",
+    role: "Data Science Intern",
+    company: "Microsoft",
+    school: "MIT",
+    rate: 55,
+    specialties: ["Python", "Machine Learning", "Resume Review"],
+    rating: 4.7,
+    reviewCount: 23
   },
   {
     id: "2",
-    name: "Michael Chen",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    role: "Product Manager",
-    company: "Meta",
-    school: "UC Berkeley",
-    rate: 75,
-    specialties: ["Product Case Studies", "PM Interview Prep", "Resume Review"],
-    rating: 4.8,
-    reviewCount: 19
+    name: "Jason Park",
+    avatar: "https://randomuser.me/api/portraits/men/42.jpg",
+    role: "Frontend Engineer",
+    company: "Airbnb",
+    school: "Carnegie Mellon",
+    rate: 70,
+    specialties: ["React", "UI/UX", "Technical Interviews"],
+    rating: 4.9,
+    reviewCount: 31
   },
   {
     id: "3",
-    name: "Sophia Patel",
-    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
-    role: "Business Analyst Intern",
-    company: "BCG",
-    school: "Harvard University",
-    rate: 65,
-    specialties: ["Case Interviews", "Resume Review", "Career Strategy"],
-    rating: 5.0,
-    reviewCount: 32
+    name: "Zoe Williams",
+    avatar: "https://randomuser.me/api/portraits/women/29.jpg",
+    role: "Marketing Intern",
+    company: "Spotify",
+    school: "NYU",
+    rate: 50,
+    specialties: ["Content Strategy", "Social Media", "Resume Review"],
+    rating: 4.8,
+    reviewCount: 18
   }
 ];
 
