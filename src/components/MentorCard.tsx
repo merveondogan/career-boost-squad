@@ -37,9 +37,9 @@ const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div>
-              {/* Name is now the primary heading element with large bold text */}
+              {/* Display the name as the main bold heading */}
               <h2 className="text-xl font-bold">{name}</h2>
-              {/* Role and company displayed properly, fixed the duplication */}
+              {/* Role and company displayed as secondary information */}
               <p className="text-sm text-gray-500">{role} at {company}</p>
               <p className="text-sm text-gray-500">{school}</p>
             </div>
