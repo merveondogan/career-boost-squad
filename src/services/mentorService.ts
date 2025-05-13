@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { MentorProps } from "@/components/MentorCard";
 import { getJsonString, getJsonNumber, getJsonStringArray, getEducation } from "@/utils/jsonHelpers";
@@ -7,14 +8,20 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
   const mentor_info = profile.mentor_info || {};
   const education = getEducation(mentor_info);
   
-  // Get the mentor's name from mentor_info.full_name if available, 
-  // fallback to bio or title if not available
+  // Use proper name prioritization - first check for full_name in mentor_info,
+  // then check user_metadata if available, then try email username, fallback to title
   const mentorName = 
+    // 1. Use mentor_info.full_name if available and not empty
     (typeof mentor_info === 'object' && mentor_info.full_name && mentor_info.full_name.trim() !== '') ? 
       mentor_info.full_name : 
-      profile.bio ? 
-        profile.bio.split('.')[0] : // Use first sentence of bio if available
-        profile.title || "Unnamed Mentor";
+    // 2. Check user's name from auth metadata if available
+    (profile.user_metadata && profile.user_metadata.full_name) ?
+      profile.user_metadata.full_name :
+    // 3. Try to extract name from email
+    (profile.email) ? 
+      profile.email.split('@')[0] :
+    // 4. Use title or default
+    profile.title || "Unnamed Mentor";
   
   return {
     id: profile.id,
