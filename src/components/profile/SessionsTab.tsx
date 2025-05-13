@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,40 +33,7 @@ export const SessionsTab = () => {
   const isMentor = user?.user_metadata?.is_mentor || user?.user_metadata?.user_type === "mentor";
   const [deleteInProgress, setDeleteInProgress] = useState(false);
 
-  // Attempt to delete the problematic May 19 sessions when component mounts
-  useEffect(() => {
-    const cleanupMay19Sessions = async () => {
-      if (!user) return;
-      
-      try {
-        setDeleteInProgress(true);
-        // Force delete all May 19 9:00 AM sessions
-        const deletedCount = await deleteMay19Sessions();
-        
-        if (deletedCount > 0) {
-          console.log(`Successfully deleted ${deletedCount} sessions`);
-          toast({
-            title: "Sessions removed",
-            description: `${deletedCount} sessions from May 19 have been permanently deleted`
-          });
-        }
-      } catch (error: any) {
-        console.error("Failed to delete May 19 sessions:", error);
-        toast({
-          variant: "destructive",
-          title: "Error removing sessions",
-          description: error.message || "Please try again"
-        });
-      } finally {
-        setDeleteInProgress(false);
-        // Always refresh the sessions list to ensure UI is updated
-        fetchSessions();
-      }
-    };
-    
-    cleanupMay19Sessions();
-  }, [user]);
-
+  // Fetch sessions function
   const fetchSessions = async () => {
     if (!user) return;
     
@@ -95,6 +63,32 @@ export const SessionsTab = () => {
   useEffect(() => {
     fetchSessions();
   }, [user, isMentor]);
+
+  // Attempt to delete the problematic May 19 sessions when component mounts
+  useEffect(() => {
+    const cleanupMay19Sessions = async () => {
+      if (!user) return;
+      
+      try {
+        // Force delete all May 19 sessions
+        const deletedCount = await deleteMay19Sessions();
+        
+        if (deletedCount > 0) {
+          console.log(`Successfully deleted ${deletedCount} sessions`);
+          toast({
+            title: "Sessions removed",
+            description: `${deletedCount} sessions from May 19 have been permanently deleted`
+          });
+          // Refresh sessions list after deletion
+          fetchSessions();
+        }
+      } catch (error: any) {
+        console.error("Failed to delete May 19 sessions:", error);
+      }
+    };
+    
+    cleanupMay19Sessions();
+  }, [user]);
 
   const handleUpdateStatus = async (sessionId: string, newStatus: MentoringSession['status']) => {
     try {
@@ -126,6 +120,7 @@ export const SessionsTab = () => {
 
   const handleDeleteSession = async (sessionId: string) => {
     try {
+      setDeleteInProgress(true);
       await deleteSession(sessionId);
       
       // Remove the deleted session from state
@@ -143,6 +138,8 @@ export const SessionsTab = () => {
         title: "Error deleting session",
         description: error.message || "Please try again"
       });
+    } finally {
+      setDeleteInProgress(false);
     }
   };
 
@@ -165,6 +162,7 @@ export const SessionsTab = () => {
         });
       }
     } catch (error: any) {
+      console.error("Error in handleManualDeleteMay19Sessions:", error);
       toast({
         variant: "destructive",
         title: "Error deleting sessions",
@@ -188,6 +186,19 @@ export const SessionsTab = () => {
             ? "You don't have any mentoring sessions scheduled yet." 
             : "You haven't booked any mentoring sessions yet."}
         </p>
+        
+        {/* Always show the force delete button for emergencies */}
+        <div className="mt-6 p-4 bg-red-50 rounded-md">
+          <h4 className="text-red-800 font-medium mb-2">Troubleshooting</h4>
+          <p className="text-sm text-red-700 mb-3">If you're experiencing issues with May 19 sessions:</p>
+          <Button 
+            onClick={handleManualDeleteMay19Sessions}
+            variant="destructive"
+            disabled={deleteInProgress}
+          >
+            {deleteInProgress ? 'Deleting...' : 'Force Delete May 19 Sessions'}
+          </Button>
+        </div>
       </div>
     );
   }
@@ -198,22 +209,18 @@ export const SessionsTab = () => {
         {isMentor ? "My Mentoring Schedule" : "My Booked Sessions"}
       </h2>
       
-      {sessions.some(s => 
-        s.start_time.includes('2025-05-19') && 
-        s.start_time.includes('09:00')
-      ) && (
-        <div className="bg-red-50 p-4 rounded-md mb-4">
-          <h3 className="text-red-800 font-medium">Problematic Sessions Detected</h3>
-          <p className="text-red-700 text-sm mb-2">Some May 19, 2025 sessions need to be removed</p>
-          <Button 
-            onClick={handleManualDeleteMay19Sessions}
-            variant="destructive"
-            disabled={deleteInProgress}
-          >
-            {deleteInProgress ? 'Deleting...' : 'Force Delete May 19 Sessions'}
-          </Button>
-        </div>
-      )}
+      {/* Always show force delete button in a prominent position */}
+      <div className="bg-red-50 p-4 rounded-md mb-4">
+        <h3 className="text-red-800 font-medium">Emergency Session Cleanup</h3>
+        <p className="text-red-700 text-sm mb-2">Use this button to force delete problematic May 19 sessions</p>
+        <Button 
+          onClick={handleManualDeleteMay19Sessions}
+          variant="destructive"
+          disabled={deleteInProgress}
+        >
+          {deleteInProgress ? 'Deleting...' : 'Force Delete May 19 Sessions'}
+        </Button>
+      </div>
       
       <Table>
         <TableHeader>

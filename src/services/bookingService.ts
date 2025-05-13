@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse, addMinutes } from "date-fns";
 
@@ -190,39 +189,40 @@ export const deleteSession = async (sessionId: string) => {
   }
 };
 
-// Enhanced function to delete the problematic May 19 sessions
+// Fixed function to delete the problematic May 19 sessions
 export const deleteMay19Sessions = async () => {
   try {
-    // Use explicit date format instead of ILIKE operator
-    const targetDate = "2025-05-19";
-    const targetTime = "09:00";
+    const targetDate = new Date('2025-05-19T00:00:00Z');
+    const nextDay = new Date('2025-05-20T00:00:00Z');
     
-    // First, query to find the exact sessions
+    // Use direct date comparison instead of pattern matching
     const { data: sessionsToDelete, error: fetchError } = await supabase
       .from("mentoring_sessions")
       .select("*")
-      .gte("start_time", `${targetDate}T${targetTime}:00`)
-      .lt("start_time", `${targetDate}T${targetTime}:59`);
+      .gte("start_time", targetDate.toISOString())
+      .lt("start_time", nextDay.toISOString());
 
-    if (fetchError) throw fetchError;
+    if (fetchError) {
+      console.error("Error fetching sessions:", fetchError);
+      throw fetchError;
+    }
     
     console.log("Found sessions to delete:", sessionsToDelete);
     
     if (sessionsToDelete && sessionsToDelete.length > 0) {
-      // Use a single delete operation for all matching sessions
-      const sessionIds = sessionsToDelete.map(session => session.id);
-      
-      const { error: deleteError } = await supabase
-        .from("mentoring_sessions")
-        .delete()
-        .in("id", sessionIds);
-      
-      if (deleteError) {
-        console.error("Bulk delete error:", deleteError);
-        throw deleteError;
+      // Delete each session individually to ensure they're all removed
+      for (const session of sessionsToDelete) {
+        const { error } = await supabase
+          .from("mentoring_sessions")
+          .delete()
+          .eq("id", session.id);
+        
+        if (error) {
+          console.error(`Error deleting session ${session.id}:`, error);
+        }
       }
       
-      return sessionsToDelete.length; // Return number of deleted sessions
+      return sessionsToDelete.length;
     }
     return 0;
   } catch (error: any) {
