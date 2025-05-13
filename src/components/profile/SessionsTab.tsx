@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { MentoringSession } from "@/components/mentor/form/types";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, Trash2 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -88,6 +88,33 @@ export const SessionsTab = () => {
     }
   };
 
+  const handleDeleteSession = async (sessionId: string) => {
+    try {
+      const { error } = await supabase
+        .from('mentoring_sessions')
+        .delete()
+        .eq('id', sessionId);
+      
+      if (error) throw error;
+      
+      // Remove the deleted session from state
+      setSessions(currentSessions => 
+        currentSessions.filter(session => session.id !== sessionId)
+      );
+      
+      toast({
+        title: "Session deleted",
+        description: "The session has been removed from your schedule"
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error deleting session",
+        description: error.message || "Please try again"
+      });
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center py-8">Loading your sessions...</div>;
   }
@@ -117,7 +144,7 @@ export const SessionsTab = () => {
             <TableHead>Date & Time</TableHead>
             <TableHead>Session</TableHead>
             <TableHead>Status</TableHead>
-            {isMentor && <TableHead className="text-right">Actions</TableHead>}
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -145,10 +172,10 @@ export const SessionsTab = () => {
               <TableCell>
                 <SessionStatusBadge status={session.status} />
               </TableCell>
-              {isMentor && (
-                <TableCell className="text-right">
-                  {session.status === 'pending' && (
-                    <div className="flex justify-end space-x-2">
+              <TableCell className="text-right">
+                <div className="flex justify-end space-x-2">
+                  {isMentor && session.status === 'pending' && (
+                    <>
                       <Button 
                         size="sm" 
                         variant="outline"
@@ -164,9 +191,9 @@ export const SessionsTab = () => {
                       >
                         Decline
                       </Button>
-                    </div>
+                    </>
                   )}
-                  {session.status === 'confirmed' && (
+                  {isMentor && session.status === 'confirmed' && (
                     <Button 
                       size="sm" 
                       variant="outline" 
@@ -176,8 +203,18 @@ export const SessionsTab = () => {
                       Mark Completed
                     </Button>
                   )}
-                </TableCell>
-              )}
+                  
+                  {/* Add delete button for all sessions */}
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="text-red-500"
+                    onClick={() => handleDeleteSession(session.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
