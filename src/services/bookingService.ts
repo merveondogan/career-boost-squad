@@ -174,19 +174,18 @@ export const updateAvailabilitySlot = async (slotId: string, updatedSlot: Partia
   }
 };
 
-// Delete cancelled sessions for a specific date
-export const deleteCancelledSessions = async (date: string) => {
+// Delete session by ID - direct method to remove specific sessions
+export const deleteSession = async (sessionId: string) => {
   try {
     const { error } = await supabase
       .from("mentoring_sessions")
       .delete()
-      .eq("status", "cancelled")
-      .ilike("start_time", `${date}%`);
+      .eq("id", sessionId);
 
     if (error) throw error;
     return true;
   } catch (error: any) {
-    console.error("Error deleting cancelled sessions:", error.message);
+    console.error("Error deleting session:", error.message);
     throw error;
   }
 };
