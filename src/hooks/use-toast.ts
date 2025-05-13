@@ -105,14 +105,26 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action;
 
-      // Immediately remove the toast instead of just setting open to false
       if (toastId) {
+        // Find and clear the timeout for this toast
+        if (toastTimeouts.has(toastId)) {
+          clearTimeout(toastTimeouts.get(toastId));
+          toastTimeouts.delete(toastId);
+        }
+        
+        // Remove the toast immediately
         return {
           ...state,
           toasts: state.toasts.filter((t) => t.id !== toastId),
         };
       } else {
-        // If no toastId is provided, clear all toasts
+        // Clear all timeouts if dismissing all toasts
+        toastTimeouts.forEach((timeout) => {
+          clearTimeout(timeout);
+        });
+        toastTimeouts.clear();
+        
+        // Remove all toasts
         return {
           ...state,
           toasts: [],
@@ -168,7 +180,10 @@ function toast({ ...props }: Toast) {
       type: "UPDATE_TOAST",
       toast: { ...props, id },
     });
-  const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
+    
+  const dismiss = () => {
+    dispatch({ type: "DISMISS_TOAST", toastId: id });
+  };
 
   dispatch({
     type: "ADD_TOAST",
