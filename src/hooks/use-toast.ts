@@ -80,7 +80,7 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: [
           ...state.toasts,
-          { ...action.toast, id: genId() },
+          { ...(action.toast as ToasterToast), id: genId() },
         ].slice(-TOAST_LIMIT),
       };
 
@@ -159,7 +159,6 @@ function toast({ ...props }: Toast) {
     type: "ADD_TOAST",
     toast: {
       ...props,
-      id,
       open: true,
       onOpenChange: (open) => {
         if (!open) dismiss();

@@ -143,36 +143,6 @@ export const SessionsTab = () => {
     }
   };
 
-  const handleManualDeleteMay19Sessions = async () => {
-    try {
-      setDeleteInProgress(true);
-      const deletedCount = await deleteMay19Sessions();
-      
-      if (deletedCount > 0) {
-        toast({
-          title: "Success",
-          description: `${deletedCount} May 19 sessions were deleted`
-        });
-        // Refresh the sessions list
-        fetchSessions();
-      } else {
-        toast({
-          title: "No sessions found",
-          description: "No matching sessions were found to delete"
-        });
-      }
-    } catch (error: any) {
-      console.error("Error in handleManualDeleteMay19Sessions:", error);
-      toast({
-        variant: "destructive",
-        title: "Error deleting sessions",
-        description: error.message || "Please try again"
-      });
-    } finally {
-      setDeleteInProgress(false);
-    }
-  };
-
   if (loading) {
     return <div className="flex justify-center py-8">Loading your sessions...</div>;
   }
@@ -186,19 +156,6 @@ export const SessionsTab = () => {
             ? "You don't have any mentoring sessions scheduled yet." 
             : "You haven't booked any mentoring sessions yet."}
         </p>
-        
-        {/* Always show the force delete button for emergencies */}
-        <div className="mt-6 p-4 bg-red-50 rounded-md">
-          <h4 className="text-red-800 font-medium mb-2">Troubleshooting</h4>
-          <p className="text-sm text-red-700 mb-3">If you're experiencing issues with May 19 sessions:</p>
-          <Button 
-            onClick={handleManualDeleteMay19Sessions}
-            variant="destructive"
-            disabled={deleteInProgress}
-          >
-            {deleteInProgress ? 'Deleting...' : 'Force Delete May 19 Sessions'}
-          </Button>
-        </div>
       </div>
     );
   }
@@ -208,19 +165,6 @@ export const SessionsTab = () => {
       <h2 className="text-xl font-semibold">
         {isMentor ? "My Mentoring Schedule" : "My Booked Sessions"}
       </h2>
-      
-      {/* Always show force delete button in a prominent position */}
-      <div className="bg-red-50 p-4 rounded-md mb-4">
-        <h3 className="text-red-800 font-medium">Emergency Session Cleanup</h3>
-        <p className="text-red-700 text-sm mb-2">Use this button to force delete problematic May 19 sessions</p>
-        <Button 
-          onClick={handleManualDeleteMay19Sessions}
-          variant="destructive"
-          disabled={deleteInProgress}
-        >
-          {deleteInProgress ? 'Deleting...' : 'Force Delete May 19 Sessions'}
-        </Button>
-      </div>
       
       <Table>
         <TableHeader>
