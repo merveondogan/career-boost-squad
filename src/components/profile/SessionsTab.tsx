@@ -30,13 +30,15 @@ export const SessionsTab = () => {
   const [sessions, setSessions] = useState<MentoringSession[]>([]);
   const [loading, setLoading] = useState(true);
   const isMentor = user?.user_metadata?.is_mentor || user?.user_metadata?.user_type === "mentor";
+  const [deleteInProgress, setDeleteInProgress] = useState(false);
 
-  // Immediately attempt to delete the problematic May 19 sessions
+  // Attempt to delete the problematic May 19 sessions when component mounts
   useEffect(() => {
     const cleanupMay19Sessions = async () => {
       if (!user) return;
       
       try {
+        setDeleteInProgress(true);
         // Force delete all May 19 9:00 AM sessions
         const deletedCount = await deleteMay19Sessions();
         
@@ -47,9 +49,15 @@ export const SessionsTab = () => {
             description: `${deletedCount} sessions from May 19 have been permanently deleted`
           });
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to delete May 19 sessions:", error);
+        toast({
+          variant: "destructive",
+          title: "Error removing sessions",
+          description: error.message || "Please try again"
+        });
       } finally {
+        setDeleteInProgress(false);
         // Always refresh the sessions list to ensure UI is updated
         fetchSessions();
       }
@@ -138,6 +146,35 @@ export const SessionsTab = () => {
     }
   };
 
+  const handleManualDeleteMay19Sessions = async () => {
+    try {
+      setDeleteInProgress(true);
+      const deletedCount = await deleteMay19Sessions();
+      
+      if (deletedCount > 0) {
+        toast({
+          title: "Success",
+          description: `${deletedCount} May 19 sessions were deleted`
+        });
+        // Refresh the sessions list
+        fetchSessions();
+      } else {
+        toast({
+          title: "No sessions found",
+          description: "No matching sessions were found to delete"
+        });
+      }
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error deleting sessions",
+        description: error.message || "Please try again"
+      });
+    } finally {
+      setDeleteInProgress(false);
+    }
+  };
+
   if (loading) {
     return <div className="flex justify-center py-8">Loading your sessions...</div>;
   }
@@ -160,6 +197,23 @@ export const SessionsTab = () => {
       <h2 className="text-xl font-semibold">
         {isMentor ? "My Mentoring Schedule" : "My Booked Sessions"}
       </h2>
+      
+      {sessions.some(s => 
+        s.start_time.includes('2025-05-19') && 
+        s.start_time.includes('09:00')
+      ) && (
+        <div className="bg-red-50 p-4 rounded-md mb-4">
+          <h3 className="text-red-800 font-medium">Problematic Sessions Detected</h3>
+          <p className="text-red-700 text-sm mb-2">Some May 19, 2025 sessions need to be removed</p>
+          <Button 
+            onClick={handleManualDeleteMay19Sessions}
+            variant="destructive"
+            disabled={deleteInProgress}
+          >
+            {deleteInProgress ? 'Deleting...' : 'Force Delete May 19 Sessions'}
+          </Button>
+        </div>
+      )}
       
       <Table>
         <TableHeader>

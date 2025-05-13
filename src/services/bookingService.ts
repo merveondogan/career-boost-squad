@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse, addMinutes } from "date-fns";
 
@@ -192,32 +193,33 @@ export const deleteSession = async (sessionId: string) => {
 // Enhanced function to delete the problematic May 19 sessions
 export const deleteMay19Sessions = async () => {
   try {
-    // Force delete ALL sessions on May 19, 2025 that start at 9:00 AM
+    // Use explicit date format instead of ILIKE operator
+    const targetDate = "2025-05-19";
+    const targetTime = "09:00";
+    
+    // First, query to find the exact sessions
     const { data: sessionsToDelete, error: fetchError } = await supabase
       .from("mentoring_sessions")
       .select("*")
-      .filter("start_time", "ilike", "2025-05-19%")
-      .filter("start_time", "ilike", "%09:00%");
+      .gte("start_time", `${targetDate}T${targetTime}:00`)
+      .lt("start_time", `${targetDate}T${targetTime}:59`);
 
     if (fetchError) throw fetchError;
     
     console.log("Found sessions to delete:", sessionsToDelete);
     
     if (sessionsToDelete && sessionsToDelete.length > 0) {
-      // Delete each found session individually to ensure complete removal
-      for (const session of sessionsToDelete) {
-        console.log("Deleting session:", session.id);
-        
-        // Direct deletion using explicit ID
-        const { error: deleteError } = await supabase
-          .from("mentoring_sessions")
-          .delete()
-          .eq("id", session.id);
-          
-        if (deleteError) {
-          console.error(`Error deleting session ${session.id}:`, deleteError);
-          throw deleteError;
-        }
+      // Use a single delete operation for all matching sessions
+      const sessionIds = sessionsToDelete.map(session => session.id);
+      
+      const { error: deleteError } = await supabase
+        .from("mentoring_sessions")
+        .delete()
+        .in("id", sessionIds);
+      
+      if (deleteError) {
+        console.error("Bulk delete error:", deleteError);
+        throw deleteError;
       }
       
       return sessionsToDelete.length; // Return number of deleted sessions
