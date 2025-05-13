@@ -105,25 +105,19 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action;
 
+      // Immediately remove the toast instead of just setting open to false
       if (toastId) {
-        addToRemoveQueue(toastId);
+        return {
+          ...state,
+          toasts: state.toasts.filter((t) => t.id !== toastId),
+        };
       } else {
-        state.toasts.forEach((toast) => {
-          addToRemoveQueue(toast.id);
-        });
+        // If no toastId is provided, clear all toasts
+        return {
+          ...state,
+          toasts: [],
+        };
       }
-
-      return {
-        ...state,
-        toasts: state.toasts.map((t) =>
-          t.id === toastId || toastId === undefined
-            ? {
-                ...t,
-                open: false,
-              }
-            : t
-        ),
-      };
     }
     
     case "REMOVE_TOAST":
