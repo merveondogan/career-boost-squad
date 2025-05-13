@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { format, addDays, startOfDay, isSameDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -75,7 +74,7 @@ const BookingCalendar = ({ mentorId, onSlotSelect }: BookingCalendarProps) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="overflow-hidden">
+          <div className="max-w-full">
             <Calendar
               mode="single"
               selected={date}
@@ -87,7 +86,7 @@ const BookingCalendar = ({ mentorId, onSlotSelect }: BookingCalendarProps) => {
               modifiersStyles={{
                 available: { backgroundColor: "rgba(52, 211, 153, 0.1)" }
               }}
-              className="rounded-md border p-3 w-full"
+              className="rounded-md border p-3"
             />
           </div>
           
