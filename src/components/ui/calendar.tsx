@@ -31,11 +31,11 @@ function Calendar({
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
         table: "w-full border-collapse space-y-1",
-        head_row: "flex w-full mt-2 px-6", // Increased horizontal padding
+        head_row: "flex w-full mt-2 px-4 justify-between", // Changed to justify-between with reduced padding
         head_cell:
-          "text-muted-foreground rounded-md font-normal text-[0.8rem] flex-1 text-center",
-        row: "flex w-full mt-2 px-6", // Increased horizontal padding
-        cell: "flex-1 text-center text-sm p-0 relative h-8 [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+          "text-muted-foreground rounded-md font-normal text-[0.8rem] w-9 text-center", // Set fixed width
+        row: "flex w-full mt-2 px-4 justify-between", // Changed to justify-between with reduced padding
+        cell: "text-center text-sm p-0 relative w-9 h-8 [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20", // Set fixed width
         day: cn(
           buttonVariants({ variant: "ghost" }),
           "h-8 w-8 p-0 font-normal mx-auto aria-selected:opacity-100"
