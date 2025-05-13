@@ -8,31 +8,47 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
   const mentor_info = profile.mentor_info || {};
   const education = getEducation(mentor_info);
   
-  // Get the name explicitly from user_metadata first
+  console.log("CRITICAL DEBUG - Raw user profile data:", profile);
+  console.log("CRITICAL DEBUG - User metadata:", profile.user_metadata);
+  
+  // Get the name with proper prioritization
   let mentorName = "";
   
-  // Check user_metadata.full_name first (highest priority)
+  // 1. Check user_metadata.full_name (highest priority)
   if (profile.user_metadata && profile.user_metadata.full_name) {
     mentorName = profile.user_metadata.full_name;
+    console.log("CRITICAL DEBUG - Using name from user_metadata:", mentorName);
   }
-  // Then check mentor_info.full_name
+  // 2. Check user_metadata.name as fallback
+  else if (profile.user_metadata && profile.user_metadata.name) {
+    mentorName = profile.user_metadata.name;
+    console.log("CRITICAL DEBUG - Using name from user_metadata.name:", mentorName);
+  }
+  // 3. Check mentor_info.full_name
   else if (typeof mentor_info === 'object' && mentor_info.full_name && mentor_info.full_name.trim() !== '') {
     mentorName = mentor_info.full_name;
+    console.log("CRITICAL DEBUG - Using name from mentor_info:", mentorName);
   }
-  // Try to extract from email
+  // 4. Try to extract from email
   else if (profile.email) {
     mentorName = profile.email.split('@')[0];
+    console.log("CRITICAL DEBUG - Using name from email:", mentorName);
   }
-  // Last resort: use title or default
+  // 5. Last resort: use title or default
   else {
     mentorName = profile.title || "Unnamed Mentor";
+    console.log("CRITICAL DEBUG - Using fallback name:", mentorName);
   }
   
   // Make sure first letter of each word is capitalized
-  mentorName = mentorName
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+  if (mentorName) {
+    mentorName = mentorName
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+  
+  console.log("CRITICAL DEBUG - Final mentor name:", mentorName);
   
   return {
     id: profile.id,
