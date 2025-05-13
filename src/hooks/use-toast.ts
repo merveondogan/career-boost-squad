@@ -1,4 +1,3 @@
-
 // Import toast library from radix UI
 import * as React from "react";
 import { 
@@ -106,25 +105,25 @@ export const reducer = (state: State, action: Action): State => {
       const { toastId } = action;
 
       if (toastId) {
-        // Find and clear the timeout for this toast
+        // Clear any existing timeout
         if (toastTimeouts.has(toastId)) {
           clearTimeout(toastTimeouts.get(toastId));
           toastTimeouts.delete(toastId);
         }
         
-        // Remove the toast immediately
+        // Remove the toast immediately from state
         return {
           ...state,
           toasts: state.toasts.filter((t) => t.id !== toastId),
         };
       } else {
-        // Clear all timeouts if dismissing all toasts
+        // Clear all timeouts
         toastTimeouts.forEach((timeout) => {
           clearTimeout(timeout);
         });
         toastTimeouts.clear();
         
-        // Remove all toasts
+        // Remove all toasts immediately
         return {
           ...state,
           toasts: [],
@@ -143,6 +142,9 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       };
+
+    default:
+      return state;
   }
 };
 
@@ -189,6 +191,7 @@ function toast({ ...props }: Toast) {
     type: "ADD_TOAST",
     toast: {
       ...props,
+      id,
       open: true,
       onOpenChange: (open) => {
         if (!open) dismiss();
