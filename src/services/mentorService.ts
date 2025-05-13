@@ -7,9 +7,18 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
   const mentor_info = profile.mentor_info || {};
   const education = getEducation(mentor_info);
   
+  // Get the mentor's name from mentor_info.full_name if available, 
+  // fallback to bio or title if not available
+  const mentorName = 
+    (typeof mentor_info === 'object' && mentor_info.full_name && mentor_info.full_name.trim() !== '') ? 
+      mentor_info.full_name : 
+      profile.bio ? 
+        profile.bio.split('.')[0] : // Use first sentence of bio if available
+        profile.title || "Unnamed Mentor";
+  
   return {
     id: profile.id,
-    name: profile.title || "Unnamed Mentor",
+    name: mentorName,
     avatar: profile.avatar_url || "https://randomuser.me/api/portraits/lego/1.jpg",
     role: profile.title || "Mentor",
     company: typeof mentor_info === 'object' && mentor_info.company ? 
