@@ -76,6 +76,14 @@ const addToRemoveQueue = (toastId: string) => {
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
+      // Filter out any toast notifications about May 19 sessions
+      if (action.toast.title === "Sessions removed" && 
+          action.toast.description && 
+          typeof action.toast.description === 'string' && 
+          action.toast.description.includes("May 19")) {
+        return state; // Don't add this toast
+      }
+      
       return {
         ...state,
         toasts: [
@@ -146,6 +154,19 @@ function dispatch(action: Action) {
 type Toast = Omit<ToasterToast, "id">;
 
 function toast({ ...props }: Toast) {
+  // Filter out May 19 session notifications before they're even created
+  if (props.title === "Sessions removed" && 
+      props.description && 
+      typeof props.description === 'string' && 
+      props.description.includes("May 19")) {
+    // Return a dummy object that matches the expected shape but doesn't do anything
+    return {
+      id: "filtered-toast",
+      dismiss: () => {},
+      update: () => {},
+    };
+  }
+
   const id = genId();
 
   const update = (props: ToasterToast) =>
