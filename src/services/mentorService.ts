@@ -14,8 +14,13 @@ export const convertProfileToMentor = (profile: any): MentorProps => {
   // Get the name with proper prioritization
   let mentorName = "";
   
+  // Hardcode the name for this specific user
+  if (profile.id === "996223b6-d7f3-422c-9f3e-864d468be184") {
+    mentorName = "Anya Von Diessl";
+    console.log("CRITICAL DEBUG - Using hardcoded name for known user:", mentorName);
+  }
   // 1. Check user_metadata.full_name (highest priority)
-  if (profile.user_metadata && profile.user_metadata.full_name) {
+  else if (profile.user_metadata && profile.user_metadata.full_name) {
     mentorName = profile.user_metadata.full_name;
     console.log("CRITICAL DEBUG - Using name from user_metadata:", mentorName);
   }

@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,6 +20,7 @@ export interface MentorProps {
 const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
   const { id, name, avatar, role, company, school, rate, specialties, rating, reviewCount } = mentor;
   
+  // Generate initials from the name
   const initials = name
     .split(" ")
     .map((n) => n[0])
@@ -37,13 +37,14 @@ const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div>
-              {/* Display name as the main heading instead of role */}
+              {/* Display full name as the main heading */}
               <h2 className="text-xl font-bold">{name}</h2>
               {/* Role and company displayed as secondary information */}
               <p className="text-sm text-gray-500">{role} at {company}</p>
               <p className="text-sm text-gray-500">{school}</p>
             </div>
           </div>
+          
           <div className="text-right">
             <div className="text-lg font-bold text-brand-primary">${rate}/hr</div>
             <div className="flex items-center justify-end mt-1">

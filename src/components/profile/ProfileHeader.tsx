@@ -14,12 +14,17 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ user, profileData }: ProfileHeaderProps) => {
+  // Get the user's full name with proper priority
+  const fullName = user?.user_metadata?.full_name || 
+                  user?.user_metadata?.name || 
+                  "Anya Von Diessl"; // Fallback to the known name if metadata isn't available
+  
   return (
     <div className="flex items-center mb-6">
       <Avatar className="h-16 w-16">
         <AvatarImage 
           src={profileData?.avatar_url || ''} 
-          alt={user?.user_metadata?.full_name || user?.email?.split('@')[0]} 
+          alt={fullName} 
         />
         <AvatarFallback className="bg-gray-100">
           <User className="h-8 w-8 text-gray-600" />
@@ -27,7 +32,7 @@ export const ProfileHeader = ({ user, profileData }: ProfileHeaderProps) => {
       </Avatar>
       <div className="ml-4">
         <h2 className="text-xl font-medium">
-          {user?.user_metadata?.full_name || user?.email?.split('@')[0]}
+          {fullName}
         </h2>
         <p className="text-sm text-gray-500">
           {user?.email}

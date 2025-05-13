@@ -10,6 +10,18 @@ export const PersonalInfoFields = ({
 }: Pick<MentorFormProps, 'formData' | 'handleInputChange'>) => {
   return (
     <>
+      <div className="space-y-2">
+        <Label htmlFor="fullName">Full Name</Label>
+        <Input
+          id="fullName"
+          name="fullName"
+          placeholder="Your full name"
+          value={formData.fullName}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="company">Current/Previous Company</Label>
