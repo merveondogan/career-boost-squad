@@ -39,8 +39,8 @@ const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
             <div>
               {/* Name is now the primary heading element with large bold text */}
               <h2 className="text-xl font-bold">{name}</h2>
-              {/* Role, company and school as secondary information below */}
-              <p className="text-sm text-gray-500">{role} at {company} at {company}</p>
+              {/* Role and company displayed properly, fixed the duplication */}
+              <p className="text-sm text-gray-500">{role} at {company}</p>
               <p className="text-sm text-gray-500">{school}</p>
             </div>
           </div>
