@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
+import { deleteCancelledSessions } from "@/services/bookingService";
 
 const SessionStatusBadge = ({ status }: { status: MentoringSession['status'] }) => {
   const statusColors: Record<string, string> = {
@@ -30,6 +31,22 @@ export const SessionsTab = () => {
   const [sessions, setSessions] = useState<MentoringSession[]>([]);
   const [loading, setLoading] = useState(true);
   const isMentor = user?.user_metadata?.is_mentor || user?.user_metadata?.user_type === "mentor";
+
+  // This useEffect will run when the component mounts and will delete the cancelled May 19, 2025 sessions
+  useEffect(() => {
+    const cleanupCancelledSessions = async () => {
+      try {
+        // Delete cancelled sessions on May 19, 2025
+        await deleteCancelledSessions("2025-05-19");
+        console.log("Cancelled sessions on May 19, 2025 have been removed");
+      } catch (error) {
+        console.error("Failed to delete cancelled sessions:", error);
+      }
+    };
+    
+    // Only run the cleanup once when the component mounts
+    cleanupCancelledSessions();
+  }, []);
 
   useEffect(() => {
     if (!user) return;
