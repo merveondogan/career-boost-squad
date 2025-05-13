@@ -37,7 +37,7 @@ const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div>
-              {/* Display the name as the main bold heading */}
+              {/* Explicitly display the name as the main heading */}
               <h2 className="text-xl font-bold">{name}</h2>
               {/* Role and company displayed as secondary information */}
               <p className="text-sm text-gray-500">{role} at {company}</p>
