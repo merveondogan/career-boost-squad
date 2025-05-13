@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -70,15 +69,11 @@ export const SessionsTab = () => {
       if (!user) return;
       
       try {
-        // Force delete all May 19 sessions
+        // Force delete all May 19 sessions - but don't show toast
         const deletedCount = await deleteMay19Sessions();
         
         if (deletedCount > 0) {
           console.log(`Successfully deleted ${deletedCount} sessions`);
-          toast({
-            title: "Sessions removed",
-            description: `${deletedCount} sessions from May 19 have been permanently deleted`
-          });
           // Refresh sessions list after deletion
           fetchSessions();
         }
