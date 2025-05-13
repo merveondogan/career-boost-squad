@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { deleteSession } from "@/services/bookingService";
+import { deleteSession, deleteMay19Sessions } from "@/services/bookingService";
 
 const SessionStatusBadge = ({ status }: { status: MentoringSession['status'] }) => {
   const statusColors: Record<string, string> = {
@@ -32,67 +31,65 @@ export const SessionsTab = () => {
   const [loading, setLoading] = useState(true);
   const isMentor = user?.user_metadata?.is_mentor || user?.user_metadata?.user_type === "mentor";
 
-  // Run once on component mount to immediately delete the specific May 19 sessions
+  // Run once on component mount to delete May 19 sessions specifically for Anya Von Diesel
   useEffect(() => {
     const removeMay19Sessions = async () => {
       if (!user) return;
       
       try {
-        // Find sessions on May 19, 2025 with 9:00 AM start time that are cancelled
-        const { data, error } = await supabase
-          .from('mentoring_sessions')
-          .select('id')
-          .eq('status', 'cancelled')
-          .ilike('start_time', '2025-05-19T09:00%');
+        // Execute the specialized function to delete May 19 sessions
+        const deletedCount = await deleteMay19Sessions();
         
-        if (error) throw error;
-        
-        if (data && data.length > 0) {
-          // Delete each found session
-          for (const session of data) {
-            await deleteSession(session.id);
-            console.log(`Deleted session: ${session.id}`);
-          }
-          
+        if (deletedCount > 0) {
+          console.log(`Successfully deleted ${deletedCount} sessions`);
           toast({
             title: "Sessions removed",
-            description: "The May 19 cancelled sessions have been permanently deleted"
+            description: `${deletedCount} cancelled sessions from May 19 have been permanently deleted`
           });
+          
+          // Refresh sessions list to reflect changes
+          fetchSessions();
         }
       } catch (error) {
         console.error("Failed to delete May 19 sessions:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to delete the May 19 sessions. Please try again."
+        });
       }
     };
     
     removeMay19Sessions();
   }, [user]);
 
-  useEffect(() => {
+  const fetchSessions = async () => {
     if (!user) return;
     
-    const fetchSessions = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('mentoring_sessions')
-          .select('*')
-          .eq(isMentor ? 'mentor_id' : 'student_id', user.id)
-          .order('start_time', { ascending: true });
-        
-        if (error) throw error;
-        setSessions(data as MentoringSession[]);
-      } catch (error: any) {
-        console.error('Error fetching sessions:', error);
-        toast({
-          variant: "destructive",
-          title: "Failed to load sessions",
-          description: error.message || "Please try again later"
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-    
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('mentoring_sessions')
+        .select('*')
+        .eq(isMentor ? 'mentor_id' : 'student_id', user.id)
+        .order('start_time', { ascending: true });
+      
+      if (error) throw error;
+      setSessions(data as MentoringSession[]);
+    } catch (error: any) {
+      console.error('Error fetching sessions:', error);
+      toast({
+        variant: "destructive",
+        title: "Failed to load sessions",
+        description: error.message || "Please try again later"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch sessions when component mounts or when user/isMentor changes
+  useEffect(() => {
     fetchSessions();
   }, [user, isMentor]);
 

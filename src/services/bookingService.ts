@@ -189,3 +189,36 @@ export const deleteSession = async (sessionId: string) => {
     throw error;
   }
 };
+
+// Delete sessions by specific date and time - use exact date string matching instead of ILIKE
+export const deleteMay19Sessions = async () => {
+  try {
+    // First get all the sessions on May 19, 2025 that are cancelled
+    const { data, error } = await supabase
+      .from("mentoring_sessions")
+      .select("*")
+      .eq("status", "cancelled")
+      .filter("start_time", "ilike", "2025-05-19%")
+      .filter("start_time", "ilike", "%09:00%");
+
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      // Delete each found session
+      for (const session of data) {
+        const { error: deleteError } = await supabase
+          .from("mentoring_sessions")
+          .delete()
+          .eq("id", session.id);
+          
+        if (deleteError) throw deleteError;
+      }
+      return data.length; // Return number of deleted sessions
+    }
+    return 0;
+  } catch (error: any) {
+    console.error("Error deleting May 19 sessions:", error);
+    throw error;
+  }
+};
+
