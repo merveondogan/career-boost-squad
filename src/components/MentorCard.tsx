@@ -37,7 +37,7 @@ const MentorCard = ({ mentor }: { mentor: MentorProps }) => {
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="font-semibold text-lg">{name}</h3>
+              <h3 className="font-bold text-lg">{name}</h3>
               <p className="text-sm text-gray-500 mt-1">{role} at {company}</p>
               <p className="text-sm text-gray-500">{school}</p>
             </div>
