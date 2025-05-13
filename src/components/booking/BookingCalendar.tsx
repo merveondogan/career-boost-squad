@@ -75,7 +75,7 @@ const BookingCalendar = ({ mentorId, onSlotSelect }: BookingCalendarProps) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
+          <div className="overflow-hidden">
             <Calendar
               mode="single"
               selected={date}
@@ -87,7 +87,7 @@ const BookingCalendar = ({ mentorId, onSlotSelect }: BookingCalendarProps) => {
               modifiersStyles={{
                 available: { backgroundColor: "rgba(52, 211, 153, 0.1)" }
               }}
-              className="rounded-md border p-3 pointer-events-auto"
+              className="rounded-md border p-3 w-full"
             />
           </div>
           
