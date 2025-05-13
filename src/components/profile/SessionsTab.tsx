@@ -31,36 +31,31 @@ export const SessionsTab = () => {
   const [loading, setLoading] = useState(true);
   const isMentor = user?.user_metadata?.is_mentor || user?.user_metadata?.user_type === "mentor";
 
-  // Run once on component mount to delete May 19 sessions specifically for Anya Von Diesel
+  // Immediately attempt to delete the problematic May 19 sessions
   useEffect(() => {
-    const removeMay19Sessions = async () => {
+    const cleanupMay19Sessions = async () => {
       if (!user) return;
       
       try {
-        // Execute the specialized function to delete May 19 sessions
+        // Force delete all May 19 9:00 AM sessions
         const deletedCount = await deleteMay19Sessions();
         
         if (deletedCount > 0) {
           console.log(`Successfully deleted ${deletedCount} sessions`);
           toast({
             title: "Sessions removed",
-            description: `${deletedCount} cancelled sessions from May 19 have been permanently deleted`
+            description: `${deletedCount} sessions from May 19 have been permanently deleted`
           });
-          
-          // Refresh sessions list to reflect changes
-          fetchSessions();
         }
       } catch (error) {
         console.error("Failed to delete May 19 sessions:", error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to delete the May 19 sessions. Please try again."
-        });
+      } finally {
+        // Always refresh the sessions list to ensure UI is updated
+        fetchSessions();
       }
     };
     
-    removeMay19Sessions();
+    cleanupMay19Sessions();
   }, [user]);
 
   const fetchSessions = async () => {

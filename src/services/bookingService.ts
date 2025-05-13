@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { format, parse, addMinutes } from "date-fns";
 
@@ -190,30 +189,38 @@ export const deleteSession = async (sessionId: string) => {
   }
 };
 
-// Delete sessions by specific date and time - use exact date string matching instead of ILIKE
+// Enhanced function to delete the problematic May 19 sessions
 export const deleteMay19Sessions = async () => {
   try {
-    // First get all the sessions on May 19, 2025 that are cancelled
-    const { data, error } = await supabase
+    // Force delete ALL sessions on May 19, 2025 that start at 9:00 AM
+    const { data: sessionsToDelete, error: fetchError } = await supabase
       .from("mentoring_sessions")
       .select("*")
-      .eq("status", "cancelled")
       .filter("start_time", "ilike", "2025-05-19%")
       .filter("start_time", "ilike", "%09:00%");
 
-    if (error) throw error;
+    if (fetchError) throw fetchError;
     
-    if (data && data.length > 0) {
-      // Delete each found session
-      for (const session of data) {
+    console.log("Found sessions to delete:", sessionsToDelete);
+    
+    if (sessionsToDelete && sessionsToDelete.length > 0) {
+      // Delete each found session individually to ensure complete removal
+      for (const session of sessionsToDelete) {
+        console.log("Deleting session:", session.id);
+        
+        // Direct deletion using explicit ID
         const { error: deleteError } = await supabase
           .from("mentoring_sessions")
           .delete()
           .eq("id", session.id);
           
-        if (deleteError) throw deleteError;
+        if (deleteError) {
+          console.error(`Error deleting session ${session.id}:`, deleteError);
+          throw deleteError;
+        }
       }
-      return data.length; // Return number of deleted sessions
+      
+      return sessionsToDelete.length; // Return number of deleted sessions
     }
     return 0;
   } catch (error: any) {
@@ -221,4 +228,3 @@ export const deleteMay19Sessions = async () => {
     throw error;
   }
 };
-
