@@ -37,114 +37,56 @@ const HeroSection = () => {
                 </div>
               </div>
               
-              {/* Ladder journey visualization - right side */}
+              {/* Simple Ladder - right side */}
               <div className="mt-12 lg:mt-0 lg:col-span-5">
                 <div className="relative mx-auto max-w-md lg:max-w-lg">
                   <div className="relative h-80 lg:h-96 flex items-center justify-center">
                     
-                    {/* Main ladder visualization */}
-                    <div className="relative w-64 h-64">
+                    {/* Ladder Structure */}
+                    <div className="relative w-32 h-72">
+                      {/* Left Rail */}
+                      <div className="absolute left-8 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
                       
-                      {/* Person at the bottom - starting point */}
-                      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                        <div className="relative">
-                          {/* Head */}
-                          <div className="w-4 h-4 bg-gradient-to-br from-cyber-purple to-cyber-pink rounded-full mx-auto animate-float"></div>
-                          {/* Body */}
-                          <div className="w-6 h-8 bg-gradient-to-br from-cyber-purple to-cyber-pink rounded-t-full mx-auto mt-1"></div>
-                          {/* Arms */}
-                          <div className="absolute top-3 -left-1 w-3 h-1 bg-gradient-to-r from-cyber-purple to-cyber-pink rounded transform rotate-45"></div>
-                          <div className="absolute top-3 -right-1 w-3 h-1 bg-gradient-to-r from-cyber-purple to-cyber-pink rounded transform -rotate-45"></div>
-                          {/* Legs */}
-                          <div className="absolute bottom-0 left-1 w-1 h-4 bg-gradient-to-b from-cyber-purple to-cyber-pink rounded"></div>
-                          <div className="absolute bottom-0 right-1 w-1 h-4 bg-gradient-to-b from-cyber-purple to-cyber-pink rounded"></div>
+                      {/* Right Rail */}
+                      <div className="absolute right-8 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
+                      
+                      {/* Ladder Rungs */}
+                      <div className="absolute left-8 top-12 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-8 top-20 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-8 top-28 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-8 top-36 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-8 top-44 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-8 top-52 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-8 top-60 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      
+                      {/* Person Climbing */}
+                      <div className="absolute left-1/2 transform -translate-x-1/2 top-40 animate-float">
+                        {/* Head */}
+                        <div className="w-3 h-3 bg-cyber-pink rounded-full mx-auto"></div>
+                        {/* Body */}
+                        <div className="w-4 h-6 bg-cyber-pink rounded-t-lg mx-auto"></div>
+                        {/* Arms reaching up */}
+                        <div className="absolute -top-1 -left-1 w-2 h-1 bg-cyber-pink rounded transform rotate-45"></div>
+                        <div className="absolute -top-1 -right-1 w-2 h-1 bg-cyber-pink rounded transform -rotate-45"></div>
+                        {/* Legs on rung */}
+                        <div className="absolute bottom-0 left-0 w-1 h-3 bg-cyber-pink rounded"></div>
+                        <div className="absolute bottom-0 right-0 w-1 h-3 bg-cyber-pink rounded"></div>
+                      </div>
+                      
+                      {/* Success Symbol at Top */}
+                      <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
+                        <div className="w-8 h-8 border-2 border-cyber-green rounded-full flex items-center justify-center animate-pulse">
+                          <div className="w-3 h-3 bg-cyber-green rounded-full"></div>
                         </div>
                       </div>
                       
-                      {/* Ladder structure */}
-                      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
-                        <defs>
-                          <linearGradient id="ladderGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" stopColor="#8b45ff" />
-                            <stop offset="50%" stopColor="#00d4ff" />
-                            <stop offset="100%" stopColor="#39ff14" />
-                          </linearGradient>
-                        </defs>
-                        
-                        {/* Left rail */}
-                        <line 
-                          x1="90" y1="170" 
-                          x2="90" y2="30"
-                          stroke="url(#ladderGradient)"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          className="animate-float"
-                          style={{ animationDuration: '3s' }}
-                        />
-                        
-                        {/* Right rail */}
-                        <line 
-                          x1="110" y1="170" 
-                          x2="110" y2="30"
-                          stroke="url(#ladderGradient)"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          className="animate-float"
-                          style={{ animationDuration: '3s', animationDelay: '0.2s' }}
-                        />
-                        
-                        {/* Ladder rungs */}
-                        <line x1="90" y1="150" x2="110" y2="150" stroke="url(#ladderGradient)" strokeWidth="2" strokeLinecap="round" />
-                        <line x1="90" y1="130" x2="110" y2="130" stroke="url(#ladderGradient)" strokeWidth="2" strokeLinecap="round" />
-                        <line x1="90" y1="110" x2="110" y2="110" stroke="url(#ladderGradient)" strokeWidth="2" strokeLinecap="round" />
-                        <line x1="90" y1="90" x2="110" y2="90" stroke="url(#ladderGradient)" strokeWidth="2" strokeLinecap="round" />
-                        <line x1="90" y1="70" x2="110" y2="70" stroke="url(#ladderGradient)" strokeWidth="2" strokeLinecap="round" />
-                        <line x1="90" y1="50" x2="110" y2="50" stroke="url(#ladderGradient)" strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                      
-                      {/* Target/Goal at the top */}
-                      <div className="absolute top-2 left-1/2 transform -translate-x-1/2">
-                        <div className="relative">
-                          {/* Outer ring */}
-                          <div className="w-12 h-12 border-3 border-cyber-green rounded-full animate-float flex items-center justify-center">
-                            {/* Inner ring */}
-                            <div className="w-8 h-8 border-2 border-cyber-cyan rounded-full flex items-center justify-center">
-                              {/* Center dot - the bullseye */}
-                              <div className="w-3 h-3 bg-cyber-yellow rounded-full neon-glow"></div>
-                            </div>
-                          </div>
-                          
-                          {/* Success rays emanating from target */}
-                          <div className="absolute -inset-2">
-                            <div className="w-16 h-16 border-2 border-cyber-green/30 rounded-full animate-ping" style={{ animationDelay: '0s' }}></div>
-                            <div className="absolute inset-1 w-14 h-14 border-2 border-cyber-cyan/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Progress indicators along the ladder */}
-                      <div className="absolute bottom-32 left-20">
-                        <div className="w-2 h-2 bg-cyber-purple rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
-                      </div>
-                      <div className="absolute bottom-24 left-24">
-                        <div className="w-2 h-2 bg-cyber-cyan rounded-full animate-pulse" style={{ animationDelay: '0.7s' }}></div>
-                      </div>
-                      <div className="absolute bottom-16 left-20">
-                        <div className="w-2 h-2 bg-cyber-pink rounded-full animate-pulse" style={{ animationDelay: '1.4s' }}></div>
-                      </div>
-                      
-                      {/* Upward momentum indicators */}
-                      <div className="absolute top-12 right-8">
-                        <div className="flex flex-col space-y-1">
-                          <div className="w-1 h-3 bg-cyber-green opacity-60 animate-float" style={{ animationDelay: '0.2s' }}></div>
-                          <div className="w-1 h-3 bg-cyber-yellow opacity-70 animate-float" style={{ animationDelay: '0.5s' }}></div>
-                          <div className="w-1 h-3 bg-cyber-cyan opacity-80 animate-float" style={{ animationDelay: '0.8s' }}></div>
-                        </div>
+                      {/* Upward Motion Indicators */}
+                      <div className="absolute -right-4 top-32">
+                        <div className="w-1 h-2 bg-cyber-green opacity-60 animate-float mb-1" style={{ animationDelay: '0s' }}></div>
+                        <div className="w-1 h-2 bg-cyber-green opacity-70 animate-float mb-1" style={{ animationDelay: '0.3s' }}></div>
+                        <div className="w-1 h-2 bg-cyber-green opacity-80 animate-float" style={{ animationDelay: '0.6s' }}></div>
                       </div>
                     </div>
-                    
-                    {/* Ambient success glow */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-cyber-purple/10 via-transparent to-cyber-green/10 rounded-full"></div>
                   </div>
                 </div>
               </div>
