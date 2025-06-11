@@ -70,8 +70,8 @@ const HeroSection = () => {
                       </div>
                     </div>
                     
-                    {/* Person Climbing - Positioned slightly to the left */}
-                    <div className="absolute left-1/2 transform -translate-x-3 top-1/2 -translate-y-4 animate-float">
+                    {/* Person Climbing - Positioned at midpoint of ladder */}
+                    <div className="absolute left-1/2 transform -translate-x-6 top-1/2 -translate-y-4 animate-float">
                       {/* Head */}
                       <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
                       {/* Body */}
