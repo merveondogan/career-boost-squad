@@ -10,15 +10,15 @@ const StatsBanner = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="text-center animate-float">
             <p className="text-5xl font-extrabold text-white font-cyber neon-glow">500+</p>
-            <p className="mt-2 text-lg font-medium text-white/90 font-cyber">SUCCESSFUL INFILTRATIONS</p>
+            <p className="mt-2 text-lg font-medium text-white/90 font-cyber">SUCCESSFUL PLACEMENTS</p>
           </div>
           <div className="text-center animate-float" style={{ animationDelay: '0.5s' }}>
             <p className="text-5xl font-extrabold text-white font-cyber neon-glow">50+</p>
-            <p className="mt-2 text-lg font-medium text-white/90 font-cyber">ELITE CORPORATIONS</p>
+            <p className="mt-2 text-lg font-medium text-white/90 font-cyber">TOP COMPANIES</p>
           </div>
           <div className="text-center animate-float" style={{ animationDelay: '1s' }}>
             <p className="text-5xl font-extrabold text-white font-cyber neon-glow">95%</p>
-            <p className="mt-2 text-lg font-medium text-white/90 font-cyber">MISSION SUCCESS RATE</p>
+            <p className="mt-2 text-lg font-medium text-white/90 font-cyber">SUCCESS RATE</p>
           </div>
         </div>
       </div>

@@ -16,21 +16,21 @@ const HeroSection = () => {
           <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8 xl:mt-20">
             <div className="text-center lg:text-left">
               <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-7xl animate-neon-pulse">
-                <span className="block">HACK YOUR WAY TO</span>
+                <span className="block">LAND YOUR DREAM</span>
                 <span className="block bg-gradient-to-r from-cyber-purple via-cyber-cyan to-cyber-pink bg-clip-text text-transparent animate-gradient-shift bg-size-400">
-                  ELITE INTERNSHIPS
+                  INTERNSHIP
                 </span>
               </h1>
               <p className="mt-3 text-base text-muted-foreground sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto lg:mx-0 md:mt-5 md:text-xl font-cyber">
-                Connect with elite mentors who've infiltrated top-tier companies like Google, Meta, and BCG.
-                Access classified strategies for resumes, interviews, and application exploits.
+                Connect with experienced mentors who've landed roles at top companies like Google, Meta, and BCG.
+                Get personalized guidance for resumes, interviews, and applications.
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start gap-4">
                 <Button size="lg" className="btn-primary animate-pulse-glow" asChild>
-                  <Link to="/mentors">INITIATE CONNECTION</Link>
+                  <Link to="/mentors">FIND A MENTOR</Link>
                 </Button>
                 <Button size="lg" className="btn-secondary" asChild>
-                  <Link to="/become-mentor">JOIN THE NETWORK</Link>
+                  <Link to="/become-mentor">BECOME A MENTOR</Link>
                 </Button>
               </div>
             </div>

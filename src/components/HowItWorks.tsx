@@ -9,26 +9,26 @@ import {
 const steps = [
   {
     id: 1,
-    title: "TARGET ACQUISITION",
-    description: "Scan our database of elite operatives who've successfully infiltrated Fortune 500 companies. Filter by expertise, company access, or specialization.",
+    title: "FIND YOUR MENTOR",
+    description: "Browse our database of successful mentors who've landed roles at top companies. Filter by expertise, company experience, or specialization.",
     icon: Target,
   },
   {
     id: 2,
-    title: "SCHEDULE OPERATION",
-    description: "Book encrypted sessions for intelligence briefings. Choose from resume optimization, interview simulation, or strategic consultation protocols.",
+    title: "BOOK A SESSION",
+    description: "Schedule personalized sessions for career guidance. Choose from resume reviews, mock interviews, or strategic career consultations.",
     icon: Calendar,
   },
   {
     id: 3,
-    title: "EXECUTE CONNECTION",
-    description: "Engage with your assigned operative through our secure platform. Receive classified insights and insider intelligence.",
+    title: "GET PERSONALIZED HELP",
+    description: "Connect with your chosen mentor through our platform. Receive insider insights and expert guidance tailored to your goals.",
     icon: Zap,
   },
   {
     id: 4,
-    title: "LAUNCH MISSION",
-    description: "Deploy your enhanced arsenal of knowledge and materials to execute flawless applications and dominate interviews.",
+    title: "LAND YOUR DREAM ROLE",
+    description: "Apply your enhanced knowledge and materials to submit outstanding applications and excel in interviews.",
     icon: Rocket,
   },
 ];
@@ -42,10 +42,10 @@ const HowItWorks = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-extrabold mb-4 bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
-            OPERATION PROTOCOL
+            HOW IT WORKS
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-cyber">
-            Execute the perfect infiltration strategy in four synchronized phases
+            Your path to success in four simple steps
           </p>
         </div>
 

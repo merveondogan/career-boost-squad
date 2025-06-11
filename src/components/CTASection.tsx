@@ -12,18 +12,18 @@ const CTASection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold sm:text-5xl mb-4 bg-gradient-to-r from-cyber-purple via-cyber-cyan to-cyber-pink bg-clip-text text-transparent animate-gradient-shift bg-size-400 font-cyber">
-            READY TO BREAK THE SYSTEM?
+            READY TO ACCELERATE YOUR CAREER?
           </h2>
           <p className="mt-4 text-lg leading-6 text-muted-foreground max-w-2xl mx-auto">
-            Join the elite network today and access the insider intelligence you need to dominate 
-            the internship battlefield.
+            Join thousands of students who've successfully landed internships at top companies 
+            with personalized mentorship and expert guidance.
           </p>
           <div className="mt-8 flex justify-center gap-4">
             <Button size="lg" className="btn-primary animate-pulse-glow" asChild>
-              <Link to="/mentors">INITIATE PROTOCOL</Link>
+              <Link to="/mentors">FIND YOUR MENTOR</Link>
             </Button>
             <Button size="lg" className="btn-secondary" asChild>
-              <Link to="/mentors">ACCESS DATABASE</Link>
+              <Link to="/mentors">BROWSE MENTORS</Link>
             </Button>
           </div>
         </div>
