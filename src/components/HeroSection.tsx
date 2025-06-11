@@ -38,36 +38,56 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Futuristic geometric design element */}
+      {/* Career pathway visualization */}
       <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <div className="relative h-56 w-full sm:h-72 md:h-96 lg:w-full lg:h-full">
-          {/* Animated geometric shapes */}
+          {/* Career progression path */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative w-96 h-96">
-              {/* Outer rotating ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-cyber-purple/30 animate-spin" style={{ animationDuration: '20s' }}>
-                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyber-cyan rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
-                <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-cyber-pink rounded-full transform -translate-x-1/2 translate-y-1/2 animate-pulse" style={{ animationDelay: '1s' }}></div>
+              {/* Main career pathway - vertical progression */}
+              <div className="absolute left-1/2 top-8 bottom-8 w-px bg-gradient-to-b from-cyber-cyan via-cyber-purple to-cyber-pink transform -translate-x-1/2"></div>
+              
+              {/* Career stages as connected nodes */}
+              <div className="absolute top-12 left-1/2 transform -translate-x-1/2">
+                <div className="w-4 h-4 bg-cyber-cyan rounded-full animate-pulse"></div>
+                <div className="absolute -left-16 -top-2 text-xs text-cyber-cyan font-cyber opacity-80">STUDENT</div>
               </div>
               
-              {/* Middle ring */}
-              <div className="absolute inset-8 rounded-full border border-cyber-cyan/40 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}>
-                <div className="absolute top-0 right-0 w-2 h-2 bg-cyber-purple rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+              <div className="absolute top-32 left-1/2 transform -translate-x-1/2">
+                <div className="w-5 h-5 bg-cyber-purple rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                <div className="absolute -right-20 -top-2 text-xs text-cyber-purple font-cyber opacity-80">INTERN</div>
               </div>
               
-              {/* Inner core */}
-              <div className="absolute inset-16 rounded-full bg-gradient-to-r from-cyber-purple/20 to-cyber-cyan/20 backdrop-blur-sm border border-cyber-pink/30 animate-pulse">
-                <div className="absolute inset-2 rounded-full bg-gradient-to-r from-cyber-cyan/10 to-cyber-purple/10"></div>
+              <div className="absolute top-52 left-1/2 transform -translate-x-1/2">
+                <div className="w-6 h-6 bg-cyber-pink rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute -left-24 -top-2 text-xs text-cyber-pink font-cyber opacity-80">PROFESSIONAL</div>
               </div>
               
-              {/* Floating particles */}
-              <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-cyber-cyan rounded-full animate-float"></div>
-              <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyber-pink rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
-              <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-cyber-purple rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+              {/* Mentorship connection lines - representing mentor-mentee relationships */}
+              <div className="absolute top-16 left-20 w-24 h-px bg-gradient-to-r from-cyber-cyan/60 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+              <div className="absolute top-36 right-20 w-32 h-px bg-gradient-to-l from-cyber-purple/60 to-transparent animate-pulse" style={{ animationDelay: '2s' }}></div>
+              <div className="absolute top-56 left-16 w-28 h-px bg-gradient-to-r from-cyber-pink/60 to-transparent animate-pulse" style={{ animationDelay: '2.5s' }}></div>
+              
+              {/* Mentor nodes */}
+              <div className="absolute top-16 left-12 w-2 h-2 bg-cyber-cyan/80 rounded-full animate-float"></div>
+              <div className="absolute top-36 right-12 w-2 h-2 bg-cyber-purple/80 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+              <div className="absolute top-56 left-8 w-2 h-2 bg-cyber-pink/80 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+              
+              {/* Success indicators - representing achievements */}
+              <div className="absolute top-20 right-32 w-1 h-1 bg-cyber-cyan rounded-full animate-pulse" style={{ animationDelay: '3s' }}></div>
+              <div className="absolute top-40 left-24 w-1 h-1 bg-cyber-purple rounded-full animate-pulse" style={{ animationDelay: '3.5s' }}></div>
+              <div className="absolute top-60 right-28 w-1 h-1 bg-cyber-pink rounded-full animate-pulse" style={{ animationDelay: '4s' }}></div>
+              
+              {/* Network effect - subtle connecting lines */}
+              <div className="absolute inset-0 opacity-30">
+                <div className="absolute top-1/4 left-1/4 w-8 h-px bg-cyber-cyan/40 transform rotate-45 animate-float"></div>
+                <div className="absolute top-1/2 right-1/3 w-12 h-px bg-cyber-purple/40 transform -rotate-30 animate-float" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute bottom-1/3 left-1/3 w-10 h-px bg-cyber-pink/40 transform rotate-60 animate-float" style={{ animationDelay: '2s' }}></div>
+              </div>
             </div>
           </div>
           
-          {/* Additional light effects */}
+          {/* Ambient lighting effects */}
           <div className="absolute inset-0 bg-gradient-to-l from-cyber-purple/5 via-transparent to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent"></div>
         </div>
