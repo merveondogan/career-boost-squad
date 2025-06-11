@@ -63,14 +63,24 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Custom brand colors
+				// Futuristic brand colors
 				brand: {
-					primary: '#4F46E5',   // Indigo
-					secondary: '#7C3AED', // Purple
-					tertiary: '#0EA5E9',  // Sky blue
-					light: '#EEF2FF',     // Light indigo
-					dark: '#312E81',      // Dark indigo
+					primary: '#8b45ff',   // Electric purple
+					secondary: '#00d4ff', // Cyber cyan
+					tertiary: '#ff007f',  // Hot pink
+					light: '#1a1a2e',     // Dark blue-gray
+					dark: '#0f0f15',      // Almost black
+					neon: '#39ff14',      // Electric green
 				},
+				// Cyberpunk palette
+				cyber: {
+					purple: '#8b45ff',
+					cyan: '#00d4ff',
+					pink: '#ff007f',
+					green: '#39ff14',
+					yellow: '#ffff00',
+					orange: '#ff6600',
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -101,12 +111,31 @@ export default {
 					'50%': { 
 						'background-position': '100% 50%' 
 					},
+				},
+				'neon-pulse': {
+					'0%, 100%': {
+						'text-shadow': '0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor'
+					},
+					'50%': {
+						'text-shadow': '0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor'
+					}
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0px)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'scan': {
+					'0%': { transform: 'translateX(-100%)' },
+					'100%': { transform: 'translateX(100%)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'gradient-shift': 'gradient-shift 10s ease infinite'
+				'gradient-shift': 'gradient-shift 8s ease infinite',
+				'neon-pulse': 'neon-pulse 2s ease-in-out infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'scan': 'scan 2s linear infinite'
 			},
 			typography: {
 				DEFAULT: {
@@ -118,6 +147,10 @@ export default {
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'hero-pattern': "url('/bg-pattern.svg')",
+				'cyber-grid': 'linear-gradient(rgba(139, 69, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 69, 255, 0.1) 1px, transparent 1px)',
+			},
+			fontFamily: {
+				'cyber': ['JetBrains Mono', 'Fira Code', 'monospace'],
 			}
 		}
 	},

@@ -10,9 +10,9 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <div className="pt-16"> {/* Add padding to account for fixed navbar */}
+      <div className="pt-16">
         <HeroSection />
         <HowItWorks />
         <FeaturedMentors />
