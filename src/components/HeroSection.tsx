@@ -38,17 +38,38 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Futuristic image overlay */}
+      {/* Futuristic geometric design element */}
       <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <div className="relative h-56 w-full sm:h-72 md:h-96 lg:w-full lg:h-full">
-          <div className="absolute inset-0 bg-gradient-to-l from-cyber-purple/20 via-cyber-cyan/10 to-transparent"></div>
-          <img
-            className="absolute inset-0 h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full opacity-80"
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1976&q=80"
-            alt="Futuristic tech interface"
-          />
-          {/* Overlay effects */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+          {/* Animated geometric shapes */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-96 h-96">
+              {/* Outer rotating ring */}
+              <div className="absolute inset-0 rounded-full border-2 border-cyber-purple/30 animate-spin" style={{ animationDuration: '20s' }}>
+                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyber-cyan rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+                <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-cyber-pink rounded-full transform -translate-x-1/2 translate-y-1/2 animate-pulse" style={{ animationDelay: '1s' }}></div>
+              </div>
+              
+              {/* Middle ring */}
+              <div className="absolute inset-8 rounded-full border border-cyber-cyan/40 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}>
+                <div className="absolute top-0 right-0 w-2 h-2 bg-cyber-purple rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+              </div>
+              
+              {/* Inner core */}
+              <div className="absolute inset-16 rounded-full bg-gradient-to-r from-cyber-purple/20 to-cyber-cyan/20 backdrop-blur-sm border border-cyber-pink/30 animate-pulse">
+                <div className="absolute inset-2 rounded-full bg-gradient-to-r from-cyber-cyan/10 to-cyber-purple/10"></div>
+              </div>
+              
+              {/* Floating particles */}
+              <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-cyber-cyan rounded-full animate-float"></div>
+              <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-cyber-pink rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+              <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-cyber-purple rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+            </div>
+          </div>
+          
+          {/* Additional light effects */}
+          <div className="absolute inset-0 bg-gradient-to-l from-cyber-purple/5 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent"></div>
         </div>
       </div>
     </div>
