@@ -68,17 +68,17 @@ const HeroSection = () => {
                           fill="currentColor"
                         />
                       </div>
-                    </div>
-                    
-                    {/* Person Climbing - Positioned at midpoint of ladder */}
-                    <div className="absolute left-1/2 transform -translate-x-6 top-1/2 -translate-y-4 animate-float">
-                      {/* Head */}
-                      <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
-                      {/* Body */}
-                      <div className="w-8 h-10 bg-cyber-pink rounded-t-lg mx-auto"></div>
-                      {/* Legs */}
-                      <div className="absolute bottom-0 left-0 w-2 h-5 bg-cyber-pink rounded"></div>
-                      <div className="absolute bottom-0 right-0 w-2 h-5 bg-cyber-pink rounded"></div>
+                      
+                      {/* Person Climbing - Positioned at center of ladder rails */}
+                      <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-4 animate-float">
+                        {/* Head */}
+                        <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
+                        {/* Body */}
+                        <div className="w-8 h-10 bg-cyber-pink rounded-t-lg mx-auto"></div>
+                        {/* Legs */}
+                        <div className="absolute bottom-0 left-0 w-2 h-5 bg-cyber-pink rounded"></div>
+                        <div className="absolute bottom-0 right-0 w-2 h-5 bg-cyber-pink rounded"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
