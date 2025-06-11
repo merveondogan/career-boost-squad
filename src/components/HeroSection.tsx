@@ -1,5 +1,3 @@
-
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Trophy } from "lucide-react";
@@ -60,26 +58,26 @@ const HeroSection = () => {
                       <div className="absolute left-2 right-2 top-44 h-1 bg-cyber-cyan rounded"></div>
                       <div className="absolute left-2 right-2 top-52 h-1 bg-cyber-cyan rounded"></div>
                       <div className="absolute left-2 right-2 top-60 h-1 bg-cyber-cyan rounded"></div>
-                      
-                      {/* Person Climbing - Counter-rotated to stand straight */}
-                      <div className="absolute left-1/2 transform -translate-x-1/2 top-36 animate-float -rotate-12">
-                        {/* Head */}
-                        <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
-                        {/* Body */}
-                        <div className="w-8 h-10 bg-cyber-pink rounded-t-lg mx-auto"></div>
-                        {/* Legs on rung */}
-                        <div className="absolute bottom-0 left-0 w-2 h-5 bg-cyber-pink rounded"></div>
-                        <div className="absolute bottom-0 right-0 w-2 h-5 bg-cyber-pink rounded"></div>
-                      </div>
-                      
-                      {/* Trophy Icon at Top */}
-                      <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
-                        <Trophy 
-                          size={24} 
-                          className="text-cyber-green animate-pulse" 
-                          fill="currentColor"
-                        />
-                      </div>
+                    </div>
+                    
+                    {/* Person Climbing - Positioned outside ladder container to avoid tilt */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-6 animate-float">
+                      {/* Head */}
+                      <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
+                      {/* Body */}
+                      <div className="w-8 h-10 bg-cyber-pink rounded-t-lg mx-auto"></div>
+                      {/* Legs */}
+                      <div className="absolute bottom-0 left-0 w-2 h-5 bg-cyber-pink rounded"></div>
+                      <div className="absolute bottom-0 right-0 w-2 h-5 bg-cyber-pink rounded"></div>
+                    </div>
+                    
+                    {/* Trophy Icon at Top */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2 top-8">
+                      <Trophy 
+                        size={24} 
+                        className="text-cyber-green animate-pulse" 
+                        fill="currentColor"
+                      />
                     </div>
                   </div>
                 </div>
@@ -93,4 +91,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
