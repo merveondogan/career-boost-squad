@@ -43,21 +43,21 @@ const HeroSection = () => {
                   <div className="relative h-80 lg:h-96 flex items-center justify-center">
                     
                     {/* Ladder Structure */}
-                    <div className="relative w-32 h-72">
+                    <div className="relative w-20 h-72">
                       {/* Left Rail */}
-                      <div className="absolute left-8 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
+                      <div className="absolute left-2 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
                       
                       {/* Right Rail */}
-                      <div className="absolute right-8 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
+                      <div className="absolute right-2 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
                       
-                      {/* Ladder Rungs */}
-                      <div className="absolute left-8 top-12 w-8 h-1 bg-cyber-cyan rounded"></div>
-                      <div className="absolute left-8 top-20 w-8 h-1 bg-cyber-cyan rounded"></div>
-                      <div className="absolute left-8 top-28 w-8 h-1 bg-cyber-cyan rounded"></div>
-                      <div className="absolute left-8 top-36 w-8 h-1 bg-cyber-cyan rounded"></div>
-                      <div className="absolute left-8 top-44 w-8 h-1 bg-cyber-cyan rounded"></div>
-                      <div className="absolute left-8 top-52 w-8 h-1 bg-cyber-cyan rounded"></div>
-                      <div className="absolute left-8 top-60 w-8 h-1 bg-cyber-cyan rounded"></div>
+                      {/* Ladder Rungs - Full width between rails */}
+                      <div className="absolute left-2 right-2 top-12 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-2 right-2 top-20 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-2 right-2 top-28 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-2 right-2 top-36 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-2 right-2 top-44 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-2 right-2 top-52 h-1 bg-cyber-cyan rounded"></div>
+                      <div className="absolute left-2 right-2 top-60 h-1 bg-cyber-cyan rounded"></div>
                       
                       {/* Person Climbing */}
                       <div className="absolute left-1/2 transform -translate-x-1/2 top-40 animate-float">
@@ -73,18 +73,11 @@ const HeroSection = () => {
                         <div className="absolute bottom-0 right-0 w-1 h-3 bg-cyber-pink rounded"></div>
                       </div>
                       
-                      {/* Success Symbol at Top */}
+                      {/* Success Target at Top */}
                       <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
-                        <div className="w-8 h-8 border-2 border-cyber-green rounded-full flex items-center justify-center animate-pulse">
-                          <div className="w-3 h-3 bg-cyber-green rounded-full"></div>
+                        <div className="w-6 h-6 border-2 border-cyber-green rounded-full flex items-center justify-center animate-pulse">
+                          <div className="w-2 h-2 bg-cyber-green rounded-full"></div>
                         </div>
-                      </div>
-                      
-                      {/* Upward Motion Indicators */}
-                      <div className="absolute -right-4 top-32">
-                        <div className="w-1 h-2 bg-cyber-green opacity-60 animate-float mb-1" style={{ animationDelay: '0s' }}></div>
-                        <div className="w-1 h-2 bg-cyber-green opacity-70 animate-float mb-1" style={{ animationDelay: '0.3s' }}></div>
-                        <div className="w-1 h-2 bg-cyber-green opacity-80 animate-float" style={{ animationDelay: '0.6s' }}></div>
                       </div>
                     </div>
                   </div>
