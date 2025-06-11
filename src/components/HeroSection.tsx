@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Trophy } from "lucide-react";
@@ -37,13 +38,13 @@ const HeroSection = () => {
                 </div>
               </div>
               
-              {/* Tilted Ladder - right side */}
+              {/* Ladder - right side */}
               <div className="mt-12 lg:mt-0 lg:col-span-5">
                 <div className="relative mx-auto max-w-md lg:max-w-lg">
                   <div className="relative h-80 lg:h-96 flex items-center justify-center">
                     
-                    {/* Ladder Structure - Tilted to the right */}
-                    <div className="relative w-20 h-72 transform rotate-12">
+                    {/* Ladder Structure - Straight up */}
+                    <div className="relative w-20 h-72">
                       {/* Left Rail */}
                       <div className="absolute left-2 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
                       
