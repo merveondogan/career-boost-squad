@@ -70,16 +70,19 @@ const HeroSection = () => {
                         <div className="absolute bottom-0 right-0 w-2 h-4 bg-cyber-pink rounded"></div>
                       </div>
                       
-                      {/* Crown Symbol at Top */}
+                      {/* Trophy Symbol at Top */}
                       <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
-                        <div className="w-8 h-6 relative animate-pulse">
-                          {/* Crown base */}
-                          <div className="absolute bottom-0 left-0 w-full h-2 bg-cyber-green rounded-sm"></div>
-                          {/* Crown peaks */}
-                          <div className="absolute bottom-1 left-1 w-1 h-3 bg-cyber-green rounded-t"></div>
-                          <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-4 bg-cyber-green rounded-t"></div>
-                          <div className="absolute bottom-1 right-1 w-1 h-3 bg-cyber-green rounded-t"></div>
-                          {/* Crown gem */}
+                        <div className="w-8 h-8 relative animate-pulse">
+                          {/* Trophy cup */}
+                          <div className="absolute bottom-2 left-1 w-6 h-4 bg-cyber-green rounded-t-lg"></div>
+                          {/* Trophy handles */}
+                          <div className="absolute bottom-3 left-0 w-1 h-2 bg-cyber-green rounded"></div>
+                          <div className="absolute bottom-3 right-0 w-1 h-2 bg-cyber-green rounded"></div>
+                          {/* Trophy base */}
+                          <div className="absolute bottom-0 left-0 w-full h-2 bg-cyber-green rounded"></div>
+                          {/* Trophy stem */}
+                          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-cyber-green"></div>
+                          {/* Trophy star */}
                           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-cyber-cyan rounded-full"></div>
                         </div>
                       </div>
