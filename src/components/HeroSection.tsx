@@ -37,117 +37,102 @@ const HeroSection = () => {
                 </div>
               </div>
               
-              {/* Journey to success visualization - right side */}
+              {/* Simple path to goal visualization - right side */}
               <div className="mt-12 lg:mt-0 lg:col-span-5">
                 <div className="relative mx-auto max-w-md lg:max-w-lg">
                   <div className="relative h-80 lg:h-96 flex items-center justify-center">
                     
-                    {/* Success target destination */}
+                    {/* Main journey visualization */}
                     <div className="relative w-64 h-64">
                       
-                      {/* Main journey path - winding upward */}
+                      {/* Starting point - person icon */}
+                      <div className="absolute bottom-4 left-4">
+                        <div className="w-8 h-8 bg-gradient-to-br from-cyber-purple to-cyber-pink rounded-lg flex items-center justify-center animate-float">
+                          <div className="w-3 h-3 bg-white rounded-full"></div>
+                        </div>
+                      </div>
+                      
+                      {/* Journey path - zigzag upward */}
                       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
                         <defs>
-                          <linearGradient id="pathGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#8b45ff" stopOpacity="0.6"/>
-                            <stop offset="50%" stopColor="#00d4ff" stopOpacity="0.8"/>
-                            <stop offset="100%" stopColor="#ff007f" stopOpacity="1"/>
-                          </linearGradient>
-                          <linearGradient id="targetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#ff007f"/>
-                            <stop offset="50%" stopColor="#00d4ff"/>
-                            <stop offset="100%" stopColor="#39ff14"/>
+                          <linearGradient id="pathGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#8b45ff" />
+                            <stop offset="50%" stopColor="#00d4ff" />
+                            <stop offset="100%" stopColor="#39ff14" />
                           </linearGradient>
                         </defs>
                         
-                        {/* Journey path */}
+                        {/* Main path */}
                         <path 
-                          d="M 30 170 Q 60 150 50 130 Q 40 110 70 100 Q 100 90 90 70 Q 80 50 110 40 Q 140 30 130 20 Q 120 10 150 15 Q 170 20 160 10"
-                          stroke="url(#pathGrad)"
-                          strokeWidth="4"
+                          d="M 30 180 L 80 140 L 50 100 L 100 60 L 70 20 L 170 20"
+                          stroke="url(#pathGradient)"
+                          strokeWidth="6"
                           fill="none"
-                          strokeDasharray="8,4"
-                          className="animate-float"
                           strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeDasharray="12,6"
+                          className="animate-float"
+                          style={{ animationDuration: '4s' }}
                         />
                         
-                        {/* Progress markers along the path */}
-                        <circle cx="30" cy="170" r="3" fill="#8b45ff" className="animate-pulse">
-                          <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="50" cy="130" r="4" fill="#8b45ff" className="animate-pulse" style={{ animationDelay: '0.3s' }}>
-                          <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="90" cy="70" r="5" fill="#00d4ff" className="animate-pulse" style={{ animationDelay: '0.8s' }}>
-                          <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        <circle cx="130" cy="20" r="6" fill="#ff007f" className="animate-pulse" style={{ animationDelay: '1.2s' }}>
-                          <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                        
-                        {/* Success target - bulls-eye design */}
-                        <g transform="translate(160, 10)">
-                          {/* Outer target ring */}
-                          <circle cx="0" cy="0" r="20" fill="none" stroke="url(#targetGrad)" strokeWidth="2" opacity="0.6">
-                            <animate attributeName="r" values="20;25;20" dur="3s" repeatCount="indefinite"/>
-                          </circle>
-                          {/* Middle target ring */}
-                          <circle cx="0" cy="0" r="14" fill="none" stroke="url(#targetGrad)" strokeWidth="2" opacity="0.8">
-                            <animate attributeName="r" values="14;18;14" dur="3s" repeatCount="indefinite" begin="1s"/>
-                          </circle>
-                          {/* Inner target ring */}
-                          <circle cx="0" cy="0" r="8" fill="none" stroke="url(#targetGrad)" strokeWidth="2">
-                            <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite" begin="2s"/>
-                          </circle>
-                          {/* Bullseye center */}
-                          <circle cx="0" cy="0" r="4" fill="url(#targetGrad)" className="neon-glow">
-                            <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
-                          </circle>
-                        </g>
+                        {/* Arrow pointing to goal */}
+                        <path 
+                          d="M 160 20 L 170 15 L 170 25 Z"
+                          fill="#39ff14"
+                          className="animate-pulse"
+                        />
                       </svg>
                       
+                      {/* Progress nodes */}
+                      <div className="absolute bottom-20 left-20">
+                        <div className="w-4 h-4 bg-cyber-purple rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+                      </div>
+                      <div className="absolute bottom-32 left-12">
+                        <div className="w-4 h-4 bg-cyber-cyan rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                      </div>
+                      <div className="absolute bottom-44 left-24">
+                        <div className="w-4 h-4 bg-cyber-pink rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                      </div>
+                      
+                      {/* Goal - trophy/target */}
+                      <div className="absolute top-4 right-8">
+                        <div className="relative">
+                          {/* Trophy base */}
+                          <div className="w-12 h-12 bg-gradient-to-t from-cyber-yellow via-cyber-green to-cyber-cyan rounded-lg flex items-center justify-center animate-float neon-glow">
+                            {/* Trophy cup */}
+                            <div className="w-6 h-6 bg-gradient-to-br from-cyber-yellow to-cyber-green rounded-t-full border-2 border-cyber-cyan"></div>
+                          </div>
+                          
+                          {/* Success rays */}
+                          <div className="absolute -inset-4">
+                            <div className="w-20 h-20 border-2 border-cyber-green/30 rounded-full animate-ping" style={{ animationDelay: '0s' }}></div>
+                            <div className="absolute inset-2 w-16 h-16 border-2 border-cyber-cyan/40 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+                            <div className="absolute inset-4 w-12 h-12 border-2 border-cyber-yellow/50 rounded-full animate-ping" style={{ animationDelay: '2s' }}></div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Floating achievement elements */}
+                      <div className="absolute top-8 right-4">
+                        <div className="w-2 h-2 bg-cyber-green rounded-full animate-float opacity-80" style={{ animationDelay: '0.3s' }}></div>
+                      </div>
+                      <div className="absolute top-12 right-12">
+                        <div className="w-3 h-3 bg-cyber-yellow rounded-full animate-float opacity-70" style={{ animationDelay: '0.8s' }}></div>
+                      </div>
+                      <div className="absolute top-6 right-16">
+                        <div className="w-1.5 h-1.5 bg-cyber-pink rounded-full animate-float opacity-90" style={{ animationDelay: '1.3s' }}></div>
+                      </div>
+                      
                       {/* Moving progress indicator */}
-                      <div className="absolute top-32 left-20 w-3 h-3 bg-cyber-cyan rounded-full animate-float opacity-80" style={{ animationDelay: '0s', animationDuration: '4s' }}>
-                        <div className="w-full h-full bg-cyber-cyan rounded-full animate-ping"></div>
-                      </div>
-                      
-                      {/* Achievement stars around target */}
-                      <div className="absolute top-2 right-8">
-                        <div className="w-2 h-2 bg-cyber-pink transform rotate-45 animate-float opacity-70" style={{ animationDelay: '0.5s' }}></div>
-                      </div>
-                      <div className="absolute top-6 right-4">
-                        <div className="w-1.5 h-1.5 bg-cyber-yellow transform rotate-45 animate-float opacity-80" style={{ animationDelay: '1s' }}></div>
-                      </div>
-                      <div className="absolute top-0 right-12">
-                        <div className="w-2.5 h-2.5 bg-cyber-green transform rotate-45 animate-float opacity-60" style={{ animationDelay: '1.5s' }}></div>
-                      </div>
-                      <div className="absolute top-4 right-0">
-                        <div className="w-1 h-1 bg-cyber-cyan transform rotate-45 animate-float opacity-90" style={{ animationDelay: '2s' }}></div>
-                      </div>
-                      
-                      {/* Success emanation from target */}
-                      <div className="absolute top-2 right-10">
-                        <div className="w-12 h-12 rounded-full border border-cyber-green/40 animate-ping" style={{ animationDelay: '0s' }}></div>
-                        <div className="absolute inset-2 w-8 h-8 rounded-full border border-cyber-cyan/50 animate-ping" style={{ animationDelay: '1s' }}></div>
-                        <div className="absolute inset-3 w-6 h-6 rounded-full border border-cyber-pink/60 animate-ping" style={{ animationDelay: '2s' }}></div>
-                      </div>
-                      
-                      {/* Starting point indicator */}
-                      <div className="absolute bottom-8 left-6">
-                        <div className="text-xs text-muted-foreground font-cyber opacity-60">START</div>
-                        <div className="w-6 h-0.5 bg-cyber-purple/50 mt-1"></div>
-                      </div>
-                      
-                      {/* Goal indicator */}
-                      <div className="absolute top-0 right-0">
-                        <div className="text-xs text-cyber-green font-cyber opacity-80 text-right">GOAL</div>
-                        <div className="w-8 h-0.5 bg-cyber-green/60 mt-1 ml-auto"></div>
+                      <div className="absolute top-32 left-20">
+                        <div className="w-3 h-3 bg-cyber-cyan rounded-full animate-bounce opacity-80">
+                          <div className="w-full h-full bg-cyber-cyan rounded-full animate-ping"></div>
+                        </div>
                       </div>
                     </div>
                     
-                    {/* Ambient success glow */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-cyber-purple/5 via-transparent to-cyber-green/10"></div>
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/20"></div>
+                    {/* Ambient glow */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-cyber-purple/10 via-transparent to-cyber-green/10 rounded-full"></div>
                   </div>
                 </div>
               </div>
