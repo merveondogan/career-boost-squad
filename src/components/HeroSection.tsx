@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Trophy } from "lucide-react";
@@ -38,13 +39,13 @@ const HeroSection = () => {
                 </div>
               </div>
               
-              {/* Ladder - right side */}
+              {/* Tilted Ladder - right side */}
               <div className="mt-12 lg:mt-0 lg:col-span-5">
                 <div className="relative mx-auto max-w-md lg:max-w-lg">
                   <div className="relative h-80 lg:h-96 flex items-center justify-center">
                     
-                    {/* Ladder Structure - Straight up */}
-                    <div className="relative w-20 h-72">
+                    {/* Ladder Structure - Tilted to the right */}
+                    <div className="relative w-20 h-72 transform rotate-12">
                       {/* Left Rail */}
                       <div className="absolute left-2 top-0 w-2 h-full bg-gradient-to-t from-cyber-purple to-cyber-cyan rounded-full"></div>
                       
@@ -60,8 +61,8 @@ const HeroSection = () => {
                       <div className="absolute left-2 right-2 top-52 h-1 bg-cyber-cyan rounded"></div>
                       <div className="absolute left-2 right-2 top-60 h-1 bg-cyber-cyan rounded"></div>
                       
-                      {/* Person Climbing */}
-                      <div className="absolute left-1/2 transform -translate-x-1/2 top-36 animate-float">
+                      {/* Person Climbing - Counter-rotated to stand straight */}
+                      <div className="absolute left-1/2 transform -translate-x-1/2 top-36 animate-float -rotate-12">
                         {/* Head */}
                         <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
                         {/* Body */}
@@ -92,3 +93,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
