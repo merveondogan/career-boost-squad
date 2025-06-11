@@ -1,6 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Trophy } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -62,29 +62,21 @@ const HeroSection = () => {
                       {/* Person Climbing */}
                       <div className="absolute left-1/2 transform -translate-x-1/2 top-36 animate-float">
                         {/* Head */}
-                        <div className="w-5 h-5 bg-cyber-pink rounded-full mx-auto"></div>
+                        <div className="w-6 h-6 bg-cyber-pink rounded-full mx-auto"></div>
                         {/* Body */}
-                        <div className="w-6 h-8 bg-cyber-pink rounded-t-lg mx-auto"></div>
+                        <div className="w-8 h-10 bg-cyber-pink rounded-t-lg mx-auto"></div>
                         {/* Legs on rung */}
-                        <div className="absolute bottom-0 left-0 w-2 h-4 bg-cyber-pink rounded"></div>
-                        <div className="absolute bottom-0 right-0 w-2 h-4 bg-cyber-pink rounded"></div>
+                        <div className="absolute bottom-0 left-0 w-2 h-5 bg-cyber-pink rounded"></div>
+                        <div className="absolute bottom-0 right-0 w-2 h-5 bg-cyber-pink rounded"></div>
                       </div>
                       
-                      {/* Trophy Symbol at Top */}
+                      {/* Trophy Icon at Top */}
                       <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
-                        <div className="w-8 h-8 relative animate-pulse">
-                          {/* Trophy cup */}
-                          <div className="absolute bottom-2 left-1 w-6 h-4 bg-cyber-green rounded-t-lg"></div>
-                          {/* Trophy handles */}
-                          <div className="absolute bottom-3 left-0 w-1 h-2 bg-cyber-green rounded"></div>
-                          <div className="absolute bottom-3 right-0 w-1 h-2 bg-cyber-green rounded"></div>
-                          {/* Trophy base */}
-                          <div className="absolute bottom-0 left-0 w-full h-2 bg-cyber-green rounded"></div>
-                          {/* Trophy stem */}
-                          <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-2 bg-cyber-green"></div>
-                          {/* Trophy star */}
-                          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-cyber-cyan rounded-full"></div>
-                        </div>
+                        <Trophy 
+                          size={24} 
+                          className="text-cyber-green animate-pulse" 
+                          fill="currentColor"
+                        />
                       </div>
                     </div>
                   </div>
