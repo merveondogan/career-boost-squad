@@ -41,16 +41,18 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              {/* Simple Ladder Symbol */}
-              <div className="w-4 h-6 relative">
+              {/* Simple Ladder Symbol - Skinnier and Tilted */}
+              <div className="w-3 h-6 relative transform rotate-12">
                 {/* Left Rail */}
                 <div className="absolute left-0 top-0 w-0.5 h-full bg-brand-primary"></div>
                 {/* Right Rail */}
                 <div className="absolute right-0 top-0 w-0.5 h-full bg-brand-primary"></div>
-                {/* Rungs */}
+                {/* Rungs - Equally spaced */}
                 <div className="absolute left-0 right-0 top-1 h-0.5 bg-brand-primary"></div>
-                <div className="absolute left-0 right-0 top-2.5 h-0.5 bg-brand-primary"></div>
+                <div className="absolute left-0 right-0 top-2 h-0.5 bg-brand-primary"></div>
+                <div className="absolute left-0 right-0 top-3 h-0.5 bg-brand-primary"></div>
                 <div className="absolute left-0 right-0 top-4 h-0.5 bg-brand-primary"></div>
+                <div className="absolute left-0 right-0 top-5 h-0.5 bg-brand-primary"></div>
               </div>
               <span className="font-medium text-xl text-brand-primary">LADR</span>
             </Link>
