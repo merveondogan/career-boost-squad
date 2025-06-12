@@ -15,7 +15,7 @@ const HowItWorksPage = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl mb-6">
-                How Intearn Works
+                How LADR Works
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Your path to landing your dream internship or job, guided by peers who've been there
@@ -30,7 +30,7 @@ const HowItWorksPage = () => {
         {/* Detailed Explanation */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center mb-12">The Intearn Experience</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">The LADR Experience</h2>
             
             <div className="space-y-16">
               {/* Step 1 Detail */}

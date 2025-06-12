@@ -7,8 +7,19 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
-            <Link to="/" className="flex items-center mb-4">
-              <span className="font-bold text-xl text-brand-primary">Intearn</span>
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              {/* Simple Ladder Symbol */}
+              <div className="w-4 h-6 relative">
+                {/* Left Rail */}
+                <div className="absolute left-0 top-0 w-0.5 h-full bg-brand-primary"></div>
+                {/* Right Rail */}
+                <div className="absolute right-0 top-0 w-0.5 h-full bg-brand-primary"></div>
+                {/* Rungs */}
+                <div className="absolute left-0 right-0 top-1 h-0.5 bg-brand-primary"></div>
+                <div className="absolute left-0 right-0 top-2.5 h-0.5 bg-brand-primary"></div>
+                <div className="absolute left-0 right-0 top-4 h-0.5 bg-brand-primary"></div>
+              </div>
+              <span className="font-medium text-xl text-brand-primary">LADR</span>
             </Link>
             <p className="text-sm text-gray-600 mb-4">
               Connecting students with recent graduates for internship coaching and mentorship.
@@ -100,7 +111,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} Intearn. All rights reserved.
+            &copy; {new Date().getFullYear()} LADR. All rights reserved.
           </p>
         </div>
       </div>
