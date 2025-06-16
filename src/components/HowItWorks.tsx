@@ -56,7 +56,7 @@ const HowItWorks = () => {
           <h2 className="text-3xl font-serif font-extrabold mb-2 text-gray-900">
             HOW IT WORKS
           </h2>
-          <p className="text-xl font-bold text-gray-700 max-w-3xl mx-auto text-pop">
+          <p className="text-xl font-bold text-gray-700 max-w-3xl mx-auto">
             Your path to success in four <span className="gradient-text">simple steps</span>
           </p>
         </div>
@@ -74,25 +74,11 @@ const HowItWorks = () => {
                 <div className="absolute top-2 right-2 text-6xl font-black text-brand-primary/10">
                   {step.id}
                 </div>
-                <h3 className="text-lg font-black text-center mb-2 text-gray-900 text-pop">{step.title}</h3>
+                <h3 className="text-lg font-black text-center mb-2 text-gray-900">{step.title}</h3>
                 <p className="text-gray-700 text-center text-sm font-semibold leading-relaxed">{step.description}</p>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Connection lines between steps */}
-        <div className="hidden lg:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl">
-          <svg className="w-full h-8" viewBox="0 0 800 50" fill="none">
-            <path d="M50 25 Q200 10 350 25 T650 25" stroke="url(#gradient)" strokeWidth="3" strokeDasharray="10,5" className="animate-pulse" fill="none"/>
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3"/>
-                <stop offset="50%" stopColor="#a855f7" stopOpacity="0.6"/>
-                <stop offset="100%" stopColor="#6366f1" stopOpacity="0.3"/>
-              </linearGradient>
-            </defs>
-          </svg>
         </div>
       </div>
     </section>
