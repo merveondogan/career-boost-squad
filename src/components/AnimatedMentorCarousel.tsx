@@ -91,8 +91,8 @@ const AnimatedMentorCarousel = memo(() => {
   const duplicatedMentors = [...mentorCarouselData, ...mentorCarouselData];
 
   return (
-    <div className="py-8 bg-gradient-to-r from-gray-50 to-white overflow-hidden">
-      <div className="text-center mb-6">
+    <div className="py-4 bg-gradient-to-r from-gray-50 to-white overflow-hidden">
+      <div className="text-center mb-4">
         <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
           JOIN 250,000+ REAL PEOPLE ACHIEVING THEIR GOALS ON MENTORLAND
         </p>
