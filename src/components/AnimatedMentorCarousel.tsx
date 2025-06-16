@@ -1,4 +1,3 @@
-
 import { memo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -92,16 +91,6 @@ const AnimatedMentorCarousel = memo(() => {
 
   return (
     <div className="py-4 bg-gradient-to-r from-gray-50 to-white overflow-hidden">
-      <div className="text-center mb-4">
-        <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-          JOIN 250,000+ REAL PEOPLE ACHIEVING THEIR GOALS ON MENTORLAND
-        </p>
-        <div className="flex justify-center items-center mt-2">
-          <span className="text-yellow-400 text-lg">⭐</span>
-          <span className="ml-2 text-sm font-medium text-gray-500">15,738 REVIEWS (AVG 4.98)</span>
-        </div>
-      </div>
-      
       <div className="relative">
         <div className="flex animate-scroll-infinite">
           {duplicatedMentors.map((mentor, index) => (
