@@ -35,28 +35,30 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-muted/20 relative">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-cyber-grid opacity-5" style={{ backgroundSize: '100px 100px' }}></div>
+    <section className="py-16 bg-gradient-to-b from-background to-muted/20 relative overflow-hidden">
+      {/* Futuristic background effects */}
+      <div className="absolute inset-0 cyber-grid opacity-10"></div>
+      <div className="absolute top-20 left-1/4 w-32 h-32 bg-gradient-to-r from-brand-primary/20 to-brand-accent/20 rounded-full blur-2xl animate-float-tech"></div>
+      <div className="absolute bottom-20 right-1/4 w-24 h-24 bg-gradient-to-l from-brand-accent/20 to-brand-primary/20 rounded-full blur-xl animate-float-tech" style={{ animationDelay: '-1.5s' }}></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-extrabold mb-4 bg-gradient-to-r from-cyber-purple to-cyber-cyan bg-clip-text text-transparent">
+          <h2 className="text-3xl font-serif font-semibold mb-4 gradient-text futuristic-glow">
             HOW IT WORKS
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-cyber">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Your path to success in four simple steps
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step, index) => (
-            <div key={step.id} className="cyberpunk-border p-6 rounded-lg card-hover animate-float" style={{ animationDelay: `${index * 0.2}s` }}>
-              <div className="flex justify-center items-center w-12 h-12 bg-gradient-to-r from-cyber-purple to-cyber-cyan rounded-full mb-4 mx-auto neon-glow">
-                <step.icon className="h-6 w-6 text-black" />
+            <div key={step.id} className="glass-effect p-6 rounded-xl card-hover futuristic-glow animate-float-tech" style={{ animationDelay: `${index * 0.3}s` }}>
+              <div className="flex justify-center items-center w-12 h-12 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full mb-4 mx-auto animate-pulse-glow">
+                <step.icon className="h-6 w-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-center mb-2 text-cyber-cyan font-cyber">{step.title}</h3>
-              <p className="text-muted-foreground text-center text-sm">{step.description}</p>
+              <h3 className="text-lg font-semibold text-center mb-2 gradient-text">{step.title}</h3>
+              <p className="text-muted-foreground text-center text-sm leading-relaxed">{step.description}</p>
             </div>
           ))}
         </div>

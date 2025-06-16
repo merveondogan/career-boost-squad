@@ -114,18 +114,72 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-3 px-6 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply bg-gradient-to-r from-brand-primary to-brand-accent hover:from-brand-primary/90 hover:to-brand-accent/90 text-primary-foreground font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 border border-brand-primary/20;
   }
   
   .btn-secondary {
-    @apply bg-transparent hover:bg-secondary text-foreground font-medium py-3 px-6 border border-border rounded-lg transition-all duration-200 hover:shadow-sm;
+    @apply bg-transparent hover:bg-gradient-to-r hover:from-secondary/50 hover:to-brand-primary/10 text-foreground font-medium py-3 px-6 border border-border hover:border-brand-primary/30 rounded-lg transition-all duration-300 hover:shadow-md backdrop-blur-sm;
   }
   
   .card-hover {
-    @apply hover:shadow-lg transition-all duration-200 ease-in-out border border-border bg-card;
+    @apply hover:shadow-2xl transition-all duration-300 ease-in-out border border-border bg-card/80 backdrop-blur-sm hover:bg-card;
   }
   
   .card-hover:hover {
-    @apply shadow-xl -translate-y-1;
+    @apply shadow-2xl -translate-y-2 border-brand-primary/20;
   }
+
+  .futuristic-glow {
+    @apply relative;
+  }
+
+  .futuristic-glow::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-brand-primary/20 via-brand-accent/20 to-brand-primary/20 blur-xl -z-10 opacity-0 transition-opacity duration-300;
+  }
+
+  .futuristic-glow:hover::before {
+    @apply opacity-100;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary bg-clip-text text-transparent;
+  }
+
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+  }
+}
+
+/* Futuristic animations */
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+  }
+}
+
+@keyframes float-tech {
+  0%, 100% { 
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% { 
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float-tech {
+  animation: float-tech 4s ease-in-out infinite;
 }
