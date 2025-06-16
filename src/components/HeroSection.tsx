@@ -12,7 +12,6 @@ const HeroSection = () => {
       
       {/* Floating geometric shapes */}
       <div className="absolute top-1/4 right-1/4 w-8 h-8 bg-brand-accent rotate-45 animate-magnetic-pull opacity-60"></div>
-      <div className="absolute bottom-1/3 left-1/4 w-6 h-6 bg-brand-primary rounded-full animate-magnetic-pull opacity-70" style={{ animationDelay: '-1s' }}></div>
       <div className="absolute top-3/4 right-1/3 w-4 h-12 bg-gradient-to-b from-brand-primary to-brand-accent animate-magnetic-pull opacity-50" style={{ animationDelay: '-3s' }}></div>
       
       <div className="mx-auto max-w-7xl relative z-10">

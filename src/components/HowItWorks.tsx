@@ -50,7 +50,6 @@ const HowItWorks = () => {
       
       {/* Decorative elements */}
       <div className="absolute top-1/3 right-12 w-3 h-8 bg-brand-accent rotate-12 animate-magnetic-pull opacity-40"></div>
-      <div className="absolute bottom-1/4 left-16 w-5 h-5 bg-brand-primary rounded-full animate-magnetic-pull opacity-50" style={{ animationDelay: '-1.5s' }}></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8">
