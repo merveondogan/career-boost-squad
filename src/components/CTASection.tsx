@@ -9,11 +9,6 @@ const CTASection = () => {
       <div className="absolute top-12 right-20 w-40 h-40 bg-gradient-to-r from-brand-accent/15 to-brand-primary/15 organic-blob animate-blob-morph opacity-70"></div>
       <div className="absolute bottom-16 left-16 w-32 h-32 bg-gradient-to-l from-brand-primary/12 to-brand-accent/12 organic-blob animate-blob-morph opacity-60" style={{ animationDelay: '-4s' }}></div>
       
-      {/* Decorative floating elements */}
-      <div className="absolute top-1/4 left-12 w-6 h-6 bg-brand-primary/30 rotate-45 animate-magnetic-pull"></div>
-      <div className="absolute bottom-1/3 right-16 w-4 h-10 bg-brand-accent/40 animate-magnetic-pull" style={{ animationDelay: '-1s' }}></div>
-      <div className="absolute top-2/3 left-1/3 w-3 h-3 bg-brand-primary/50 rounded-full animate-magnetic-pull" style={{ animationDelay: '-2s' }}></div>
-      
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center glass-card p-8 subtle-glow card-magnetic bumble-shadow">
           <h2 className="text-4xl font-serif font-black sm:text-5xl mb-3 text-gray-900">

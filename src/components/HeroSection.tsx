@@ -10,10 +10,6 @@ const HeroSection = () => {
       <div className="absolute bottom-32 right-16 w-40 h-40 bg-gradient-to-l from-brand-accent/15 to-brand-primary/15 organic-blob animate-blob-morph" style={{ animationDelay: '-4s' }}></div>
       <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-brand-primary/5 to-brand-accent/5 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '-2s' }}></div>
       
-      {/* Floating geometric shapes */}
-      <div className="absolute top-1/4 right-1/4 w-8 h-8 bg-brand-accent rotate-45 animate-magnetic-pull opacity-60"></div>
-      <div className="absolute top-3/4 right-1/3 w-4 h-12 bg-gradient-to-b from-brand-primary to-brand-accent animate-magnetic-pull opacity-50" style={{ animationDelay: '-3s' }}></div>
-      
       <div className="mx-auto max-w-7xl relative z-10">
         <div className="relative pb-8 sm:pb-12 md:pb-16 lg:pb-20">
           <main className="mt-8 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8">
@@ -22,7 +18,7 @@ const HeroSection = () => {
               <div className="sm:text-center lg:text-left lg:col-span-6">
                 <h1 className="text-5xl font-serif font-bold tracking-tight sm:text-6xl md:text-7xl text-gray-900 animate-fade-in-bounce">
                   <span className="block mb-2">Land your dream</span>
-                  <span className="block gradient-text text-pop">internship</span>
+                  <span className="block gradient-text">internship</span>
                 </h1>
                 <p className="mt-4 text-lg text-gray-700 sm:text-xl md:mt-6 md:text-xl max-w-md lg:max-w-2xl leading-relaxed font-medium animate-fade-in-bounce" style={{ animationDelay: '0.2s' }}>
                   Connect with <span className="text-brand-primary font-bold">experienced mentors</span> who've landed roles at top companies like Google, Meta, and BCG.

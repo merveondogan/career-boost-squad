@@ -6,11 +6,6 @@ const StatsBanner = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
       <div className="absolute top-0 left-0 w-full h-full bg-black/10"></div>
       
-      {/* Floating elements */}
-      <div className="absolute top-4 left-16 w-6 h-6 bg-white/20 rotate-45 animate-magnetic-pull"></div>
-      <div className="absolute bottom-4 right-20 w-4 h-8 bg-white/15 animate-magnetic-pull" style={{ animationDelay: '-1s' }}></div>
-      <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-white/25 rounded-full animate-magnetic-pull" style={{ animationDelay: '-2s' }}></div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 text-center">
           <div className="animate-fade-in-bounce card-magnetic group">

@@ -48,9 +48,6 @@ const HowItWorks = () => {
       <div className="absolute top-16 left-1/4 w-24 h-24 bg-gradient-to-r from-brand-primary/10 to-brand-accent/10 organic-blob animate-blob-morph opacity-60"></div>
       <div className="absolute bottom-16 right-1/4 w-32 h-32 bg-gradient-to-l from-brand-accent/8 to-brand-primary/8 organic-blob animate-blob-morph opacity-50" style={{ animationDelay: '-3s' }}></div>
       
-      {/* Decorative elements */}
-      <div className="absolute top-1/3 right-12 w-3 h-8 bg-brand-accent rotate-12 animate-magnetic-pull opacity-40"></div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-serif font-extrabold mb-2 text-gray-900">
