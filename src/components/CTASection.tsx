@@ -4,26 +4,22 @@ import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
-    <div className="bg-gradient-to-br from-background via-muted/10 to-background py-16 relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-cyber-grid opacity-10" style={{ backgroundSize: '60px 60px' }}></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-cyber-purple/5 via-transparent to-cyber-cyan/5"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="bg-gradient-to-br from-brand-primary/5 via-background to-brand-accent/5 py-20 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold sm:text-5xl mb-4 bg-gradient-to-r from-cyber-purple via-cyber-cyan to-cyber-pink bg-clip-text text-transparent animate-gradient-shift bg-size-400 font-cyber">
-            READY TO ACCELERATE YOUR CAREER?
+          <h2 className="text-4xl font-serif font-semibold sm:text-5xl mb-6 text-foreground">
+            Ready to accelerate your career?
           </h2>
-          <p className="mt-4 text-lg leading-6 text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
             Join thousands of students who've successfully landed internships at top companies 
             with personalized mentorship and expert guidance.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
-            <Button size="lg" className="btn-primary animate-pulse-glow" asChild>
-              <Link to="/mentors">FIND YOUR MENTOR</Link>
+          <div className="mt-10 flex justify-center gap-4 flex-col sm:flex-row">
+            <Button size="lg" className="btn-primary text-base px-8 py-4" asChild>
+              <Link to="/mentors">Find Your Mentor</Link>
             </Button>
-            <Button size="lg" className="btn-secondary" asChild>
-              <Link to="/mentors">BROWSE MENTORS</Link>
+            <Button size="lg" className="btn-secondary text-base px-8 py-4" asChild>
+              <Link to="/signup">Get Started</Link>
             </Button>
           </div>
         </div>

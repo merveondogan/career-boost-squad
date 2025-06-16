@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -36,37 +35,34 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-sm border-b border-border fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center gap-2">
-              {/* Simple Ladder Symbol - Skinnier and Tilted */}
+            <Link to="/" className="flex items-center gap-3">
+              {/* Simple Ladder Symbol - Refined */}
               <div className="w-3 h-6 relative transform rotate-12">
-                {/* Left Rail */}
-                <div className="absolute left-0 top-0 w-0.5 h-full bg-brand-primary"></div>
-                {/* Right Rail */}
-                <div className="absolute right-0 top-0 w-0.5 h-full bg-brand-primary"></div>
-                {/* Rungs - Equally spaced */}
-                <div className="absolute left-0 right-0 top-1 h-0.5 bg-brand-primary"></div>
-                <div className="absolute left-0 right-0 top-2 h-0.5 bg-brand-primary"></div>
-                <div className="absolute left-0 right-0 top-3 h-0.5 bg-brand-primary"></div>
-                <div className="absolute left-0 right-0 top-4 h-0.5 bg-brand-primary"></div>
-                <div className="absolute left-0 right-0 top-5 h-0.5 bg-brand-primary"></div>
+                <div className="absolute left-0 top-0 w-0.5 h-full bg-brand-primary rounded-full"></div>
+                <div className="absolute right-0 top-0 w-0.5 h-full bg-brand-primary rounded-full"></div>
+                <div className="absolute left-0 right-0 top-1 h-0.5 bg-brand-primary rounded-full"></div>
+                <div className="absolute left-0 right-0 top-2 h-0.5 bg-brand-primary rounded-full"></div>
+                <div className="absolute left-0 right-0 top-3 h-0.5 bg-brand-primary rounded-full"></div>
+                <div className="absolute left-0 right-0 top-4 h-0.5 bg-brand-primary rounded-full"></div>
+                <div className="absolute left-0 right-0 top-5 h-0.5 bg-brand-primary rounded-full"></div>
               </div>
-              <span className="font-medium text-xl text-brand-primary">LADR</span>
+              <span className="font-serif font-semibold text-2xl text-brand-primary">LADR</span>
             </Link>
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            <Link to="/mentors" className="text-gray-600 hover:text-brand-primary px-3 py-2 rounded-md text-sm font-medium">
+          <div className="hidden md:flex md:items-center md:space-x-8">
+            <Link to="/mentors" className="text-foreground/80 hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors">
               Find Mentors
             </Link>
-            <Link to="/how-it-works" className="text-gray-600 hover:text-brand-primary px-3 py-2 rounded-md text-sm font-medium">
+            <Link to="/how-it-works" className="text-foreground/80 hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors">
               How It Works
             </Link>
-            <Link to="/about" className="text-gray-600 hover:text-brand-primary px-3 py-2 rounded-md text-sm font-medium">
+            <Link to="/about" className="text-foreground/80 hover:text-brand-primary px-3 py-2 text-sm font-medium transition-colors">
               About Us
             </Link>
             <div className="ml-4 flex items-center space-x-3">
@@ -80,7 +76,7 @@ const Navbar = () => {
                       </span>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="bg-white">
                     <DropdownMenuItem className="text-sm">
                       <span className="font-medium">
                         {user.user_metadata.full_name || user.email}
@@ -101,10 +97,10 @@ const Navbar = () => {
                 </DropdownMenu>
               ) : (
                 <>
-                  <Button variant="outline" asChild>
+                  <Button variant="outline" asChild className="btn-secondary">
                     <Link to="/login">Log In</Link>
                   </Button>
-                  <Button asChild>
+                  <Button asChild className="btn-primary">
                     <Link to="/signup">Sign Up</Link>
                   </Button>
                 </>
@@ -116,7 +112,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-brand-primary hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-primary"
+              className="inline-flex items-center justify-center p-2 rounded-md text-foreground/60 hover:text-brand-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-primary transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <span className="sr-only">Open main menu</span>
@@ -134,9 +130,9 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state. */}
+      {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200">
+        <div className="md:hidden bg-white/95 backdrop-blur-sm border-b border-border">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/mentors"
