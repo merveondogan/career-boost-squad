@@ -16,7 +16,7 @@ const CTASection = () => {
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center glass-card p-8 subtle-glow card-magnetic bumble-shadow">
-          <h2 className="text-4xl font-serif font-black sm:text-5xl mb-3 text-gray-900 wavy-underline">
+          <h2 className="text-4xl font-serif font-black sm:text-5xl mb-3 text-gray-900">
             Ready to <span className="gradient-text">accelerate</span> your career?
           </h2>
           <p className="mt-3 text-lg font-black leading-relaxed text-gray-700 max-w-2xl mx-auto">

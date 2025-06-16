@@ -23,7 +23,7 @@ const HeroSection = () => {
               <div className="sm:text-center lg:text-left lg:col-span-6">
                 <h1 className="text-5xl font-serif font-bold tracking-tight sm:text-6xl md:text-7xl text-gray-900 animate-fade-in-bounce">
                   <span className="block mb-2">Land your dream</span>
-                  <span className="block gradient-text wavy-underline text-pop">internship</span>
+                  <span className="block gradient-text text-pop">internship</span>
                 </h1>
                 <p className="mt-4 text-lg text-gray-700 sm:text-xl md:mt-6 md:text-xl max-w-md lg:max-w-2xl leading-relaxed font-medium animate-fade-in-bounce" style={{ animationDelay: '0.2s' }}>
                   Connect with <span className="text-brand-primary font-bold">experienced mentors</span> who've landed roles at top companies like Google, Meta, and BCG.
