@@ -260,6 +260,15 @@
   }
 }
 
+@keyframes scroll-infinite {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .animate-blob-morph {
   animation: blob-morph 8s ease-in-out infinite;
 }
@@ -279,6 +288,10 @@
 
 .animate-fade-in-bounce {
   animation: fade-in-bounce 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-scroll-infinite {
+  animation: scroll-infinite 30s linear infinite;
 }
 
 /* Utility classes for bold design */

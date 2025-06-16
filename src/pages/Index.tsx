@@ -6,6 +6,7 @@ import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
 import CTASection from "@/components/CTASection";
 import StatsBanner from "@/components/StatsBanner";
+import AnimatedMentorCarousel from "@/components/AnimatedMentorCarousel";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -14,6 +15,7 @@ const Index = () => {
       <Navbar />
       <div className="pt-16">
         <HeroSection />
+        <AnimatedMentorCarousel />
         <HowItWorks />
         <FeaturedMentors />
         <StatsBanner />
