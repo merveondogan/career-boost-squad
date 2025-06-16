@@ -116,7 +116,12 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary hover:from-brand-primary/90 hover:via-brand-accent/90 hover:to-brand-primary/90 text-white font-bold py-4 px-10 rounded-full transition-all duration-500 shadow-2xl hover:shadow-3xl hover:scale-[1.05] border-0 relative overflow-hidden;
+    @apply bg-gradient-to-r from-brand-primary via-brand-accent to-brand-primary hover:from-brand-primary/90 hover:via-brand-accent/90 hover:to-brand-primary/90 text-white font-bold py-4 px-10 rounded-full transition-all duration-500 shadow-2xl hover:scale-[1.05] border-0 relative overflow-hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .btn-primary:hover {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
   
   .btn-primary::before {
